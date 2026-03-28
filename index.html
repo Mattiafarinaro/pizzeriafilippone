@@ -125,7 +125,7 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v11' 
+      CACHE_KEY: 'filippone_menu_v12' 
     };
 
     // --- LOGICA IMMAGINI AVANZATA ---
@@ -135,12 +135,13 @@
         const cat = (item.categoria || "").toLowerCase().trim();
         const nome = (item.nome || "").toLowerCase().trim();
         
-        // Unsplash IDs ottimizzati
         const img = {
             pizza_rossa: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80',
             pizza_bianca: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
-            caffetteria: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80', // Caffè
-            amari: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80', // Liquori
+            aperitivi: 'https://images.unsplash.com/photo-1536935338218-841273f2a64c?auto=format&fit=crop&w=600&q=80', // Spritz/Hugo
+            analcolici: 'https://images.unsplash.com/photo-1544145945-f904253d0c7e?auto=format&fit=crop&w=600&q=80', // Crodino/Soda
+            caffetteria: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
+            amari: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80',
             birra: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80',
             vino: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80',
             bibite: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
@@ -150,15 +151,25 @@
             dolci: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80'
         };
 
-        // Riconoscimento incrociato Categoria + Nome
+        // RICONOSCIMENTO COCKTAIL E APERITIVI (Priorità Alta)
+        if (nome.includes('hugo') || nome.includes('spritz') || nome.includes('gin') || nome.includes('tonic') || nome.includes('lemon') || nome.includes('aperitivo')) return img.aperitivi;
+        if (nome.includes('crodino') || nome.includes('sanbitter') || nome.includes('analcolico')) return img.analcolici;
+        
+        // CAFFÈ E AMARI
         if (cat.includes('caff') || nome.includes('caff') || nome.includes('espresso')) return img.caffetteria;
-        if (cat.includes('amar') || cat.includes('liquor') || cat.includes('grapp') || nome.includes('amar') || nome.includes('liquor')) return img.amari;
-        if (cat.includes('vino') || nome.includes('vino') || nome.includes('rosso') || nome.includes('bianco')) return img.vino;
+        if (cat.includes('amar') || cat.includes('liquor') || cat.includes('grapp') || nome.includes('amar')) return img.amari;
+        
+        // ALTRE BEVANDE
+        if (cat.includes('vino') || nome.includes('vino') || nome.includes('prosecco')) return img.vino;
         if (cat.includes('birra')) return img.birra;
         if (cat.includes('acqua')) return img.acqua;
         if (cat.includes('bevand') || cat.includes('bibit') || cat.includes('lattin')) return img.bibite;
+        
+        // PIZZE
         if (cat.includes('bianca')) return img.pizza_bianca;
         if (cat.includes('rossa') || cat.includes('pizz')) return img.pizza_rossa;
+        
+        // ALTRO
         if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt')) return img.antipasti;
         if (cat.includes('insalat')) return img.insalate;
         if (cat.includes('dolc') || cat.includes('dessert')) return img.dolci;
@@ -168,7 +179,7 @@
 
     let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', searchTerm = '', cart = [];
     let filters = { veg: false, spicy: false, frozen: false };
-    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Pizze Rosse':'🍅','Pizze Bianche':'🧀','Bevande':'🥤','Birre':'🍺','Dolci':'🍮','Caffetteria':'☕','Amari':'🥃' };
+    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Pizze Rosse':'🍅','Pizze Bianche':'🧀','Bevande':'🥤','Birre':'🍺','Dolci':'🍮' };
 
     document.addEventListener('DOMContentLoaded', () => { renderSkeletons(); initData(); loadCart(); });
 
