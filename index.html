@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pizzeria Filippone – Menu Digitale</title>
+  <title>Pizzeria Filippone – Menu Digitale Potenziato</title>
 
-  <meta name="description" content="Menu digitale della Pizzeria Filippone. Dal 1966. Pizze, antipasti e bevande." />
+  <meta name="description" content="Sfoglia il menu digitale potenziato della Pizzeria Filippone. Pizze, extra e ordine su WhatsApp!" />
   <meta property="og:type" content="restaurant.restaurant" />
-  <meta property="og:title" content="Pizzeria Filippone – Menu Digitale" />
-  <meta property="og:description" content="Sfoglia il menu, filtra per vegetariano o piccante e ordina direttamente!" />
+  <meta property="og:title" content="Pizzeria Filippone – Menu Digitale Potenziato" />
+  <meta property="og:description" content="Sfoglia, cerca, personalizza e ordina il tuo ordine direttamente su WhatsApp!" />
   <meta property="og:image" content="https://filipponepizzeria.github.io/og-image.jpg" /> <meta property="og:url" content="https://filipponepizzeria.github.io/" />
   <meta name="twitter:card" content="summary_large_image" />
 
@@ -77,6 +77,7 @@
     /* ─── Card hover ─── */
     .menu-card {
       transition: transform .2s ease, box-shadow .2s ease;
+      cursor: pointer;
     }
     .menu-card:active { transform: scale(.985); }
 
@@ -115,45 +116,78 @@
 
 <body class="flex flex-col h-full">
 
-  <header id="hero" class="relative bg-brand text-cream overflow-hidden shrink-0" style="min-height:120px;">
-    <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-brand-light opacity-30"></div>
+  <header id="hero" class="relative bg-brand text-cream overflow-hidden shrink-0" style="min-height:160px;">
+    <button onclick="openCart()" class="absolute top-6 right-5 z-20 bg-cream text-brand p-3 rounded-full shadow-lg active:scale-95 transition">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-brand text-cream text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+    </button>
+    <div class="absolute -top-8 -left-8 w-40 h-40 rounded-full bg-brand-light opacity-30"></div>
     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-1 bg-cream opacity-10 rounded-full"></div>
 
-    <div class="relative z-10 px-5 pt-8 pb-4">
+    <div class="relative z-10 px-5 pt-10 pb-4">
       <p class="text-xs tracking-[.2em] uppercase text-cream/60 font-body mb-1">Dal 1966</p>
-      <h1 class="font-display text-3xl font-bold leading-tight">Filippone</h1>
-      <p class="text-cream/70 text-sm mt-1 font-body">Qualità e tradizione dal 1966</p>
+      <h1 class="font-display text-4xl font-bold leading-tight">Filippone</h1>
+      <p class="text-cream/70 text-sm mt-1 font-body max-w-sm">Qualità e tradizione, ora anche nel carrello.</p>
     </div>
   </header>
 
-  <nav id="tab-bar" class="shrink-0 flex gap-2 overflow-x-auto px-4 py-3 bg-cream-dark border-b border-ink/10 sticky top-0 z-30">
+  <div class="shrink-0 px-4 py-3 bg-cream sticky top-0 z-30 border-b border-ink/10">
+    <div class="relative">
+      <span class="absolute inset-y-0 left-3 flex items-center text-ink/40">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </span>
+      <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca pizza, ingrediente, categoria..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-ink/15 bg-white text-ink placeholder:text-ink/40 text-sm focus:border-brand focus:ring-brand focus:ring-1 transition">
+    </div>
+  </div>
+
+  <nav id="tab-bar" class="shrink-0 flex gap-2 overflow-x-auto px-4 py-3 bg-cream border-b border-ink/5 sticky top-[61px] z-30">
     </nav>
 
-  <div class="shrink-0 flex gap-2 px-4 py-2 bg-cream sticky top-[56px] z-20 border-b border-ink/5">
+  <div class="shrink-0 flex gap-2 px-4 py-2 bg-cream sticky top-[117px] z-20 border-b border-ink/5">
     <button id="chip-veg"   class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-600 text-green-700 bg-green-50 transition-all" onclick="toggleFilter('veg')">
       🌿 Veg
     </button>
     <button id="chip-spicy" class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-orange-500 text-orange-600 bg-orange-50 transition-all" onclick="toggleFilter('spicy')">
       🌶️ Piccante
     </button>
-    <div id="result-count" class="ml-auto text-xs text-ink/40 self-center shrink-0"></div>
+    <div id="result-count" class="ml-auto text-xs text-ink/40 self-center shrink-0">0 voci</div>
   </div>
 
-  <main id="content" class="flex-1 overflow-y-auto pb-32 px-4 pt-4 space-y-3">
+  <main id="content" class="flex-1 overflow-y-auto pb-32 px-4 pt-4 space-y-3 relative">
     </main>
 
-  <div id="action-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-cream/95 backdrop-blur border-t border-ink/10 px-4 pt-3">
+  <div id="action-bar" class="fixed bottom-0 left-0 right-0 z-30 bg-cream/95 backdrop-blur border-t border-ink/10 px-4 pt-3 shadow-2xl">
     <div class="flex gap-3 max-w-lg mx-auto">
       <a href="tel:+390461924565"
          class="flex items-center justify-center gap-2 bg-ink text-cream rounded-2xl py-3.5 px-5 font-semibold text-sm transition active:scale-95 shrink-0">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
         Chiama
       </a>
-      <a href="https://wa.me/390461924565?text=Ciao Filippone! 🍕 Vorrei ordinare: "
-         class="flex-1 flex items-center justify-center gap-2 bg-green-600 text-cream rounded-2xl py-3.5 font-semibold text-sm transition active:scale-95">
-        <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.474 2.027 7.78L0 32l8.47-2.22A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.087 22.357c-.34.955-1.987 1.827-2.717 1.942-.694.108-1.57.154-2.532-.159a23.05 23.05 0 01-2.292-.847C12.7 21.677 10.03 18.9 9.61 18.362c-.42-.538-1.54-2.046-1.54-3.905 0-1.86.977-2.775 1.32-3.155.343-.38.75-.476.999-.476l.714.014c.229.01.537-.087.84.64.318.756 1.08 2.616 1.174 2.806.095.19.158.413.031.666-.127.253-.19.413-.381.635-.19.222-.4.497-.571.666-.19.19-.388.396-.167.776.222.38.985 1.624 2.115 2.63 1.452 1.292 2.676 1.692 3.057 1.882.38.19.603.159.825-.095.222-.254.952-1.11 1.206-1.49.254-.38.508-.317.856-.19.349.127 2.21 1.042 2.59 1.232.38.19.634.285.728.444.096.16.096.928-.244 1.883z"/></svg>
-        WhatsApp
-      </a>
+      <p class="flex-1 flex items-center justify-center text-xs text-center text-ink/50 py-3.5 max-w-[16rem]">Chiama per info, o usa WhatsApp nel carrello.</p>
+    </div>
+  </div>
+
+  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm hidden items-end justify-center transition-opacity" onclick="closeModal()">
+    <div id="modal-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-12 transition-transform duration-300 transform translate-y-full max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div id="modal-content" class="space-y-4">
+        </div>
+      <button onclick="closeModal()" class="absolute top-6 right-6 text-ink/50 p-2 rounded-full hover:bg-ink/5">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm hidden items-end justify-center transition-opacity" onclick="closeCart()">
+    <div id="cart-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-12 transition-transform duration-300 transform translate-y-full max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-2xl font-bold text-ink">Il mio ordine</h2>
+        <button onclick="clearCart()" class="text-xs text-brand-dark/70 hover:text-brand font-semibold">Svuota tutto</button>
+      </div>
+      <div id="cart-content" class="space-y-3 mb-8">
+        </div>
+      <button onclick="closeCart()" class="absolute top-6 right-6 text-ink/50 p-2 rounded-full hover:bg-ink/5">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
     </div>
   </div>
 
@@ -162,27 +196,20 @@
   // CONFIGURAZIONE – modifica questi valori
   // ──────────────────────────────────────────────
   const CONFIG = {
-    // Pubblica il tuo Google Sheet come CSV:
-    // File → Pubblica sul Web → Foglio1 → CSV
+    // Sostituisci con l'URL reale del tuo CSV
     CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
+    // Testo preimpostato per WhatsApp
+    WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare: \n\n',
   };
-
-  // ──────────────────────────────────────────────
-  // GOOGLE SHEETS COLUMN MAPPING
-  // Il tuo foglio deve avere ESATTAMENTE queste intestazioni
-  // nella prima riga (case-sensitive):
-  //  ID | Nome | Categoria | Ingredienti | Allergeni | Prezzo (€) | Disponibile | Immagine URL | IsVeg | IsSpicy
-  //  IsVeg   → "SI" / "NO" o "TRUE"/"FALSE"
-  //  IsSpicy → "SI" / "NO" o "TRUE"/"FALSE"
-  //  Disponibile → "SI" / "NO" o "TRUE"/"FALSE"
-  // ──────────────────────────────────────────────
 
   // ─── State ───
   let allItems       = [];
   let activeCategory = 'Tutti';
   let filters        = { veg: false, spicy: false };
+  let searchTerm     = '';
+  let cart           = []; // [{id, nome, prezzo, qty, note, varianti}]
 
-  // ─── Categories (injected) ───
+  // ─── Categories ───
   let categories = ['Tutti'];
   const CAT_EMOJI = {
     'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Bevande':'🍺','Dolci':'🍮','Senza Categoria':'❓'
@@ -190,6 +217,8 @@
 
   // ─── Init ───
   document.addEventListener('DOMContentLoaded', () => {
+    loadCartFromLocalStorage();
+    updateCartBadge();
     renderSkeletons();
     loadData();
   });
@@ -197,8 +226,12 @@
   // ─── CSV fetch & parse ───
   async function loadData() {
     const csvUrl = CONFIG.CSV_URL;
+    if (csvUrl === 'PLACEHOLDER_GOOGLE_SHEETS_CSV_URL') {
+      alert("Configurazione mancante: incollare l'URL CSV del foglio Google Sheet nel codice JS.");
+      return;
+    }
 
-    // Proxy cascade: prova in ordine finché uno funziona
+    // Proxy cascade
     const proxies = [
       `https://corsproxy.io/?${encodeURIComponent(csvUrl)}`,
       `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`,
@@ -243,7 +276,6 @@
   }
 
   function parseCSV(text) {
-    // Normalize line endings
     const lines = text.trim().replace(/\r\n/g, '\n').split('\n');
     const headers = splitCSVLine(lines[0]).map(h => h.trim());
 
@@ -253,7 +285,6 @@
       const obj = {};
       headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
 
-      // Strip € symbol and handle Italian decimal comma
       const rawPrice = (obj['Prezzo (€)'] || obj['Prezzo'] || '0')
         .replace(/[€$£\s]/g, '')
         .replace(',', '.');
@@ -268,6 +299,7 @@
         categoria:   obj['Categoria']    || 'Senza Categoria',
         ingredienti: obj['Ingredienti']  || '',
         allergeni:   obj['Allergeni']    || '',
+        varianti:    obj['Varianti']     || '',
         prezzo:      parseFloat(rawPrice) || 0,
         disponibile: (obj['Disponibile'] || 'SI').toUpperCase() !== 'NO',
         immagine:    obj['Immagine URL'] || '',
@@ -313,17 +345,22 @@
     renderCards();
   }
 
-  // ─── Filters ───
+  // ─── Filters & Search ───
   function toggleFilter(f) {
     filters[f] = !filters[f];
     document.getElementById(`chip-${f}`).classList.toggle('active', filters[f]);
     renderCards();
   }
 
+  function handleSearch() {
+    searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+    renderCards();
+  }
+
   // ─── Skeleton ───
   function renderSkeletons() {
     const c = document.getElementById('content');
-    c.innerHTML = `<p id="load-status" style="text-align:center;font-size:.7rem;color:#aaa;padding:.5rem 1rem;font-family:monospace">Caricamento menu in corso...</p>` +
+    c.innerHTML = `<p id="load-status" style="text-align:center;font-size:.7rem;color:#aaa;padding:.5rem 1rem;font-family:monospace">Caricamento menu...</p>` +
     Array(5).fill(0).map(() => `
       <div class="bg-white rounded-2xl p-4 flex gap-3 shadow-sm border border-ink/5">
         <div class="skeleton w-20 h-20 rounded-xl shrink-0"></div>
@@ -343,6 +380,16 @@
       ? allItems
       : allItems.filter(i => i.categoria === activeCategory);
 
+    // Apply search
+    if (searchTerm) {
+      items = items.filter(i =>
+        i.nome.toLowerCase().includes(searchTerm) ||
+        i.ingredienti.toLowerCase().includes(searchTerm) ||
+        i.categoria.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Apply filters
     if (filters.veg)   items = items.filter(i => i.isVeg);
     if (filters.spicy) items = items.filter(i => i.isSpicy);
 
@@ -351,7 +398,7 @@
 
     if (!items.length) {
       document.getElementById('content').innerHTML = `
-        <div class="text-center py-20 text-ink/40">
+        <div class="text-center py-20 text-ink/40 animate-fade-in">
           <p class="text-5xl mb-4">🔍</p>
           <p class="font-semibold text-ink/60">Nessun risultato</p>
           <p class="text-sm mt-1">Prova a cambiare filtro o categoria</p>
@@ -361,32 +408,24 @@
 
     const html = items.map((item, idx) => {
       const hasImg = item.immagine && item.immagine !== '';
-      const badges = [
-        item.isVeg   ? '<span class="badge bg-green-100 text-green-700">🌿 Veg</span>' : '',
-        item.isSpicy ? '<span class="badge bg-orange-100 text-orange-700">🌶️ Piccante</span>' : '',
-      ].filter(Boolean).join('');
-      const allergens = item.allergeni
-        ? item.allergeni.split(',').map(a => `<span class="badge bg-yellow-100 text-yellow-800">${a.trim()}</span>`).join('')
-        : '';
       const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
+      const catIcon = CAT_EMOJI[item.categoria] || CAT_EMOJI['Senza Categoria'];
 
       return `
-      <div class="menu-card bg-white rounded-2xl shadow-sm border border-ink/5 overflow-hidden" style="animation-delay: ${idx * 40}ms">
+      <div class="menu-card bg-white rounded-2xl shadow-sm border border-ink/5 overflow-hidden" style="animation-delay: ${idx * 40}ms" onclick="openItemDetail('${item.id}')">
         <div class="flex gap-3 p-4">
           ${hasImg
             ? `<img src="${item.immagine}" alt="${item.nome}"
                  class="w-20 h-20 object-cover rounded-xl shrink-0 bg-cream"
-                 loading="lazy" onerror="this.src='https://via.placeholder.com/80x80/FAF6EF/1A120B?text=🍕'" />`
-            : `<div class="w-20 h-20 rounded-xl shrink-0 bg-cream-dark flex items-center justify-center text-3xl select-none">🍕</div>`
+                 loading="lazy" onerror="this.style.display='none'" />`
+            : `<div class="w-20 h-20 rounded-xl shrink-0 bg-cream-dark flex items-center justify-center text-3xl select-none">${catIcon}</div>`
           }
           <div class="flex-1 min-w-0">
             <div class="flex items-start justify-between gap-2">
-              <h3 class="font-display font-bold text-lg leading-tight text-ink">${item.nome}</h3>
-              <span class="text-brand font-bold text-lg shrink-0">${priceStr}</span>
+              <h3 class="font-body font-semibold text-base leading-tight text-ink">${item.nome}</h3>
+              <span class="text-brand font-bold text-base shrink-0">${priceStr}</span>
             </div>
             <p class="text-ink/55 text-xs mt-1 line-clamp-2 leading-relaxed">${item.ingredienti || ''}</p>
-            ${allergens ? `<div class="flex flex-wrap gap-1.5 mt-2 opacity-50">${allergens}</div>` : ''}
-            ${badges ? `<div class="flex gap-1.5 mt-2">${badges}</div>` : ''}
           </div>
         </div>
       </div>`;
@@ -394,12 +433,327 @@
 
     document.getElementById('content').innerHTML = html;
 
-    // Stagger animation
     requestAnimationFrame(() => {
       document.querySelectorAll('.menu-card').forEach(el => {
         el.classList.add('visible');
       });
     });
+  }
+
+  // ─── Modal Detailed View ───
+  function openItemDetail(itemId) {
+    const item = allItems.find(i => i.id === itemId);
+    if (!item) return;
+
+    const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
+    const hasImg = item.immagine && item.immagine !== '';
+    const catIcon = CAT_EMOJI[item.categoria] || CAT_EMOJI['Senza Categoria'];
+
+    let allergensHtml = '';
+    if (item.allergeni) {
+      allergensHtml = `<div><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Allergeni</p>
+        <div class="flex flex-wrap gap-1.5">${item.allergeni.split(',').map(a => `<span class="badge bg-yellow-100 text-yellow-800">${a.trim()}</span>`).join('')}</div></div>`;
+    }
+
+    let variationsHtml = '';
+    if (item.varianti) {
+      const variantsList = item.varianti.split(',').map(v => {
+        const name = v.trim();
+        let nameOnly = name;
+        let price = 0;
+        const priceMatch = name.match(/\((\+?\d+(\.\d{2})?)€\)/);
+        if (priceMatch) {
+          nameOnly = name.replace(priceMatch[0], '').trim();
+          price = parseFloat(priceMatch[1]);
+        }
+        return { nameOnly, price, full: name };
+      });
+
+      variationsHtml = `<div><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Varianti & Extra (Opzionali)</p>
+        <div class="space-y-1.5">${variantsList.map((v, i) => `
+          <label class="flex items-center gap-2 text-sm text-ink/70">
+            <input type="checkbox" name="variation-${item.id}" value="${v.full}" data-name="${v.nameOnly}" data-price="${v.price}" class="w-4 h-4 rounded border-ink/20 text-brand focus:ring-brand">
+            ${v.nameOnly} <span class="text-brand font-semibold">+€${v.price.toFixed(2)}</span>
+          </label>`).join('')}</div></div>`;
+    }
+
+    const badgetItemHtml = [
+      item.isVeg   ? '<span class="badge bg-green-100 text-green-700">🌿 Veg</span>' : '',
+      item.isSpicy ? '<span class="badge bg-orange-100 text-orange-700">🌶️ Piccante</span>' : '',
+    ].filter(Boolean).join('');
+
+    document.getElementById('modal-content').innerHTML = `
+      ${hasImg ? `<img src="${item.immagine}" alt="${item.nome}" class="w-full h-48 object-cover rounded-2xl mb-2" />` : ''}
+      <div class="flex items-start justify-between gap-3 pt-2">
+        <div>
+          <h3 class="font-display text-2xl font-bold leading-tight text-ink">${item.nome}</h3>
+          <p class="text-xs text-brand font-semibold uppercase tracking-widest flex items-center gap-1">${catIcon} ${item.categoria}</p>
+        </div>
+        <span class="text-brand font-bold text-3xl shrink-0 pt-1">${priceStr}</span>
+      </div>
+      ${badgetItemHtml ? `<div class="flex gap-1.5 pt-1">${badgetItemHtml}</div>` : ''}
+      <div class="pt-2"><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Ingredienti</p>
+        <p class="text-ink/80 text-sm leading-relaxed">${item.ingredienti || ''}</p></div>
+      ${allergensHtml}
+      ${variationsHtml}
+      <button onclick="addItemToCartFromModal('${item.id}')" class="flex items-center justify-center gap-2 w-full bg-brand text-cream rounded-2xl py-4 font-semibold text-base transition active:scale-95 shadow-lg mt-6">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+        Aggiungi all'ordine
+      </button>
+    `;
+
+    document.getElementById('modal-backdrop').classList.remove('hidden');
+    document.getElementById('modal-backdrop').classList.add('flex');
+    requestAnimationFrame(() => {
+      document.getElementById('modal-panel').classList.remove('translate-y-full');
+    });
+  }
+
+  function closeModal() {
+    document.getElementById('modal-panel').classList.add('translate-y-full');
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.getElementById('modal-backdrop').classList.add('hidden');
+        document.getElementById('modal-backdrop').classList.remove('flex');
+      }, 300); // tempo animazione
+    });
+  }
+
+  // ESC key to close modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeCart();
+    }
+  });
+
+  // ─── Cart Logic ───
+  function addItemToCartFromModal(itemId) {
+    const item = allItems.find(i => i.id === itemId);
+    if (!item) return;
+
+    const selectedVariations = Array.from(document.querySelectorAll(`input[name="variation-${item.id}"]:checked`))
+                                      .map(cb => cb.value);
+
+    addToCart(item, selectedVariations);
+    closeModal();
+  }
+
+  function addToCart(item, selectedVariations) {
+    // Generate unique cart item key based on id + variations
+    const cartItemKey = item.id + (selectedVariations.length ? '_' + selectedVariations.sort().join('_') : '');
+
+    const existingCartItem = cart.find(c => c.cartItemKey === cartItemKey);
+
+    if (existingCartItem) {
+      existingCartItem.qty++;
+    } else {
+      let variationsCost = 0;
+      let variationsDescriptions = [];
+
+      selectedVariations.forEach(v => {
+        const priceMatch = v.match(/\((\+?\d+(\.\d{2})?)€\)/);
+        if (priceMatch) {
+          variationsCost += parseFloat(priceMatch[1]);
+        }
+        variationsDescriptions.push(v);
+      });
+
+      cart.push({
+        cartItemKey,
+        id:          item.id,
+        nome:        item.nome,
+        prezzoUnit: item.prezzo,
+        qty:         1,
+        variantiCost: variationsCost,
+        variantiDesc: variationsDescriptions,
+      });
+    }
+
+    saveCartToLocalStorage();
+    updateCartBadge();
+  }
+
+  function removeFromCart(cartItemKey) {
+    cart = cart.filter(c => c.cartItemKey !== cartItemKey);
+    saveCartToLocalStorage();
+    updateCartBadge();
+    renderCart(); // Refresh view
+  }
+
+  function changeCartQty(cartItemKey, delta) {
+    const cartItem = cart.find(c => c.cartItemKey === cartItemKey);
+    if (cartItem) {
+      cartItem.qty += delta;
+      if (cartItem.qty <= 0) {
+        removeFromCart(cartItemKey);
+      } else {
+        saveCartToLocalStorage();
+        updateCartBadge();
+        renderCart(); // Refresh view
+      }
+    }
+  }
+
+  function clearCart() {
+    cart = [];
+    saveCartToLocalStorage();
+    updateCartBadge();
+    closeCart();
+  }
+
+  function updateCartBadge() {
+    const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+    const badge = document.getElementById('cart-badge');
+    badge.textContent = totalItems;
+    if (totalItems > 0) {
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  }
+
+  function openCart() {
+    renderCart();
+    document.getElementById('cart-backdrop').classList.remove('hidden');
+    document.getElementById('cart-backdrop').classList.add('flex');
+    requestAnimationFrame(() => {
+      document.getElementById('cart-panel').classList.remove('translate-y-full');
+    });
+  }
+
+  function closeCart() {
+    document.getElementById('cart-panel').classList.add('translate-y-full');
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.getElementById('cart-backdrop').classList.add('hidden');
+        document.getElementById('cart-backdrop').classList.remove('flex');
+      }, 300); // tempo animazione
+    });
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-content');
+    if (!cart.length) {
+      container.innerHTML = `
+        <div class="text-center py-20 text-ink/40 animate-fade-in">
+          <p class="text-5xl mb-4">🛒</p>
+          <p class="font-semibold text-ink/60">Il carrello è vuoto</p>
+          <p class="text-sm mt-1">Aggiungi qualcosa dal menu!</p>
+        </div>`;
+      return;
+    }
+
+    let cartHtml = cart.map((c, i) => {
+      const unitTotal = c.prezzoUnit + c.variantiCost;
+      const itemTotal = unitTotal * c.qty;
+      const priceStr = `€${itemTotal.toFixed(2)}`;
+      const unitStr = unitDelta(unitTotal, c.prezzoUnit);
+
+      const variantsHtml = c.variantiDesc.length
+        ? `<div class="flex flex-wrap gap-1 mt-1 text-xs text-ink/60">${c.variantiDesc.map(v => `<span class="badge bg-cream-dark text-ink font-normal border border-ink/5">${v}</span>`).join('')}</div>`
+        : '';
+
+      return `
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-ink/5 relative flex gap-3 animate-slide-up" style="animation-delay: ${i * 40}ms">
+        <div class="flex-1 min-w-0">
+          <div class="flex justify-between items-start gap-1">
+            <p class="font-body font-semibold text-sm leading-tight text-ink">${c.nome}</p>
+            <span class="text-brand font-bold text-sm shrink-0 pt-0.5">${priceStr} ${unitStr}</span>
+          </div>
+          ${variantsHtml}
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0 ml-1">
+          <button onclick="changeCartQty('${c.cartItemKey}', -1)" class="w-8 h-8 rounded-full border border-ink/15 text-ink flex items-center justify-center font-bold text-lg active:scale-90 shadow-inner">−</button>
+          <span class="text-sm font-bold text-ink w-4 text-center">${c.qty}</span>
+          <button onclick="changeCartQty('${c.cartItemKey}', 1)" class="w-8 h-8 rounded-full bg-ink text-cream flex items-center justify-center font-bold text-lg active:scale-90 shadow">＋</button>
+        </div>
+        <button onclick="removeFromCart('${c.cartItemKey}')" class="absolute top-2 right-2 text-ink/20 hover:text-red-500 p-1">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>`;
+    }).join('');
+
+    const cartTotal = cart.reduce((sum, item) => sum + (item.prezzoUnit + item.variantiCost) * item.qty, 0);
+
+    const whatsappMessage = buildWhatsAppMessage(cartTotal);
+    const waUrl = `https://wa.me/390461924565?text=${encodeURIComponent(whatsappMessage)}`;
+
+    container.innerHTML = `
+      ${cartHtml}
+      <div class="space-y-4 pt-6 mt-6 border-t border-ink/5">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-ink/60 text-sm font-semibold">Totale Stimato</span>
+          <span class="text-brand font-bold text-2xl">€${cartTotal.toFixed(2)}</span>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Note Ordine (Opzionali)</p>
+          <textarea id="cart-notes" placeholder="Esempio: Indirizzo consegna, orario, note generali..." class="w-full rounded-xl border-ink/15 bg-white text-ink placeholder:text-ink/40 text-sm focus:border-brand focus:ring-brand focus:ring-1 transition p-3 h-20" oninput="saveCartNotes()"></textarea>
+        </div>
+        <a href="${waUrl}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white rounded-2xl py-4 font-semibold text-base transition active:scale-95 shadow-lg">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.474 2.027 7.78L0 32l8.47-2.22A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.087 22.357c-.34.955-1.987 1.827-2.717 1.942-.694.108-1.57.154-2.532-.159a23.05 23.05 0 01-2.292-.847C12.7 21.677 10.03 18.9 9.61 18.362c-.42-.538-1.54-2.046-1.54-3.905 0-1.86.977-2.775 1.32-3.155.343-.38.75-.476.999-.476l.714.014c.229.01.537-.087.84.64.318.756 1.08 2.616 1.174 2.806.095.19.158.413.031.666-.127.253-.19.413-.381.635-.19.222-.4.497-.571.666-.19.19-.388.396-.167.776.222.38.985 1.624 2.115 2.63 1.452 1.292 2.676 1.692 3.057 1.882.38.19.603.159.825-.095.222-.254.952-1.11 1.206-1.49.254-.38.508-.317.856-.19.349.127 2.21 1.042 2.59 1.232.38.19.634.285.728.444.096.16.096.928-.244 1.883z"/></svg>
+          Invia ordine su WhatsApp
+        </a>
+      </div>
+    `;
+
+    // Ripristina note se presenti
+    const savedNotes = localStorage.getItem('cart_notes');
+    if (savedNotes) {
+      document.getElementById('cart-notes').value = savedNotes;
+    }
+  }
+
+  function buildWhatsAppMessage(cartTotal) {
+    let msg = CONFIG.WA_PREAMBLE;
+
+    cart.forEach(c => {
+      const unitTotal = c.prezzoUnit + c.variantiCost;
+      const itemTotal = unitTotal * c.qty;
+      msg += `• *${c.nome}* x${c.qty} → _€${itemTotal.toFixed(2)}_\n`;
+      if (c.variantiDesc.length) {
+        msg += `  - _Varianti: ${c.variantiDesc.join(', ')}_\n`;
+      }
+    });
+
+    const savedNotes = localStorage.getItem('cart_notes');
+    if (savedNotes) {
+      msg += `\n*NOTE ORDINE:*\n_${savedNotes}_\n`;
+    }
+
+    msg += `\n*TOTALE STIMATO:* €${cartTotal.toFixed(2)} (*)\n\n(*) Prezzo soggetto a conferma. Grazie!`;
+    return msg;
+  }
+
+  function unitDelta(unitTotal, prezzoUnit) {
+    const delta = unitTotal - prezzoUnit;
+    if (delta > 0) {
+      return `<span class="text-xs text-brand-dark opacity-70">(incl. +€${delta.toFixed(2)})</span>`;
+    }
+    return '';
+  }
+
+  // ─── LocalStorage ───
+  function saveCartToLocalStorage() {
+    localStorage.setItem('pizzeria_cart', JSON.stringify(cart));
+  }
+
+  function loadCartFromLocalStorage() {
+    const savedCart = localStorage.getItem('pizzeria_cart');
+    if (savedCart) {
+      try {
+        cart = JSON.parse(savedCart);
+      } catch (e) {
+        console.error("Errore caricamento carrello salvato", e);
+        cart = [];
+      }
+    }
+  }
+
+  function saveCartNotes() {
+    const notes = document.getElementById('cart-notes').value;
+    localStorage.setItem('cart_notes', notes);
+    renderCart(); // Aggiorna URL WhatsApp
   }
   </script>
 </body>
