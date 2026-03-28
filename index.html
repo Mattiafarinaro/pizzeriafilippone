@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pizzeria Filippone – Menu</title>
+  <title>Pizzeria Filippone – Menu Digitale</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,14 +30,8 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { 
-        font-family: 'Plus Jakarta Sans', sans-serif; 
-        background: #FBF9F7; 
-        color: #1A120B;
-        overscroll-behavior-y: contain; /* Previene il refresh a trascinamento su Chrome */
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
     
-    /* Gestione responsiva card per schermi tipo Note Ultra */
     .item-card { 
         display: grid;
         grid-template-columns: 100px 1fr;
@@ -48,21 +42,17 @@
 
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
-
     .no-scrollbar::-webkit-scrollbar { display: none; }
     
     .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
 
-    /* Fix filtri: testo sempre nero */
     .chip-active { 
         background-color: #C1440E15 !important; 
         border-color: #C1440E !important; 
         color: #1A120B !important;
         box-shadow: 0 4px 12px rgba(193, 68, 14, 0.1);
     }
-
-    .safe-bottom { padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
   </style>
 </head>
 
@@ -72,41 +62,51 @@
   <header class="bg-white px-6 pt-10 pb-6 shadow-sm border-b border-stone-100 relative">
     <div class="flex flex-col items-center text-center max-w-2xl mx-auto">
       <img src="logo.png" alt="Logo" class="h-20 w-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=200&q=80'">
-      
       <h1 class="font-display text-3xl font-bold text-ink">Pizzeria Filippone</h1>
-      <p class="text-ink/60 text-sm italic mt-2 px-4 leading-snug">
+      <p class="text-ink/60 text-sm italic mt-2 px-4 leading-snug max-w-sm">
         "L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."
       </p>
-      
       <div class="mt-4 flex items-center gap-2 text-ink/40 text-[11px] font-semibold bg-stone-50 px-4 py-2 rounded-full border border-stone-100">
         <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Via Anna Frank n.7, 38123 Trento
       </div>
     </div>
-
     <button onclick="openCart()" class="absolute top-6 right-6 bg-brand/5 p-4 rounded-2xl active:scale-90 transition shadow-sm border border-brand/10">
       <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-brand text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">0</span>
     </button>
   </header>
 
-  <!-- SEARCH & TABS -->
+  <!-- DISCLAIMER E RICERCA (Sticky) -->
   <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100">
-    <div class="px-5 py-4">
-      <div class="relative max-w-xl mx-auto">
+    <div class="px-5 py-4 max-w-xl mx-auto">
+      <!-- Disclaimer -->
+      <div class="mb-4 p-3 bg-brand/5 rounded-xl border border-brand/10">
+        <p class="text-[11px] leading-relaxed text-brand-dark font-medium text-center">
+            Per ordinazioni effettuate tramite applicazione non sono previste variazioni. 
+            Per eventuali variazioni si prega di contattare telefonicamente la pizzeria utilizzando il pulsante <b>"Chiama"</b> in basso a sinistra. Grazie.
+        </p>
+      </div>
+      <!-- Search Input -->
+      <div class="relative">
         <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none focus:ring-2 focus:ring-brand/20 border-transparent transition-all">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
     </div>
+    <!-- Category Tabs -->
     <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar max-w-xl mx-auto"></nav>
   </div>
 
-  <!-- FILTERS -->
+  <!-- FILTERS AND COUNTER -->
   <div class="bg-white/50 border-b border-stone-100 px-5 py-3">
-    <div class="flex gap-2 max-w-xl mx-auto w-full overflow-x-auto no-scrollbar">
-        <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Vegetariano</button>
-        <button id="chip-spicy" onclick="toggleFilter('spicy')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌶️ Piccante</button>
-        <button id="chip-frozen" onclick="toggleFilter('frozen')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">❄️ Surgelato</button>
+    <div class="flex items-center justify-between max-w-xl mx-auto w-full">
+        <div class="flex gap-2 overflow-x-auto no-scrollbar">
+            <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Vegetariano</button>
+            <button id="chip-spicy" onclick="toggleFilter('spicy')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌶️ Piccante</button>
+            <button id="chip-frozen" onclick="toggleFilter('frozen')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">❄️ Surgelato</button>
+        </div>
+        <!-- Result Counter -->
+        <div id="result-count" class="pl-4 text-[10px] font-bold uppercase text-stone-400 tracking-widest whitespace-nowrap">0 Prodotti</div>
     </div>
   </div>
 
@@ -151,7 +151,6 @@
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
       WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n',
-      // Immagine di fallback di alta qualità (Pizza Margherita professionale)
       PLACEHOLDER: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=400&q=80'
     };
 
@@ -235,7 +234,7 @@
     function setCategory(cat) {
         activeCategory = cat;
         renderTabs();
-        window.scrollTo({ top: 350, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         renderCards();
     }
 
@@ -252,6 +251,9 @@
         if (filters.veg) filtered = filtered.filter(i => i.isVeg);
         if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
         if (filters.frozen) filtered = filtered.filter(i => i.isFrozen);
+
+        // Update Counter
+        document.getElementById('result-count').textContent = `${filtered.length} PRODOTTI`;
 
         container.innerHTML = filtered.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
@@ -279,14 +281,11 @@
         const modal = document.getElementById('modal-backdrop');
         const panel = document.getElementById('modal-panel');
         
-        let allergeniHtml = '';
-        if (item.allergeni) {
-            allergeniHtml = `
-                <div class="mt-6 p-4 bg-stone-50 rounded-2xl border border-stone-100">
-                    <p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-2">Presenza Allergeni</p>
-                    <p class="text-xs text-stone-600 font-medium">${item.allergeni}</p>
-                </div>`;
-        }
+        let allergeniHtml = item.allergeni ? `
+            <div class="mt-6 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+                <p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-2">Presenza Allergeni</p>
+                <p class="text-xs text-stone-600 font-medium">${item.allergeni}</p>
+            </div>` : '';
 
         document.getElementById('modal-content').innerHTML = `
             <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 shadow-inner">
@@ -300,34 +299,18 @@
                 <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl shrink-0">€${item.prezzo.toFixed(2)}</span>
             </div>
             <p class="text-stone-500 text-base leading-relaxed italic">"${item.ingredienti}"</p>
-            
             ${allergeniHtml}
-
-            ${item.varianti ? `
-                <div class="mt-8 space-y-3">
-                    <p class="text-[10px] font-black text-stone-300 uppercase tracking-[0.2em] mb-2 text-center">Personalizza la tua pizza</p>
-                    ${item.varianti.split(',').map(v => `
-                        <label class="flex items-center justify-between p-5 bg-stone-50 rounded-3xl border border-stone-100 active:bg-stone-100 transition-all cursor-pointer">
-                            <span class="text-sm font-bold text-ink">${v.trim()}</span>
-                            <input type="checkbox" name="variant" value="${v.trim()}" class="w-6 h-6 text-brand rounded-full border-stone-300">
-                        </label>`).join('')}
-                </div>` : ''}
-            
             <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-[28px] py-6 mt-8 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">
                 Aggiungi all'ordine
             </button>
         `;
-
         modal.classList.add('modal-active');
         setTimeout(() => panel.classList.add('modal-panel-active'), 10);
     }
 
     function addToCart(id) {
         const item = allItems.find(i => i.id === id);
-        const variants = Array.from(document.querySelectorAll('input[name="variant"]:checked')).map(v => v.value);
-        let extra = 0;
-        variants.forEach(v => { const p = v.match(/\+([\d,.]+)/); if(p) extra += parseFloat(p[1].replace(',','.')); });
-        cart.push({ cartId: Date.now(), ...item, prezzoTotale: item.prezzo + extra, selectedVariants: variants, qty: 1 });
+        cart.push({ cartId: Date.now(), ...item, prezzoTotale: item.prezzo, selectedVariants: [], qty: 1 });
         updateCartUI();
         closeModal();
     }
@@ -355,7 +338,6 @@
                         <span class="truncate pr-4">${item.nome}</span>
                         <span class="text-brand shrink-0">€${(item.prezzoTotale * item.qty).toFixed(2)}</span>
                     </div>
-                    ${item.selectedVariants.length ? `<p class="text-[10px] text-stone-400 font-medium mb-4">${item.selectedVariants.join(' • ')}</p>` : ''}
                     <div class="flex justify-between items-center mt-2">
                         <button onclick="removeFromCart(${item.cartId})" class="text-[10px] font-black text-brand/50 hover:text-brand uppercase tracking-widest">Elimina</button>
                         <div class="flex items-center gap-5 bg-white px-5 py-2.5 rounded-2xl font-black shadow-sm border border-stone-100">
@@ -386,7 +368,7 @@
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
         let msg = CONFIG.WA_PREAMBLE;
-        cart.forEach(i => msg += `• *${i.qty}x ${i.nome}* ${i.selectedVariants.length ? '(_'+i.selectedVariants.join(', ')+'_)' : ''} → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`);
+        cart.forEach(i => msg += `• *${i.qty}x ${i.nome}* → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`);
         msg += `\n*TOTALE:* €${total.toFixed(2)}`;
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
     }
