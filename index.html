@@ -24,21 +24,12 @@
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
-    
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
-    
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
-    
-    .chip-active { 
-        background-color: #C1440E15 !important; 
-        border-color: #C1440E !important; 
-        color: #1A120B !important; 
-        font-weight: 800 !important; 
-    }
-
+    .chip-active { background-color: #C1440E15 !important; border-color: #C1440E !important; color: #1A120B !important; font-weight: 800 !important; }
     .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
   </style>
@@ -56,7 +47,7 @@
         "L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."
       </p>
       <div class="mt-6 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
-        <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Via Anna Frank n.7, 38123 Trento
       </div>
     </div>
@@ -135,39 +126,32 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n',
-      CACHE_KEY: 'filippone_menu_v7' 
+      CACHE_KEY: 'filippone_menu_v9' 
     };
 
-    // --- LOGICA IMMAGINI CORRETTA ---
+    // --- LOGICA IMMAGINI CATEGORIE (FIXED) ---
     function getSafeImage(item) {
-        // 1. Priorità all'immagine specifica del database
         if (item.immagine && item.immagine.length > 10) return item.immagine;
         
-        // 2. Mappatura coerente in base alla categoria
-        const cat = (item.categoria || "").toLowerCase();
+        const cat = (item.categoria || "").toLowerCase().trim();
         
-        // Bevande e Birre
-        if (cat.includes('bevand') || cat.includes('birr') || cat.includes('bibit') || cat.includes('vin') || cat.includes('acqua')) 
-            return 'https://images.unsplash.com/photo-1544145945-f904253d0c71?auto=format&fit=crop&w=600&q=80';
+        // Ordine di priorità per il matching
+        if (cat.includes('birr') || cat.includes('bevand') || cat.includes('bibit') || cat.includes('acqua') || cat.includes('vino') || cat.includes('lattin')) 
+            return 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80';
         
-        // Insalate
+        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt') || cat.includes('sfiz') || cat.includes('stuzzich')) 
+            return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
+        
         if (cat.includes('insalat')) 
             return 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80';
         
-        // Dolci e Dessert
         if (cat.includes('dolc') || cat.includes('dessert')) 
             return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
         
-        // Antipasti e Fritti
-        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt') || cat.includes('stuzzich')) 
-            return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
-        
-        // Pizze (Default per qualsiasi categoria che contiene "Pizza")
-        if (cat.includes('pizz'))
+        if (cat.includes('pizz')) 
             return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
 
-        // Default Assoluto
+        // Default: Pizza
         return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
     }
 
@@ -216,12 +200,10 @@
     function parseCSV(text) {
         const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
         const headers = lines[0].split(',').map(h => h.trim());
-        
         return lines.slice(1).map(line => {
             const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const row = {};
             headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
-            
             let prezzoValue = 0;
             for (let key in row) {
                 if (key.toLowerCase().includes("prezzo")) {
@@ -229,7 +211,6 @@
                     prezzoValue = parseFloat(raw) || 0;
                 }
             }
-
             return {
                 id: row.ID || Math.random().toString(),
                 nome: row.Nome || "",
@@ -281,10 +262,7 @@
         container.innerHTML = filtered.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
                 <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
-                    <img src="${getSafeImage(item)}" 
-                         class="w-full h-full object-cover" 
-                         loading="lazy"
-                         onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
+                    <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <div class="flex justify-between items-start mb-1 gap-2">
@@ -306,7 +284,6 @@
         const item = allItems.find(i => i.id === id);
         const modal = document.getElementById('modal-backdrop');
         const panel = document.getElementById('modal-panel');
-        
         let allergeniHtml = item.allergeni ? `<div class="mt-6 p-4 bg-stone-50 rounded-2xl border border-stone-100"><p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-2">Allergeni</p><p class="text-xs text-stone-600 font-medium">${item.allergeni}</p></div>` : '';
 
         document.getElementById('modal-content').innerHTML = `
@@ -373,18 +350,26 @@
                         <span class="text-stone-300 font-bold uppercase tracking-widest text-xs">Totale</span>
                         <span class="text-3xl font-black text-ink">€${total.toFixed(2)}</span>
                     </div>
-                    <button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl shadow-green-100 active:scale-95 transition-all">WhatsApp</button>
+                    <button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl shadow-green-100 active:scale-95 transition-all">Invia su WhatsApp</button>
                 </div>`;
         }
         drawer.classList.add('modal-active');
         setTimeout(() => panel.classList.add('modal-panel-active'), 10);
     }
 
+    // --- MESSAGGIO WHATSAPP (FIXED) ---
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
-        let msg = CONFIG.WA_PREAMBLE;
-        cart.forEach(i => msg += `• *${i.qty}x ${i.nome}* → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`);
-        msg += `\n*TOTALE:* €${total.toFixed(2)}`;
+        
+        let msg = "Ciao Pizzeria Filippone, vorrei fare questo ordine:\n\n";
+        
+        cart.forEach(i => {
+            msg += `- ${i.qty} ${i.nome}\n`;
+        });
+        
+        msg += `\n€${total.toFixed(2)}\n\n`;
+        msg += "Aspetto una tua risposta per la conferma dell'ordine!";
+        
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
