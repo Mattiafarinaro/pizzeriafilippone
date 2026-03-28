@@ -180,32 +180,40 @@
   </header>
 
   <!-- ═══════════════════════════════════
-       SEARCH + TAB BAR
+       SEARCH BAR — sticky (always visible on scroll)
+       z-30 matches filter bar former z-index.
+       Height ~60px → main gets pt-[60px] to avoid content
+       hiding under it.
   ═══════════════════════════════════ -->
-  <div class="bg-white px-5 py-5 max-w-xl mx-auto w-full">
-    <!-- Notice variazioni -->
-    <div class="mb-5 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-bold text-[11px] leading-tight">
-      Per ordinazioni via app non sono previste variazioni di impasto.<br>
-      Per richieste particolari usa il tasto <b>"Chiama"</b>.
-    </div>
-    <!-- Search -->
-    <div class="relative mb-5">
+  <div id="search-bar" class="sticky top-0 z-30 bg-white border-b border-stone-100 shadow-sm">
+    <div class="relative max-w-xl mx-auto px-4 py-3">
       <input type="search" id="search-input"
              placeholder="Cerca pizza, ingrediente, vino..."
-             class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-stone-100/70 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all"
+             class="w-full pl-10 pr-4 py-3 rounded-2xl bg-stone-100/70 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all"
              oninput="App.handleSearch()" />
-      <svg class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+      <svg class="w-4 h-4 absolute left-8 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
       </svg>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       NOTICE + TAB BAR — scrolls with page
+  ═══════════════════════════════════ -->
+  <div class="bg-white px-5 pt-5 pb-4 max-w-xl mx-auto w-full">
+    <!-- Notice variazioni -->
+    <div class="mb-4 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-bold text-[11px] leading-tight">
+      Per ordinazioni via app non sono previste variazioni di impasto.<br>
+      Per richieste particolari usa il tasto <b>"Chiama"</b>.
     </div>
     <!-- Tab bar — categories injected by JS -->
     <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar"></nav>
   </div>
 
   <!-- ═══════════════════════════════════
-       FILTER CHIPS — sticky
+       FILTER CHIPS — scrolls with page (not sticky)
   ═══════════════════════════════════ -->
-  <div class="bg-white/90 backdrop-blur-md border-y border-stone-100 px-5 py-3 sticky top-0 z-30">
+  <div class="bg-white/90 border-y border-stone-100 px-5 py-3">
     <div class="flex items-center justify-between max-w-xl mx-auto w-full gap-3">
       <div class="flex gap-2 overflow-x-auto no-scrollbar">
         <button id="chip-veg"    onclick="App.toggleFilter('veg')"
@@ -293,7 +301,7 @@
   <!-- Back to top -->
   <button id="back-to-top"
           onclick="window.scrollTo({top:0,behavior:'smooth'})"
-          class="fixed bottom-28 right-5 z-40 bg-ink text-white p-3.5 rounded-full shadow-xl active:scale-90 transition-all">
+          class="fixed bottom-24 right-4 z-[45] bg-ink text-white p-3.5 rounded-full shadow-xl active:scale-90 transition-all">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
   </button>
 
@@ -331,6 +339,7 @@
       amaro: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0U4RUFGNicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0M1Q0FFOScvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+lgzwvdGV4dD4KPC9zdmc+',
       acqua: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0UzRjJGRCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0JCREVGQicvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+SpzwvdGV4dD4KPC9zdmc+',
       insalata: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0YxRjhFOScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0RDRURDOCcvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+llzwvdGV4dD4KPC9zdmc+',
+      bibita:    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0UzRjJGRCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0JCREVGQicvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+lpDwvdGV4dD4KPC9zdmc+',
       focaccia: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZGRjhFMScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0ZGRUNCMycvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+lljwvdGV4dD4KPC9zdmc+',
     };
 
@@ -479,6 +488,10 @@
       if (c.includes('dolc'))                                     return ASSETS.dolce;
       if (c.includes('insalata'))                                 return ASSETS.insalata;
       if (c.includes('focaccia'))                                 return ASSETS.focaccia;
+      if (c.includes('bibita') || n.includes('cola') || n.includes('fanta') ||
+          n.includes('sprite') || n.includes('lemon') || n.includes('chinotto') ||
+          n.includes('the ') || n.includes('radler') || n.includes('diesel') ||
+          n.includes('spezi') || n.includes('lattina'))             return ASSETS.bibita;
       return ASSETS.pizza;
     };
 
@@ -711,8 +724,14 @@
         state.activeCat = cat;
         _renderTabs();
         _renderCards();
-        // Scroll to listing area smoothly
-        document.getElementById('content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Scroll to listing area, offset by sticky search bar height
+        const searchBar = document.getElementById('search-bar');
+        const offset = searchBar ? searchBar.offsetHeight : 60;
+        const content = document.getElementById('content');
+        if (content) {
+          const top = content.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
       },
 
       // Toggle filter chip
