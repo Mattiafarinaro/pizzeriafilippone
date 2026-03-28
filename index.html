@@ -11,7 +11,7 @@
   <meta property="og:type"        content="restaurant.restaurant" />
   <meta property="og:title"       content="Pizzeria Filippone – Dal 1966 a Trento" />
   <meta property="og:description" content="Sfoglia il menu, filtra per vegetariano o piccante e ordina direttamente su WhatsApp!" />
-  <meta property="og:image"       content="https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=1200&q=80" />
+  <meta property="og:image"       content="https://picsum.photos/seed/filippone/1200/630" />
   <meta property="og:url"         content="https://mattiafarinaro.github.io/" />
   <meta name="twitter:card"       content="summary_large_image" />
   <link rel="canonical"           href="https://mattiafarinaro.github.io/" />
@@ -82,6 +82,9 @@
     }
     .item-card:active { transform: scale(.985); }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
+    /* Prevent CLS: reserve space for images before they load */
+    .item-card .img-wrap { aspect-ratio: 1 / 1; width: 100%; }
+    .modal-img-wrap { aspect-ratio: 16 / 9; width: 100%; }
 
     /* ── Chip filter active state ── */
     .chip-active {
@@ -163,7 +166,7 @@
       <!-- Logo: mostra logo.png se presente, fallback immagine pizza -->
       <img src="logo.png" alt="Pizzeria Filippone"
            class="h-20 w-auto mx-auto mb-4 object-contain"
-           onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80';this.onerror=null" />
+           onerror="this.style.display='none';this.onerror=null" />
       <h1 class="font-display text-4xl font-bold text-ink mb-1 tracking-tight">Pizzeria Filippone</h1>
       <p class="text-ink/50 text-sm italic mt-2 leading-snug">«La leggenda delle melanzane alla parmigiana, dal 1966»</p>
       <div class="mt-5 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
@@ -300,6 +303,9 @@
        except the exported `App` object.
   ═══════════════════════════════════ -->
   <script>
+  // Fallback image: accessible from inline onerror attrs (outside IIFE scope)
+  const IMG_FALLBACK = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZGRjNFMCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0ZGRTBCMicvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NlTwvdGV4dD4KPC9zdmc+';
+
   const App = (() => {
     'use strict';
 
@@ -316,16 +322,16 @@
 
     // Unsplash placeholder images per macro-categoria
     const ASSETS = {
-      pizza:     'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80',
-      vino:      'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80',
-      birra:     'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80',
-      aperitivo: 'https://images.unsplash.com/photo-1536935338218-841273f2a64c?auto=format&fit=crop&w=600&q=80',
-      caffe:     'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
-      dolce:     'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80',
-      amaro:     'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80',
-      acqua:     'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80',
-      insalata:  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80',
-      focaccia:  'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80',
+      pizza: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZGRjNFMCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0ZGRTBCMicvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NlTwvdGV4dD4KPC9zdmc+',
+      vino: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZDRTRFQycvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0Y4QkJEOScvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NtzwvdGV4dD4KPC9zdmc+',
+      birra: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZGRkRFNycvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0ZGRjlDNCcvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NujwvdGV4dD4KPC9zdmc+',
+      aperitivo: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0U4RjVFOScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0M4RTZDOScvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NuTwvdGV4dD4KPC9zdmc+',
+      caffe: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0VGRUJFOScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0Q3Q0NDOCcvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+4piVPC90ZXh0Pgo8L3N2Zz4=',
+      dolce: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0YzRTVGNScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0UxQkVFNycvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+NrjwvdGV4dD4KPC9zdmc+',
+      amaro: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0U4RUFGNicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0M1Q0FFOScvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+lgzwvdGV4dD4KPC9zdmc+',
+      acqua: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0UzRjJGRCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0JCREVGQicvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+SpzwvdGV4dD4KPC9zdmc+',
+      insalata: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0YxRjhFOScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0RDRURDOCcvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+llzwvdGV4dD4KPC9zdmc+',
+      focaccia: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz4KICA8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz4KICAgIDxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nI0ZGRjhFMScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0ZGRUNCMycvPgogIDwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJyBmaWxsPSd1cmwoI2cpJyByeD0nMTYnLz4KICA8dGV4dCB4PScxMDAnIHk9JzExNScgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSc+8J+lljwvdGV4dD4KPC9zdmc+',
     };
 
     // Emoji per tab bar — keyword matching
@@ -537,8 +543,8 @@
              onclick="App.openDetail('${item.id}')">
           <div class="aspect-square rounded-[20px] overflow-hidden bg-stone-100 relative">
             <img src="${resolveImg(item)}" alt="${item.nome}"
-                 class="w-full h-full object-cover" loading="lazy"
-                 onerror="this.src='${ASSETS.pizza}';this.onerror=null" />
+                 class="w-full h-full object-cover" loading="lazy" decoding="async"
+                 onerror="this.onerror=null;this.src=IMG_FALLBACK" />
             <div class="absolute top-2 right-2 flex flex-col gap-1">
               ${item.isVeg    ? '<span class="bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-lg text-[10px] shadow-sm">🌿</span>' : ''}
               ${item.isSpicy  ? '<span class="bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
@@ -751,7 +757,7 @@
           <div class="aspect-video w-full rounded-[28px] overflow-hidden mb-6 bg-stone-100">
             <img src="${resolveImg(item)}" alt="${item.nome}"
                  class="w-full h-full object-cover"
-                 onerror="this.src='${ASSETS.pizza}';this.onerror=null" />
+                 onerror="this.onerror=null;this.src=IMG_FALLBACK" />
           </div>
           <div class="flex justify-between items-start mb-6 px-1">
             <div class="min-w-0 pr-4">
@@ -800,10 +806,18 @@
       // -1 → remove last occurrence of that name
       changeQty: (nome, delta) => {
         if (delta > 0) {
-          const src = state.cart.findLast(i => i.nome === nome);
+          // findLast polyfill — iterate backwards, ES5+ compatible
+          let src = null;
+          for (let i = state.cart.length - 1; i >= 0; i--) {
+            if (state.cart[i].nome === nome) { src = state.cart[i]; break; }
+          }
           if (src) state.cart.push({ ...src, cartId: Date.now() });
         } else {
-          const idx = state.cart.findLastIndex(i => i.nome === nome);
+          // findLastIndex polyfill — iterate backwards, ES5+ compatible
+          let idx = -1;
+          for (let i = state.cart.length - 1; i >= 0; i--) {
+            if (state.cart[i].nome === nome) { idx = i; break; }
+          }
           if (idx !== -1) state.cart.splice(idx, 1);
         }
         _saveCart();
