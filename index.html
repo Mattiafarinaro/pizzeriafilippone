@@ -597,7 +597,7 @@
 
     return `
     <div class="menu-card bg-white rounded-2xl shadow-sm border border-ink/5 overflow-hidden cursor-pointer"
-         onclick="openModal(${JSON.stringify(item).replace(/"/g,'&quot;')})">
+         onclick="openModalById('${item.id}')">
       <div class="flex gap-3 p-4">
         ${hasImg
           ? `<img src="${item.immagine}" alt="${item.nome}"
@@ -632,6 +632,11 @@
   }
 
   // ─── Modal ───
+  function openModalById(id) {
+    const item = allItems.find(i => String(i.id) === String(id));
+    if (item) openModal(item);
+  }
+
   function openModal(item) {
     const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
     const showVariants = CAT_WITH_VARIANTS.has(item.categoria);
@@ -681,8 +686,7 @@
 
         ${variantiHTML}
 
-        <button onclick='addToCart(${JSON.stringify(item).replace(/'/g,"\'")})'
-           class="flex items-center justify-center gap-2 w-full bg-brand text-cream py-4 rounded-2xl font-semibold text-base active:scale-95 transition">
+        <button onclick="addToCartById('${item.id}')" class="flex items-center justify-center gap-2 w-full bg-brand text-cream py-4 rounded-2xl font-semibold text-base active:scale-95 transition">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
             <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
