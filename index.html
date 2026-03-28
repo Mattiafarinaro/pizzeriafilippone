@@ -5,16 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pizzeria Filippone – Menu Digitale</title>
 
-  <!-- Meta per Mobile -->
-  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone e ordina comodamente su WhatsApp." />
-  <meta name="theme-color" content="#C1440E" />
-
-  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -35,41 +29,23 @@
   </script>
 
   <style>
-    /* Reset & Smoothness */
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAF6EF; color: #1A120B; -webkit-font-smoothing: antialiased; }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: #C1440E44; border-radius: 10px; }
-
-    /* Glassmorphism */
     .glass { background: rgba(250, 246, 239, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-
-    /* Animations */
-    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
     .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-
+    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
     .menu-card { opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
     .menu-card.visible { opacity: 1; transform: translateY(0); }
-
-    /* Skeleton Shimmer */
-    .skeleton {
-      background: linear-gradient(90deg, #f0e8d8 25%, #f9f3e9 50%, #f0e8d8 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.5s infinite linear;
-    }
+    .skeleton { background: linear-gradient(90deg, #f0e8d8 25%, #f9f3e9 50%, #f0e8d8 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
-
-    /* Chips */
-    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; box-shadow: 0 4px 12px rgba(193, 68, 14, 0.2); }
+    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
   </style>
 </head>
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <header class="relative bg-brand text-cream overflow-hidden pb-8">
     <div class="absolute top-0 right-0 p-6 z-20">
         <button onclick="openCart()" class="relative bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 active:scale-90 transition-transform">
@@ -77,86 +53,67 @@
             <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-white text-brand text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center shadow-lg">0</span>
         </button>
     </div>
-    
     <div class="relative z-10 px-6 pt-16">
       <div class="inline-block px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 border border-white/10">Dal 1966 • Trento</div>
       <h1 class="font-display text-5xl font-bold leading-tight">Pizzeria<br>Filippone</h1>
-      <p class="text-white/70 text-sm mt-3 font-medium max-w-[240px] leading-relaxed">L'arte della pizza tramandata da generazioni, ora sul tuo smartphone.</p>
     </div>
-
-    <!-- Background Decor -->
-    <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-brand-light opacity-20 rounded-full blur-3xl"></div>
   </header>
 
-  <!-- SEARCH & FILTERS (Sticky) -->
-  <div class="sticky top-0 z-40 glass border-b border-ink/5 shadow-sm">
+  <!-- SEARCH & TABS -->
+  <div class="sticky top-0 z-40 glass border-b border-ink/5">
     <div class="px-5 py-4">
         <div class="relative">
-            <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca la tua pizza preferita..." 
-            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-none bg-ink/[0.03] text-ink placeholder:text-ink/40 text-sm focus:ring-2 focus:ring-brand/20 transition-all outline-none">
+            <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." 
+            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-none bg-ink/[0.04] text-ink text-sm outline-none focus:ring-2 focus:ring-brand/20">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-ink/30">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </span>
         </div>
     </div>
-
-    <!-- Categories Scrollable -->
-    <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar">
-        <!-- Rendered by JS -->
-    </nav>
+    <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar"></nav>
   </div>
 
-  <!-- SECONDARY FILTERS -->
+  <!-- FILTERS -->
   <div class="flex items-center gap-2 px-5 py-3 bg-cream/50">
-    <button id="chip-veg" onclick="toggleFilter('veg')" class="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">
-      🌿 Vegano
-    </button>
-    <button id="chip-spicy" onclick="toggleFilter('spicy')" class="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">
-      🌶️ Piccante
-    </button>
-    <div id="result-count" class="ml-auto text-[10px] font-bold uppercase tracking-tighter text-ink/30">Caricamento...</div>
+    <button id="chip-veg" onclick="toggleFilter('veg')" class="text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">🌿 Veg</button>
+    <button id="chip-spicy" onclick="toggleFilter('spicy')" class="text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">🌶️ Piccante</button>
+    <div id="result-count" class="ml-auto text-[10px] font-bold uppercase text-ink/30">Caricamento...</div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <main id="content" class="flex-1 px-5 pt-2 pb-32 space-y-4">
-    <!-- Skeletons will appear here -->
-  </main>
+  <!-- MAIN -->
+  <main id="content" class="flex-1 px-5 pt-2 pb-32 space-y-4"></main>
 
-  <!-- BOTTOM ACTION BAR -->
-  <div class="fixed bottom-0 left-0 right-0 z-40 glass border-t border-ink/5 px-5 pt-4 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+  <!-- BOTTOM BAR -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 glass border-t border-ink/5 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-3 max-w-xl mx-auto">
-      <a href="tel:+390461924565" class="flex items-center justify-center gap-3 bg-ink text-white rounded-2xl px-6 py-4 font-bold text-sm shadow-xl active:scale-95 transition-all">
+      <a href="tel:+390461924565" class="bg-ink text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-2 active:scale-95 transition-all">
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
-        Chiama Ora
+        Chiama
       </a>
-      <button onclick="openCart()" class="flex-1 flex items-center justify-center gap-3 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm shadow-xl shadow-brand/20 active:scale-95 transition-all">
-        Vedi Carrello
-        <span id="cart-total-footer" class="bg-white/20 px-2 py-0.5 rounded-lg text-xs">€0.00</span>
+      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-brand/20 active:scale-95 transition-all">
+        Vedi Ordine <span id="cart-total-footer" class="bg-white/20 px-2 py-0.5 rounded-lg">€0.00</span>
       </button>
     </div>
   </div>
 
-  <!-- ITEM MODAL (Bottom Sheet) -->
-  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden flex-end items-end justify-center transition-all opacity-0" onclick="closeModal()">
-    <div id="modal-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-6 pb-12 transition-transform duration-500 translate-y-full max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
-      <div class="w-12 h-1.5 bg-ink/10 rounded-full mx-auto mb-6"></div>
+  <!-- MODALS -->
+  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden items-end justify-center opacity-0 transition-opacity duration-300" onclick="closeModal()">
+    <div id="modal-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-6 pb-12 translate-y-full transition-transform duration-300 overflow-y-auto max-h-[90vh]" onclick="event.stopPropagation()">
       <div id="modal-content"></div>
     </div>
   </div>
 
-  <!-- CART DRAWER -->
-  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden items-end justify-center transition-all opacity-0" onclick="closeCart()">
-    <div id="cart-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-8 pb-12 transition-transform duration-500 translate-y-full max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden items-end justify-center opacity-0 transition-opacity duration-300" onclick="closeCart()">
+    <div id="cart-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-300 overflow-y-auto max-h-[90vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
         <h2 class="font-display text-3xl font-bold">Il tuo ordine</h2>
-        <button onclick="clearCart()" class="text-xs font-bold text-brand uppercase tracking-widest bg-brand/5 px-3 py-2 rounded-xl">Svuota</button>
+        <button onclick="clearCart()" class="text-xs font-bold text-brand uppercase bg-brand/5 px-3 py-2 rounded-xl">Svuota</button>
       </div>
       <div id="cart-items" class="space-y-4 mb-8"></div>
       <div id="cart-summary"></div>
     </div>
   </div>
 
-  <!-- SCRIPTS -->
   <script>
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
@@ -164,9 +121,7 @@
       WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n'
     };
 
-    let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti';
-    let filters = { veg: false, spicy: false }, searchTerm = '', cart = [];
-
+    let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', filters = { veg: false, spicy: false }, searchTerm = '', cart = [];
     const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Bevande':'🍺','Dolci':'🍮' };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -176,45 +131,94 @@
     });
 
     async function loadData() {
-        try {
-            const r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(CONFIG.CSV_URL)}`);
-            const text = await r.text();
-            allItems = parseCSV(text);
-            categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
-            renderTabs();
-            renderCards();
-        } catch (e) {
-            document.getElementById('content').innerHTML = `<div class="text-center py-20 text-ink/40">Errore nel caricamento menu. Riprova più tardi.</div>`;
+        const proxies = [
+            url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+            url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+        ];
+
+        let success = false;
+        for (let proxy of proxies) {
+            try {
+                console.log("Tentativo caricamento con proxy...");
+                const response = await fetch(proxy(CONFIG.CSV_URL));
+                if (!response.ok) throw new Error("Network error");
+                const text = await response.text();
+                if (text.includes("Nome")) { // Verifica minima che sia un CSV valido
+                    allItems = parseCSV(text);
+                    categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
+                    renderTabs();
+                    renderCards();
+                    success = true;
+                    break;
+                }
+            } catch (e) {
+                console.error("Proxy fallito, provo il prossimo...", e);
+            }
+        }
+
+        if (!success) {
+            document.getElementById('content').innerHTML = `
+                <div class="text-center py-20 px-10">
+                    <p class="text-4xl mb-4">⚠️</p>
+                    <p class="font-bold text-ink/60">Impossibile caricare il menu.</p>
+                    <p class="text-sm text-ink/40 mt-2">Verifica la connessione o che il foglio Google sia "Pubblicato sul Web" come CSV.</p>
+                </div>`;
         }
     }
 
     function parseCSV(text) {
-        const lines = text.trim().split('\n');
-        const headers = lines[0].split(',').map(h => h.trim());
+        const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+        const headers = splitCSVLine(lines[0]).map(h => h.trim());
+        
         return lines.slice(1).map(line => {
-            const vals = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const obj = {};
-            headers.forEach((h, i) => obj[h] = vals[i]?.replace(/"/g, '').trim());
-            return {
-                id: obj.ID || Math.random().toString(),
-                nome: obj.Nome,
-                categoria: obj.Categoria || 'Pizze',
-                ingredienti: obj.Ingredienti || '',
-                prezzo: parseFloat(obj.Prezzo?.replace(',', '.') || 0),
-                immagine: obj['Immagine URL'] || '',
-                isVeg: obj.IsVeg?.toUpperCase() === 'SI',
-                isSpicy: obj.IsSpicy?.toUpperCase() === 'SI',
-                allergeni: obj.Allergeni || '',
-                varianti: obj.Varianti || ''
+            const values = splitCSVLine(line);
+            const row = {};
+            headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
+            
+            // Gestione flessibile dei nomi colonne
+            const getVal = (names) => {
+                for(let n of names) if(row[n]) return row[n];
+                return "";
             };
-        }).filter(i => i.nome);
+
+            const prezzoRaw = getVal(['Prezzo (€)', 'Prezzo', 'prezzo']);
+
+            return {
+                id: row.ID || Math.random().toString(),
+                nome: row.Nome || "",
+                categoria: row.Categoria || "Pizze",
+                ingredienti: row.Ingredienti || "",
+                prezzo: parseFloat(prezzoRaw.replace(',', '.')) || 0,
+                immagine: row['Immagine URL'] || "",
+                isVeg: row.IsVeg?.toUpperCase() === 'SI' || row.IsVeg?.toUpperCase() === 'SÌ',
+                isSpicy: row.IsSpicy?.toUpperCase() === 'SI' || row.IsSpicy?.toUpperCase() === 'SÌ',
+                allergeni: row.Allergeni || "",
+                varianti: row.Varianti || ""
+            };
+        }).filter(i => i.nome !== "");
     }
+
+    function splitCSVLine(line) {
+        const result = [];
+        let cur = "", inQuotes = false;
+        for (let char of line) {
+            if (char === '"') inQuotes = !inQuotes;
+            else if (char === ',' && !inQuotes) {
+                result.push(cur);
+                cur = "";
+            } else cur += char;
+        }
+        result.push(cur);
+        return result;
+    }
+
+    // --- LOGICA UI (Identica alla precedente, ottimizzata) ---
 
     function renderTabs() {
         const bar = document.getElementById('tab-bar');
         bar.innerHTML = categories.map(cat => `
-            <button onclick="setCategory('${cat}')" id="tab-${cat}" 
-                class="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold whitespace-nowrap transition-all border border-ink/5 ${cat === activeCategory ? 'chip-active' : 'bg-white text-ink/50'}">
+            <button onclick="setCategory('${cat}')" 
+                class="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold border border-ink/5 transition-all ${cat === activeCategory ? 'chip-active' : 'bg-white text-ink/50'}">
                 <span>${CAT_EMOJI[cat] || '🍕'}</span> ${cat}
             </button>
         `).join('');
@@ -227,47 +231,41 @@
         renderCards();
     }
 
+    function handleSearch() {
+        searchTerm = document.getElementById('search-input').value.toLowerCase();
+        renderCards();
+    }
+
     function toggleFilter(f) {
         filters[f] = !filters[f];
         document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]);
         renderCards();
     }
 
-    function handleSearch() {
-        searchTerm = document.getElementById('search-input').value.toLowerCase();
-        renderCards();
-    }
-
     function renderCards() {
         const container = document.getElementById('content');
         let filtered = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
-        
         if (searchTerm) filtered = filtered.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
         if (filters.veg) filtered = filtered.filter(i => i.isVeg);
         if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
 
         document.getElementById('result-count').textContent = `${filtered.length} Prodotti`;
-
+        
         container.innerHTML = filtered.map((item, idx) => `
-            <div class="menu-card bg-white rounded-[24px] p-4 flex gap-4 shadow-sm border border-ink/5 active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')" style="transition-delay: ${idx * 30}ms">
-                <div class="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-cream-dark">
-                    ${item.immagine ? `<img src="${item.immagine}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-3xl">${CAT_EMOJI[item.categoria] || '🍕'}</div>`}
+            <div class="menu-card bg-white rounded-[24px] p-4 flex gap-4 shadow-sm border border-ink/5 active:scale-95 transition-all" onclick="openItemDetail('${item.id}')" style="transition-delay: ${idx * 20}ms">
+                <div class="w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-cream-dark">
+                    ${item.immagine ? `<img src="${item.immagine}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-2xl">${CAT_EMOJI[item.categoria] || '🍕'}</div>`}
                 </div>
-                <div class="flex-1 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-1">
-                        <h3 class="font-bold text-base text-ink leading-tight">${item.nome}</h3>
-                        <span class="font-black text-brand text-sm">€${item.prezzo.toFixed(2)}</span>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-ink leading-tight">${item.nome}</h3>
+                        <span class="font-black text-brand text-sm ml-2">€${item.prezzo.toFixed(2)}</span>
                     </div>
-                    <p class="text-ink/40 text-xs line-clamp-2 leading-relaxed mb-2">${item.ingredienti}</p>
-                    <div class="flex gap-2">
-                        ${item.isVeg ? '<span class="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-md font-bold italic">🌿 Veg</span>' : ''}
-                        ${item.isSpicy ? '<span class="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded-md font-bold italic">🌶️ Spicy</span>' : ''}
-                    </div>
+                    <p class="text-ink/40 text-[11px] line-clamp-2 mt-1">${item.ingredienti}</p>
                 </div>
             </div>
         `).join('');
-
-        setTimeout(() => document.querySelectorAll('.menu-card').forEach(c => c.classList.add('visible')), 50);
+        setTimeout(() => document.querySelectorAll('.menu-card').forEach(c => c.classList.add('visible')), 10);
     }
 
     function openItemDetail(id) {
@@ -275,222 +273,133 @@
         const modal = document.getElementById('modal-backdrop');
         const content = document.getElementById('modal-content');
 
-        let variantiHtml = '';
-        if (item.varianti) {
-            variantiHtml = `<div class="mt-6">
-                <p class="text-[10px] font-black uppercase tracking-widest text-ink/30 mb-3">Personalizza</p>
-                <div class="grid grid-cols-1 gap-2">
-                    ${item.varianti.split(',').map(v => {
-                        const vPrice = v.match(/\(([^)]+)\)/);
-                        return `
-                        <label class="flex items-center justify-between p-4 bg-ink/[0.03] rounded-2xl cursor-pointer active:bg-brand/5 transition-colors">
-                            <span class="text-sm font-semibold text-ink">${v.split('(')[0].trim()}</span>
-                            <div class="flex items-center gap-3">
-                                <span class="text-xs font-bold text-brand">${vPrice ? vPrice[1] : ''}</span>
-                                <input type="checkbox" name="variant" value="${v.trim()}" class="w-5 h-5 rounded-lg border-ink/10 text-brand focus:ring-brand">
-                            </div>
-                        </label>`;
-                    }).join('')}
-                </div>
-            </div>`;
-        }
-
         content.innerHTML = `
-            ${item.immagine ? `<img src="${item.immagine}" class="w-full h-56 object-cover rounded-[32px] mb-6 shadow-lg">` : ''}
+            ${item.immagine ? `<img src="${item.immagine}" class="w-full h-56 object-cover rounded-[32px] mb-6">` : ''}
             <div class="flex justify-between items-start mb-2">
                 <h2 class="text-3xl font-display font-bold">${item.nome}</h2>
                 <span class="text-2xl font-black text-brand">€${item.prezzo.toFixed(2)}</span>
             </div>
-            <p class="text-ink/50 text-sm leading-relaxed mb-6">${item.ingredienti}</p>
-            ${item.allergeni ? `<p class="text-[10px] text-ink/30 font-bold mb-4 uppercase tracking-widest">Allergeni: ${item.allergeni}</p>` : ''}
-            ${variantiHtml}
-            <button onclick="addToCartFromModal('${item.id}')" class="w-full bg-brand text-white rounded-[24px] py-5 mt-8 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">
-                Aggiungi all'ordine
-            </button>
+            <p class="text-ink/50 text-sm mb-6">${item.ingredienti}</p>
+            ${item.varianti ? `<div class="space-y-2 mb-6">
+                <p class="text-[10px] font-bold text-ink/30 uppercase tracking-widest">Personalizza</p>
+                ${item.varianti.split(',').map(v => `
+                    <label class="flex items-center justify-between p-4 bg-ink/[0.03] rounded-2xl">
+                        <span class="text-sm font-semibold">${v.trim()}</span>
+                        <input type="checkbox" name="variant" value="${v.trim()}" class="w-5 h-5 text-brand rounded-lg">
+                    </label>
+                `).join('')}
+            </div>` : ''}
+            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-[24px] py-5 font-bold text-lg active:scale-95 transition-all">Aggiungi all'ordine</button>
         `;
 
-        modal.classList.replace('hidden', 'flex');
+        modal.classList.remove('hidden');
         setTimeout(() => {
             modal.classList.replace('opacity-0', 'opacity-100');
             document.getElementById('modal-panel').classList.remove('translate-y-full');
         }, 10);
     }
 
-    function closeModal() {
-        const modal = document.getElementById('modal-backdrop');
-        document.getElementById('modal-panel').classList.add('translate-y-full');
-        modal.classList.replace('opacity-100', 'opacity-0');
-        setTimeout(() => modal.classList.replace('flex', 'hidden'), 500);
-    }
-
-    function addToCartFromModal(id) {
+    function addToCart(id) {
         const item = allItems.find(i => i.id === id);
-        const selectedVariants = Array.from(document.querySelectorAll('input[name="variant"]:checked')).map(v => v.value);
-        
-        let extraPrice = 0;
-        selectedVariants.forEach(v => {
-            const p = v.match(/\+([\d,.]+)/);
-            if (p) extraPrice += parseFloat(p[1].replace(',', '.'));
-        });
+        const variants = Array.from(document.querySelectorAll('input[name="variant"]:checked')).map(v => v.value);
+        let extra = 0;
+        variants.forEach(v => { const p = v.match(/\+([\d,.]+)/); if(p) extra += parseFloat(p[1].replace(',','.')); });
 
-        const cartItem = {
-            cartId: Date.now(),
-            id: item.id,
-            nome: item.nome,
-            prezzoBase: item.prezzo,
-            prezzoTotale: item.prezzo + extraPrice,
-            varianti: selectedVariants,
-            qty: 1
-        };
-
-        cart.push(cartItem);
-        updateCart();
+        cart.push({ cartId: Date.now(), ...item, prezzoTotale: item.prezzo + extra, selectedVariants: variants, qty: 1 });
+        updateCartUI();
         closeModal();
         animateBadge();
     }
 
-    function updateCart() {
+    function updateCartUI() {
         localStorage.setItem('filippone_cart', JSON.stringify(cart));
         const totalItems = cart.reduce((acc, i) => acc + i.qty, 0);
         const totalPrice = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
-        
-        const badge = document.getElementById('cart-badge');
-        badge.textContent = totalItems;
-        badge.classList.toggle('hidden', totalItems === 0);
-        
+        document.getElementById('cart-badge').textContent = totalItems;
+        document.getElementById('cart-badge').classList.toggle('hidden', totalItems === 0);
         document.getElementById('cart-total-footer').textContent = `€${totalPrice.toFixed(2)}`;
-    }
-
-    function animateBadge() {
-        const badge = document.getElementById('cart-badge');
-        badge.classList.remove('animate-pop');
-        void badge.offsetWidth; // trigger reflow
-        badge.classList.add('animate-pop');
     }
 
     function openCart() {
         const drawer = document.getElementById('cart-backdrop');
-        renderCartItems();
-        drawer.classList.replace('hidden', 'flex');
+        const container = document.getElementById('cart-items');
+        
+        if(cart.length === 0) {
+            container.innerHTML = `<p class="text-center py-10 text-ink/30 font-bold">Il carrello è vuoto</p>`;
+            document.getElementById('cart-summary').innerHTML = "";
+        } else {
+            container.innerHTML = cart.map(item => `
+                <div class="bg-white p-4 rounded-[24px] border border-ink/5">
+                    <div class="flex justify-between font-bold text-sm">
+                        <span>${item.nome}</span>
+                        <span>€${(item.prezzoTotale * item.qty).toFixed(2)}</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                        <button onclick="removeFromCart(${item.cartId})" class="text-[10px] font-bold text-red-400 uppercase">Rimuovi</button>
+                        <div class="flex items-center gap-3 bg-ink/[0.03] px-3 py-1.5 rounded-xl font-black">
+                            <button onclick="changeQty(${item.cartId}, -1)" class="text-brand">-</button>
+                            <span class="text-xs">${item.qty}</span>
+                            <button onclick="changeQty(${item.cartId}, 1)" class="text-brand">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
+            document.getElementById('cart-summary').innerHTML = `
+                <div class="mt-6 border-t border-ink/5 pt-6 space-y-4">
+                    <div class="flex justify-between items-center font-black">
+                        <span class="text-ink/30 text-xs uppercase tracking-widest">Totale</span>
+                        <span class="text-2xl text-brand">€${total.toFixed(2)}</span>
+                    </div>
+                    <textarea id="cart-notes" oninput="saveNotes()" placeholder="Note (es. allergie, orario...)" class="w-full p-4 rounded-2xl bg-white border border-ink/10 text-sm h-20 outline-none focus:ring-2 focus:ring-brand/20"></textarea>
+                    <button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-[24px] font-bold text-lg flex items-center justify-center gap-2">Invia su WhatsApp</button>
+                </div>`;
+            document.getElementById('cart-notes').value = localStorage.getItem('cart_notes') || "";
+        }
+
+        drawer.classList.remove('hidden');
         setTimeout(() => {
             drawer.classList.replace('opacity-0', 'opacity-100');
             document.getElementById('cart-panel').classList.remove('translate-y-full');
         }, 10);
     }
 
-    function renderCartItems() {
-        const container = document.getElementById('cart-items');
-        if (cart.length === 0) {
-            container.innerHTML = `<div class="text-center py-12 text-ink/30 font-medium">Carrello vuoto... <br>Aggiungi qualcosa di buono!</div>`;
-            document.getElementById('cart-summary').innerHTML = '';
-            return;
-        }
-
-        container.innerHTML = cart.map(item => `
-            <div class="flex flex-col gap-2 p-4 bg-white rounded-[24px] border border-ink/5 shadow-sm">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h4 class="font-bold text-ink">${item.nome}</h4>
-                        <p class="text-[10px] text-brand/60 font-bold italic">${item.varianti.join(' • ')}</p>
-                    </div>
-                    <span class="font-bold text-ink">€${(item.prezzoTotale * item.qty).toFixed(2)}</span>
-                </div>
-                <div class="flex justify-between items-center mt-2">
-                    <button onclick="removeFromCart(${item.cartId})" class="text-xs font-bold text-red-400">Rimuovi</button>
-                    <div class="flex items-center gap-4 bg-ink/[0.03] px-4 py-2 rounded-xl">
-                        <button onclick="changeQty(${item.cartId}, -1)" class="font-black text-brand">−</button>
-                        <span class="text-sm font-black w-4 text-center">${item.qty}</span>
-                        <button onclick="changeQty(${item.cartId}, 1)" class="font-black text-brand">＋</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-
-        const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
-        const savedNotes = localStorage.getItem('cart_notes') || '';
-
-        document.getElementById('cart-summary').innerHTML = `
-            <div class="space-y-6 pt-6 border-t border-ink/5">
-                <div class="flex justify-between items-center">
-                    <span class="text-ink/40 font-bold uppercase tracking-widest text-xs">Totale Stimato</span>
-                    <span class="text-3xl font-black text-brand">€${total.toFixed(2)}</span>
-                </div>
-                <div>
-                    <label class="text-[10px] font-black uppercase tracking-widest text-ink/30 block mb-2">Note Ordine</label>
-                    <textarea id="cart-notes" oninput="updateWANotesOnly()" placeholder="Allergie, campanello, orario..." 
-                        class="w-full p-4 rounded-2xl bg-white border border-ink/10 text-sm focus:ring-2 focus:ring-brand/20 outline-none h-24">${savedNotes}</textarea>
-                </div>
-                <a id="wa-btn" href="#" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white rounded-[24px] py-5 font-bold text-lg shadow-xl shadow-green-500/20 active:scale-95 transition-all">
-                    Invia Ordine su WhatsApp
-                </a>
-            </div>
-        `;
-        updateWANotesOnly();
-    }
-
-    function updateWANotesOnly() {
-        const notes = document.getElementById('cart-notes')?.value || '';
-        localStorage.setItem('cart_notes', notes);
-        
+    function sendWhatsApp() {
+        const notes = document.getElementById('cart-notes').value;
         const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
         let msg = CONFIG.WA_PREAMBLE;
         cart.forEach(i => {
-            msg += `• *${i.nome}* x${i.qty} (${i.varianti.join(', ')}) → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`;
+            msg += `• *${i.nome}* x${i.qty}${i.selectedVariants.length ? ' ('+i.selectedVariants.join(', ')+')' : ''} → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`;
         });
-        if (notes) msg += `\n*NOTE:* ${notes}\n`;
+        if(notes) msg += `\n*NOTE:* ${notes}\n`;
         msg += `\n*TOTALE:* €${total.toFixed(2)}`;
-
-        const btn = document.getElementById('wa-btn');
-        if (btn) btn.href = `https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`;
+        window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    function changeQty(cartId, delta) {
-        const item = cart.find(i => i.cartId === cartId);
-        if (item) {
+    function changeQty(id, delta) {
+        const item = cart.find(i => i.cartId === id);
+        if(item) {
             item.qty += delta;
-            if (item.qty < 1) return removeFromCart(cartId);
-            updateCart();
-            renderCartItems();
+            if(item.qty < 1) return removeFromCart(id);
+            updateCartUI();
+            openCart();
         }
     }
 
-    function removeFromCart(cartId) {
-        cart = cart.filter(i => i.cartId !== cartId);
-        updateCart();
-        renderCartItems();
+    function removeFromCart(id) {
+        cart = cart.filter(i => i.cartId !== id);
+        updateCartUI();
+        openCart();
     }
 
-    function clearCart() {
-        cart = [];
-        updateCart();
-        closeCart();
-    }
-
-    function closeCart() {
-        const drawer = document.getElementById('cart-backdrop');
-        document.getElementById('cart-panel').classList.add('translate-y-full');
-        drawer.classList.replace('opacity-100', 'opacity-0');
-        setTimeout(() => drawer.classList.replace('flex', 'hidden'), 500);
-    }
-
-    function loadCart() {
-        const saved = localStorage.getItem('filippone_cart');
-        if (saved) cart = JSON.parse(saved);
-        updateCart();
-    }
-
-    function renderSkeletons() {
-        document.getElementById('content').innerHTML = Array(6).fill(0).map(() => `
-            <div class="bg-white rounded-[24px] p-4 flex gap-4 border border-ink/5">
-                <div class="skeleton w-24 h-24 rounded-2xl shrink-0"></div>
-                <div class="flex-1 py-1 space-y-3">
-                    <div class="skeleton h-4 w-1/2"></div>
-                    <div class="skeleton h-3 w-full"></div>
-                    <div class="skeleton h-3 w-3/4"></div>
-                </div>
-            </div>
-        `).join('');
-    }
+    function clearCart() { cart = []; updateCartUI(); closeCart(); }
+    function closeModal() { document.getElementById('modal-panel').classList.add('translate-y-full'); document.getElementById('modal-backdrop').classList.replace('opacity-100', 'opacity-0'); setTimeout(() => document.getElementById('modal-backdrop').classList.add('hidden'), 300); }
+    function closeCart() { document.getElementById('cart-panel').classList.add('translate-y-full'); document.getElementById('cart-backdrop').classList.replace('opacity-100', 'opacity-0'); setTimeout(() => document.getElementById('cart-backdrop').classList.add('hidden'), 300); }
+    function saveNotes() { localStorage.setItem('cart_notes', document.getElementById('cart-notes').value); }
+    function animateBadge() { const b = document.getElementById('cart-badge'); b.classList.add('animate-pop'); setTimeout(() => b.classList.remove('animate-pop'), 300); }
+    function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) cart = JSON.parse(s); updateCartUI(); }
+    function renderSkeletons() { document.getElementById('content').innerHTML = Array(5).fill('<div class="skeleton h-28 rounded-[24px] w-full"></div>').join(''); }
   </script>
 </body>
 </html>
