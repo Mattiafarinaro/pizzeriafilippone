@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pizzeria Filippone Trento – Menu Digitale</title>
   
-  <!-- SEO & Social (WhatsApp Preview) -->
-  <meta name="description" content="Sfoglia il menu digitale della Pizzeria Filippone a Trento. Pizze artigianali e bibite fresche. Ordina comodamente via WhatsApp." />
+  <!-- SEO & OpenGraph -->
+  <meta name="description" content="Menu digitale ufficiale della Pizzeria Filippone a Trento. Pizze artigianali, vini locali e birre selezionate. Ordina via WhatsApp." />
+  <meta property="og:type" content="website" />
   <meta property="og:title" content="Pizzeria Filippone – Menu Digitale" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Fonts -->
+  <!-- Fonts & Styling -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind & Config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,7 +24,7 @@
         extend: {
           fontFamily: { display: ['"Playfair Display"', 'serif'], body: ['"Plus Jakarta Sans"', 'sans-serif'] },
           colors: { brand: { DEFAULT: '#C1440E', dark: '#8B2E07' }, ink: { DEFAULT: '#1A120B' } },
-          boxShadow: { 'soft': '0 10px 40px -10px rgba(0,0,0,0.05)', 'brand': '0 10px 30px -5px rgba(193, 68, 14, 0.3)' }
+          boxShadow: { 'soft': '0 10px 40px -10px rgba(0,0,0,0.06)', 'premium': '0 20px 50px -12px rgba(0,0,0,0.12)' }
         },
       },
     };
@@ -32,36 +32,35 @@
 
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; scroll-behavior: smooth; }
     body.modal-open { overflow: hidden; }
 
-    /* Cards & UI Elements */
-    .item-card { display: grid; grid-template-columns: 105px 1fr; gap: 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    /* Componenti UI */
+    .item-card { display: grid; grid-template-columns: 105px 1fr; gap: 16px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
     @media (min-width: 480px) { .item-card { grid-template-columns: 135px 1fr; } }
     
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     
-    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(193, 68, 14, 0.3); }
-    .ing-tag { background: #f3f4f6; color: #4b5563; padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; border: 1px solid #e5e7eb; display: inline-block; margin: 2px; }
+    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; box-shadow: 0 4px 15px -3px rgba(193, 68, 14, 0.4); }
+    .ing-tag { background: #f1f3f5; color: #495057; padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; border: 1px solid #e9ecef; display: inline-block; margin: 2px; }
     
-    .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; border-radius: 32px; height: 120px; }
+    .skeleton { background: linear-gradient(90deg, #f0edea 25%, #f7f5f2 50%, #f0edea 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; border-radius: 24px; height: 110px; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
 
-    #back-to-top { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; pointer-events: none; transform: scale(0.8); }
-    #back-to-top.show { opacity: 1; pointer-events: auto; transform: scale(1); }
+    #back-to-top { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; pointer-events: none; transform: translateY(20px); }
+    #back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
   </style>
 </head>
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- HEADER -->
+  <!-- HEADER SEZIONE -->
   <header class="bg-white px-6 pt-10 pb-6 text-center relative border-b border-stone-100">
     <div class="max-w-2xl mx-auto">
-      <img src="logo.png" alt="Pizzeria Filippone Logo" class="h-24 w-auto mx-auto mb-4 object-contain" 
-           onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
-      <h1 class="font-display text-4xl font-bold text-ink mb-1">Pizzeria Filippone</h1>
+      <img src="logo.png" alt="Logo Pizzeria Filippone" class="h-24 w-auto mx-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
+      <h1 class="font-display text-4xl font-bold text-ink mb-1 tracking-tight">Pizzeria Filippone</h1>
       <p class="text-ink/50 text-sm italic mt-2 px-6 leading-snug">"L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."</p>
       <div class="mt-6 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
         <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -70,15 +69,15 @@
     </div>
   </header>
 
-  <!-- SEARCH & CATEGORIES -->
+  <!-- SEARCH & CATEGORY NAV -->
   <div class="bg-white">
     <div class="px-5 py-4 max-w-xl mx-auto">
-      <div class="mb-6 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-semibold text-[11px]">
-        Per ordinazioni via app non sono previste variazioni. Richieste particolari? Usa il tasto <b>"Chiama"</b>.
+      <div class="mb-6 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-semibold text-[11px] leading-relaxed">
+        Per ordinazioni via app non sono previste variazioni.<br>Richieste particolari? Usa il tasto <b>"Chiama"</b>.
       </div>
       
       <div class="relative mb-6">
-        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca una pizza, una bibita..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
+        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca una pizza, un vino, un amaro..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
@@ -86,8 +85,8 @@
     </div>
   </div>
 
-  <!-- FILTERS & COUNTER -->
-  <div class="bg-white/50 border-y border-stone-100 px-5 py-3 sticky top-0 z-30 backdrop-blur-md">
+  <!-- STICKY FILTERS -->
+  <div class="bg-white/70 border-y border-stone-100 px-5 py-3 sticky top-0 z-30 backdrop-blur-md">
     <div class="flex items-center justify-between max-w-xl mx-auto w-full">
         <div class="flex gap-2 overflow-x-auto no-scrollbar">
             <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">🌿 Veg</button>
@@ -98,15 +97,15 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
+  <!-- MAIN LIST -->
   <main id="content" class="flex-1 px-5 pt-6 pb-44 space-y-4 max-w-xl mx-auto w-full"></main>
 
-  <!-- BACK TO TOP -->
+  <!-- FLOAT ACTIONS -->
   <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-32 right-6 z-40 bg-stone-900 text-white p-4 rounded-full shadow-2xl active:scale-90 transition-all">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
   </button>
 
-  <!-- ACTION BAR (3 PULSANTI) -->
+  <!-- ACTION BAR BOTTOM -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-t border-stone-100 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-2 max-w-xl mx-auto">
       <a href="tel:+390461924565" class="flex-1 bg-stone-900 text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all shadow-sm">
@@ -115,27 +114,25 @@
       <a href="https://wa.me/390461924565" target="_blank" class="flex-1 bg-[#25D366] text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all shadow-sm">
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp
       </a>
-      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all shadow-brand">
+      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all shadow-premium">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        Ordina (<span id="cart-qty-footer">0</span>)
+        Carrello (<span id="cart-qty-footer">0</span>)
       </button>
     </div>
   </div>
 
-  <!-- MODAL DETAIL -->
+  <!-- MODALE DETTAGLIO -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/70 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
     <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-500 overflow-y-auto max-h-[95vh] relative" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
-      
       <button onclick="closeModal()" class="absolute top-6 right-6 bg-white shadow-xl p-3 rounded-full z-10 text-stone-900 border border-stone-100 active:scale-90 transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
-
       <div id="modal-content"></div>
     </div>
   </div>
 
-  <!-- MODAL CART -->
+  <!-- MODALE CARRELLO -->
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/70 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-500 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
@@ -148,11 +145,12 @@
   </div>
 
   <script>
-    // --- GLOBAL CONFIG & STATE ---
+    // --- CORE CONFIGURATION ---
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      VERSION: 'v6.1'
+      STORAGE_KEY: 'filippone_cart_v7',
+      VERSION: '7.0.2'
     };
 
     const EMOJI_MAP = {
@@ -162,32 +160,54 @@
       'caff': '☕', 'amar': '🥃', 'liquor': '🥃', 'dolc': '🍮', 'dessert': '🍰', 'insalat': '🥗'
     };
 
+    // --- STATE MANAGEMENT ---
     let allItems = [], categories = [], activeCategory = 'Tutti', cart = [], searchTerm = '';
     let filters = { veg: false, spicy: false, frozen: false };
 
-    // --- UTILITIES ---
+    // --- IMAGE LOGIC (ENGINE) ---
     const getSafeImage = (item) => {
-      const fallbackPizza = 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=800&q=80';
+      if (!item) return '';
       
-      // Se esiste l'immagine nel DB e non è vuota
-      if (item && item.immagine && item.immagine.length > 5) return item.immagine;
+      // 1. Priorità assoluta: Immagine manuale nel database
+      if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) {
+          return item.immagine;
+      }
 
       const n = (item.nome || "").toLowerCase();
       const c = (item.categoria || "").toLowerCase();
 
-      // Mappatura Placeholders Coerenti
-      if (n.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
-      if (n.includes('coca') || n.includes('lattina') || c.includes('bevand')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
-      if (c.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
-      if (c.includes('dolc') || c.includes('dessert')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
-      if (c.includes('bianca')) return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
-      if (c.includes('caff')) return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80';
+      // 2. Placeholder specifici per Categoria/Nome (Ordine di importanza)
+      if (c.includes('vino') || n.includes('vino') || n.includes('prosecco')) 
+          return 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80';
       
-      return fallbackPizza;
+      if (n.includes('acqua')) 
+          return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=800&q=80';
+      
+      if (c.includes('birra') || n.includes('birra')) 
+          return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=800&q=80';
+      
+      if (c.includes('caff') || n.includes('espresso') || n.includes('caffè')) 
+          return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80';
+      
+      if (n.includes('coca') || n.includes('lattina') || c.includes('bevand') || n.includes('fanta') || n.includes('sprite')) 
+          return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80';
+      
+      if (c.includes('dolc') || c.includes('dessert') || n.includes('tiramisu')) 
+          return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80';
+      
+      if (c.includes('bianca')) 
+          return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80';
+
+      if (c.includes('antipast') || c.includes('fritt') || n.includes('patatine')) 
+          return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80';
+
+      // 3. Fallback Pizza Generale
+      return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=800&q=80';
     };
 
-    // --- DATA HANDLING ---
+    // --- DATA LOADING ---
     async function initData() {
+      renderSkeletons();
       const proxies = [
         u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
         u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
@@ -197,7 +217,7 @@
         try {
           const res = await fetch(proxy(CONFIG.CSV_URL));
           if (res.ok) { raw = await res.text(); break; }
-        } catch (e) {}
+        } catch (e) { console.error("Proxy failed..."); }
       }
       if (raw) {
         allItems = parseCSV(raw);
@@ -208,7 +228,7 @@
     }
 
     function parseCSV(text) {
-      text = text.replace(/^\uFEFF/, "").trim(); // Fix BOM
+      text = text.replace(/^\uFEFF/, "").trim(); 
       const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
       const head = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
       
@@ -221,11 +241,11 @@
 
       return lines.slice(1).map(line => {
         const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-        const get = (i) => v[i]?.replace(/^"|"$/g, '').trim() || "";
+        const get = (idx) => v[idx]?.replace(/^"|"$/g, '').trim() || "";
         return {
           id: get(col.id) || Math.random().toString(36).substr(2, 9),
           nome: get(col.nome),
-          categoria: get(col.cat) || "Pizze",
+          categoria: get(col.cat) || "Altro",
           ingredienti: get(col.ing),
           allergeni: get(col.all),
           varianti: get(col.var),
@@ -235,23 +255,25 @@
           isSpicy: get(col.spi).toUpperCase() === 'SI',
           isFrozen: get(col.fro).toUpperCase() === 'SI'
         };
-      }).filter(i => i.nome.length > 0);
+      }).filter(i => i.nome.length > 1);
     }
 
-    // --- UI RENDERERS ---
+    // --- RENDERERS ---
     function renderTabs() {
       const bar = document.getElementById('tab-bar');
       bar.innerHTML = categories.map(cat => {
-        const lowerCat = cat.toLowerCase();
-        let emoji = '🍕';
-        for (const [k, e] of Object.entries(EMOJI_MAP)) { if (lowerCat.includes(k)) { emoji = e; break; } }
-        return `<button onclick="setCategory('${cat}')" class="shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-[13px] font-bold border transition-all ${cat === activeCategory ? 'bg-stone-900 text-white border-stone-900 shadow-md transform -translate-y-1' : 'bg-white text-stone-400 border-stone-100'}"><span>${emoji}</span> ${cat}</button>`;
+        const low = cat.toLowerCase();
+        let em = '🍕';
+        for (const [k, e] of Object.entries(EMOJI_MAP)) { if (low.includes(k)) { em = e; break; } }
+        const isActive = cat === activeCategory;
+        return `<button onclick="setCategory('${cat}')" class="shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-[13px] font-bold border transition-all ${isActive ? 'bg-stone-900 text-white border-stone-900 shadow-premium -translate-y-0.5' : 'bg-white text-stone-400 border-stone-100'}"><span>${em}</span> ${cat}</button>`;
       }).join('');
     }
 
     function renderCards() {
       const container = document.getElementById('content');
       let data = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
+      
       if (searchTerm) data = data.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
       if (filters.veg) data = data.filter(i => i.isVeg);
       if (filters.spicy) data = data.filter(i => i.isSpicy);
@@ -259,91 +281,93 @@
 
       document.getElementById('result-count').textContent = `${data.length} PRODOTTI`;
 
-      container.innerHTML = data.map(item => `
-        <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-soft active:scale-[0.97] cursor-pointer" onclick="openItemDetail('${item.id}')">
+      container.innerHTML = data.map(item => {
+        const safeImg = getSafeImage(item);
+        return `
+        <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-soft active:scale-[0.97]" onclick="openItemDetail('${item.id}')">
           <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 relative">
-            <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
+            <img src="${safeImg}" class="w-full h-full object-cover" loading="lazy" onerror="this.classList.add('opacity-0')">
             <div class="absolute top-2 right-2 flex flex-col gap-1">
-              ${item.isVeg ? '<span class="bg-white/90 backdrop-blur p-1.5 rounded-lg text-[10px] shadow-sm">🌿</span>' : ''}
-              ${item.isSpicy ? '<span class="bg-white/90 backdrop-blur p-1.5 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
+              ${item.isVeg ? '<span class="bg-white/95 backdrop-blur px-1.5 py-1 rounded-lg text-[10px] shadow-sm">🌿</span>' : ''}
+              ${item.isSpicy ? '<span class="bg-white/95 backdrop-blur px-1.5 py-1 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
             </div>
           </div>
-          <div class="flex flex-col justify-center min-w-0 pr-2">
+          <div class="flex flex-col justify-center min-w-0">
             <div class="flex justify-between items-start mb-1 gap-2">
               <h3 class="font-bold text-ink text-lg leading-tight truncate">${item.nome}</h3>
-              <span class="font-black text-brand text-base shrink-0">€${item.prezzo.toFixed(2)}</span>
+              <span class="font-black text-brand shrink-0 text-base">€${item.prezzo.toFixed(2)}</span>
             </div>
             <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
     }
 
     function openItemDetail(id) {
       const item = allItems.find(i => i.id === id);
-      const tags = item.ingredienti.split(',').filter(t => t.trim()).map(t => `<span class="ing-tag">${t.trim()}</span>`).join('');
       const safeImg = getSafeImage(item);
+      const tags = item.ingredienti.split(',').filter(t => t.trim()).map(t => `<span class="ing-tag">${t.trim()}</span>`).join('');
       
       document.body.classList.add('modal-open');
       document.getElementById('modal-content').innerHTML = `
-        <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-6 bg-stone-100 shadow-inner">
+        <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-6 bg-stone-50">
           <img src="${safeImg}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80'">
         </div>
         <div class="flex justify-between items-start mb-6">
-          <div class="min-w-0">
+          <div class="min-w-0 pr-4">
             <h2 class="text-3xl font-display font-bold text-ink leading-tight truncate">${item.nome}</h2>
             <p class="text-brand font-bold text-[10px] uppercase mt-1 tracking-widest">${item.categoria}</p>
           </div>
           <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl">€${item.prezzo.toFixed(2)}</span>
         </div>
         <div class="mb-6"><p class="text-[10px] font-black text-stone-300 uppercase mb-3 tracking-widest">Ingredienti</p><div class="flex flex-wrap">${tags || 'Vedi descrizione'}</div></div>
-        ${item.varianti ? `<p class="text-[11px] text-stone-400 mb-6 italic font-bold uppercase tracking-tight">Varianti: ${item.varianti}</p>` : ''}
-        ${item.allergeni ? `<div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 mb-6"><p class="text-[10px] text-amber-700 font-bold uppercase mb-1 tracking-widest">Allergeni</p><p class="text-xs text-amber-800 font-medium">${item.allergeni}</p></div>` : ''}
-        <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 font-bold text-lg shadow-brand active:scale-[0.96] transition-all">Aggiungi all'ordine</button>
+        ${item.varianti ? `<p class="text-[11px] text-stone-400 mb-6 italic font-bold uppercase">Varianti: ${item.varianti}</p>` : ''}
+        ${item.allergeni ? `<div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 mb-6"><p class="text-[10px] text-amber-700 font-bold uppercase mb-1">Allergeni</p><p class="text-xs text-amber-800 font-medium">${item.allergeni}</p></div>` : ''}
+        <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 font-bold text-lg shadow-premium active:scale-[0.96] transition-all">Aggiungi all'ordine</button>
       `;
       document.getElementById('modal-backdrop').classList.add('modal-active');
       setTimeout(() => document.getElementById('modal-panel').classList.add('modal-panel-active'), 10);
     }
 
-    // --- CORE ACTIONS ---
+    // --- CART CORE ---
     function addToCart(id) {
       const item = allItems.find(i => i.id === id);
-      const entry = { ...item, cartId: Date.now() };
-      cart.push(entry);
-      updateCartUI();
+      cart.push({ ...item, cartId: Date.now() });
+      syncCart();
       closeModal();
     }
 
     function clearCart() {
       cart = [];
-      updateCartUI();
+      syncCart();
       closeCart();
     }
 
     function changeQty(cartId, delta) {
-      const idx = cart.findIndex(i => i.cartId === cartId);
-      if(idx !== -1) {
-        if(delta > 0) cart.push({...cart[idx], cartId: Date.now()});
-        else cart.splice(idx, 1);
-        updateCartUI();
-        if(document.getElementById('cart-backdrop').classList.contains('modal-active')) renderCartUI();
+      if(delta > 0) {
+        const item = cart.find(i => i.cartId === cartId);
+        cart.push({...item, cartId: Date.now()});
+      } else {
+        const idx = cart.findIndex(i => i.cartId === cartId);
+        if(idx !== -1) cart.splice(idx, 1);
       }
+      syncCart();
+      if(document.getElementById('cart-backdrop').classList.contains('modal-active')) renderCartUI();
     }
 
-    function updateCartUI() {
-      localStorage.setItem('filippone_cart_v6', JSON.stringify(cart));
+    function syncCart() {
+      localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(cart));
       document.getElementById('cart-qty-footer').textContent = cart.length;
     }
 
     function renderCartUI() {
       const container = document.getElementById('cart-items');
       if(cart.length === 0) {
-        container.innerHTML = `<div class="text-center py-20"><p class="text-stone-300 font-bold uppercase text-xs tracking-widest">Il carrello è vuoto</p></div>`;
+        container.innerHTML = `<div class="text-center py-20"><p class="text-stone-300 font-bold uppercase text-xs tracking-widest">Il tuo carrello è vuoto</p></div>`;
         document.getElementById('cart-summary').innerHTML = "";
         return;
       }
       
-      // Raggruppamento per visualizzazione
       const grouped = cart.reduce((acc, item) => {
         if(!acc[item.nome]) acc[item.nome] = { ...item, qty: 0, ids: [] };
         acc[item.nome].qty++;
@@ -376,7 +400,7 @@
       setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
     }
 
-    // --- EVENT LISTENERS ---
+    // --- APP FLOW ---
     function setCategory(c) { activeCategory = c; renderTabs(); renderCards(); }
     function toggleFilter(f) { filters[f] = !filters[f]; document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]); renderCards(); }
     function handleSearch() { searchTerm = document.getElementById('search-input').value.toLowerCase(); renderCards(); }
@@ -394,8 +418,8 @@
     }
 
     function loadCart() { 
-      const saved = localStorage.getItem('filippone_cart_v6'); 
-      if(saved) { cart = JSON.parse(saved); updateCartUI(); } 
+      const saved = localStorage.getItem(CONFIG.STORAGE_KEY); 
+      if(saved) { cart = JSON.parse(saved); syncCart(); } 
     }
 
     document.addEventListener('DOMContentLoaded', () => { 
