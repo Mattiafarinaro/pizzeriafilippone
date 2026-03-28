@@ -5,25 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pizzeria Filippone – Menu Digitale</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { 
-            display: ['"Playfair Display"', 'serif'], 
-            body: ['"Plus Jakarta Sans"', 'sans-serif'] 
-          },
-          colors: { 
-            brand: { DEFAULT: '#C1440E', dark: '#8B2E07' }, 
-            ink: { DEFAULT: '#1A120B' } 
-          },
+          fontFamily: { display: ['"Playfair Display"', 'serif'], body: ['"Plus Jakarta Sans"', 'sans-serif'] },
+          colors: { brand: { DEFAULT: '#C1440E', dark: '#8B2E07' }, ink: { DEFAULT: '#1A120B' } },
         },
       },
     };
@@ -32,20 +24,12 @@
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
-    
-    /* Layout Card */
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
-    
-    /* Modali */
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
-    
-    /* Filtri */
     .chip-active { background-color: #C1440E15 !important; border-color: #C1440E !important; color: #1A120B !important; font-weight: 800 !important; }
-    
-    /* Skeleton Loading */
     .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
   </style>
@@ -56,35 +40,30 @@
   <!-- HEADER -->
   <header class="bg-white px-6 pt-10 pb-6 shadow-sm border-b border-stone-100 relative text-center">
     <div class="max-w-2xl mx-auto">
-      <!-- Logo con Fallback immagine pizza -->
       <img src="logo.png" alt="Logo" class="h-24 w-auto mx-auto mb-4 object-contain" 
            onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
-      
       <h1 class="font-display text-4xl font-bold text-ink mb-1">Pizzeria Filippone</h1>
       <p class="text-ink/50 text-sm italic mt-2 px-6 max-w-sm mx-auto leading-snug">
         "L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."
       </p>
-      
       <div class="mt-6 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
         <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Via Anna Frank n.7, 38123 Trento
       </div>
     </div>
-
-    <!-- Tasto Carrello in alto -->
     <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 active:scale-90 transition shadow-sm">
       <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-brand text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">0</span>
     </button>
   </header>
 
-  <!-- INFO & SEARCH (Sticky) -->
+  <!-- INFO & SEARCH -->
   <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm">
     <div class="px-5 py-4 max-w-xl mx-auto">
       <div class="mb-4 p-3 bg-brand/5 rounded-2xl border border-brand/10 text-center">
         <p class="text-[11px] leading-relaxed text-brand-dark font-semibold">
             Per ordinazioni via app non sono previste variazioni.<br> 
-            Per richieste particolari usa il tasto <b>"Chiama"</b>.
+            Per richieste particolari usa il tasto <b>"Chiama"</b>. Grazie.
         </p>
       </div>
       <div class="relative">
@@ -92,11 +71,10 @@
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
     </div>
-    <!-- Categorie Orizzontali -->
     <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar max-w-xl mx-auto"></nav>
   </div>
 
-  <!-- FILTRI VELOCI -->
+  <!-- FILTERS -->
   <div class="bg-white/50 border-b border-stone-100 px-5 py-3">
     <div class="flex items-center justify-between max-w-xl mx-auto w-full">
         <div class="flex gap-2 overflow-x-auto no-scrollbar">
@@ -108,10 +86,10 @@
     </div>
   </div>
 
-  <!-- LISTA PRODOTTI -->
+  <!-- CONTENT -->
   <main id="content" class="flex-1 px-5 pt-6 pb-44 space-y-4 max-w-xl mx-auto w-full"></main>
 
-  <!-- BARRA INFERIORE ORDINA -->
+  <!-- BOTTOM BAR -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-t border-stone-100 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-3 max-w-xl mx-auto">
       <a href="tel:+390461924565" class="bg-stone-900 text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-3 active:scale-95 transition-all shadow-lg shadow-stone-200">
@@ -124,7 +102,7 @@
     </div>
   </div>
 
-  <!-- MODALE DETTAGLIO PRODOTTO -->
+  <!-- MODALS -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
     <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
@@ -132,7 +110,6 @@
     </div>
   </div>
 
-  <!-- MODALE CARRELLO -->
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
@@ -145,93 +122,77 @@
   </div>
 
   <script>
-    // --- CONFIGURAZIONE ---
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v10' 
+      CACHE_KEY: 'filippone_menu_v11' 
     };
 
-    // --- LOGICA IMMAGINI (MIGLIORATA) ---
+    // --- LOGICA IMMAGINI AVANZATA ---
     function getSafeImage(item) {
-        // Se c'è un link immagine nel CSV, usalo
         if (item.immagine && item.immagine.length > 10) return item.immagine;
         
         const cat = (item.categoria || "").toLowerCase().trim();
         const nome = (item.nome || "").toLowerCase().trim();
         
-        // Mappatura Placeholders Coerenti (Unsplash IDs)
-        const placeholderImg = {
+        // Unsplash IDs ottimizzati
+        const img = {
             pizza_rossa: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80',
             pizza_bianca: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+            caffetteria: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80', // Caffè
+            amari: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80', // Liquori
             birra: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80',
-            bevande: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
+            vino: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80',
+            bibite: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
             acqua: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80',
             antipasti: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80',
             insalate: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80',
             dolci: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80'
         };
 
-        // Regole di associazione
-        if (cat.includes('birra')) return placeholderImg.birra;
-        if (cat.includes('acqua')) return placeholderImg.acqua;
-        if (cat.includes('bevand') || cat.includes('bibit') || cat.includes('lattin')) return placeholderImg.bevande;
-        if (cat.includes('bianca')) return placeholderImg.pizza_bianca;
-        if (cat.includes('rossa') || cat.includes('pizza')) return placeholderImg.pizza_rossa;
-        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt') || cat.includes('sfiz')) return placeholderImg.antipasti;
-        if (cat.includes('insalat')) return placeholderImg.insalate;
-        if (cat.includes('dolc') || cat.includes('dessert')) return placeholderImg.dolci;
+        // Riconoscimento incrociato Categoria + Nome
+        if (cat.includes('caff') || nome.includes('caff') || nome.includes('espresso')) return img.caffetteria;
+        if (cat.includes('amar') || cat.includes('liquor') || cat.includes('grapp') || nome.includes('amar') || nome.includes('liquor')) return img.amari;
+        if (cat.includes('vino') || nome.includes('vino') || nome.includes('rosso') || nome.includes('bianco')) return img.vino;
+        if (cat.includes('birra')) return img.birra;
+        if (cat.includes('acqua')) return img.acqua;
+        if (cat.includes('bevand') || cat.includes('bibit') || cat.includes('lattin')) return img.bibite;
+        if (cat.includes('bianca')) return img.pizza_bianca;
+        if (cat.includes('rossa') || cat.includes('pizz')) return img.pizza_rossa;
+        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt')) return img.antipasti;
+        if (cat.includes('insalat')) return img.insalate;
+        if (cat.includes('dolc') || cat.includes('dessert')) return img.dolci;
 
-        return placeholderImg.pizza_rossa; // Default
+        return img.pizza_rossa;
     }
 
-    // --- STATO APPLICAZIONE ---
     let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', searchTerm = '', cart = [];
     let filters = { veg: false, spicy: false, frozen: false };
-    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Pizze Rosse':'🍅','Pizze Bianche':'🧀','Bevande':'🥤','Birre':'🍺','Dolci':'🍮' };
+    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Pizze Rosse':'🍅','Pizze Bianche':'🧀','Bevande':'🥤','Birre':'🍺','Dolci':'🍮','Caffetteria':'☕','Amari':'🥃' };
 
-    // --- INIZIALIZZAZIONE ---
-    document.addEventListener('DOMContentLoaded', () => {
-        renderSkeletons();
-        initData();
-        loadCart();
-    });
+    document.addEventListener('DOMContentLoaded', () => { renderSkeletons(); initData(); loadCart(); });
 
     async function initData() {
         const cached = localStorage.getItem(CONFIG.CACHE_KEY);
-        if (cached) {
-            allItems = JSON.parse(cached);
-            setupMenu();
-        }
+        if (cached) { allItems = JSON.parse(cached); setupMenu(); }
         await fetchData();
     }
 
     async function fetchData() {
-        const proxies = [
-            url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-            url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
-        ];
+        const proxies = [url => `https://corsproxy.io/?${encodeURIComponent(url)}`, url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` ];
         for (let proxyFn of proxies) {
             try {
-                const response = await fetch(proxyFn(CONFIG.CSV_URL));
-                if (!response.ok) throw new Error();
-                const text = await response.text();
+                const r = await fetch(proxyFn(CONFIG.CSV_URL));
+                if (!r.ok) throw new Error();
+                const text = await r.text();
                 allItems = parseCSV(text);
                 localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(allItems));
                 setupMenu();
                 return;
-            } catch (e) { console.error("Errore fetch proxy:", e); }
+            } catch (e) {}
         }
     }
 
-    function setupMenu() {
-        const uniqueCats = [...new Set(allItems.map(i => i.categoria))];
-        categories = ['Tutti', ...uniqueCats];
-        renderTabs();
-        renderCards();
-    }
-
-    // --- PARSING DATI ---
     function parseCSV(text) {
         const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
         const headers = lines[0].split(',').map(h => h.trim());
@@ -239,14 +200,8 @@
             const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const row = {};
             headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
-            
             let prezzoValue = 0;
-            for (let key in row) {
-                if (key.toLowerCase().includes("prezzo")) {
-                    prezzoValue = parseFloat(row[key].replace(/[€$\s]/g, '').replace(',', '.')) || 0;
-                }
-            }
-
+            for (let key in row) { if (key.toLowerCase().includes("prezzo")) { prezzoValue = parseFloat(row[key].replace(/[€$\s]/g, '').replace(',', '.')) || 0; } }
             return {
                 id: row.ID || Math.random().toString(36).substr(2, 9),
                 nome: row.Nome || "",
@@ -262,7 +217,12 @@
         }).filter(i => i.nome);
     }
 
-    // --- RENDERING ---
+    function setupMenu() {
+        categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
+        renderTabs();
+        renderCards();
+    }
+
     function renderTabs() {
         const bar = document.getElementById('tab-bar');
         bar.innerHTML = categories.map(cat => `
@@ -273,27 +233,13 @@
         `).join('');
     }
 
-    function setCategory(cat) {
-        activeCategory = cat;
-        renderTabs();
-        renderCards();
-    }
-
-    function toggleFilter(f) {
-        filters[f] = !filters[f];
-        document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]);
-        renderCards();
-    }
-
-    function handleSearch() {
-        searchTerm = document.getElementById('search-input').value.toLowerCase();
-        renderCards();
-    }
+    function setCategory(cat) { activeCategory = cat; renderTabs(); renderCards(); }
+    function toggleFilter(f) { filters[f] = !filters[f]; document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]); renderCards(); }
+    function handleSearch() { searchTerm = document.getElementById('search-input').value.toLowerCase(); renderCards(); }
 
     function renderCards() {
         const container = document.getElementById('content');
         let filtered = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
-        
         if (searchTerm) filtered = filtered.filter(i => i.nome.toLowerCase().includes(searchTerm));
         if (filters.veg) filtered = filtered.filter(i => i.isVeg);
         if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
@@ -301,16 +247,10 @@
 
         document.getElementById('result-count').textContent = `${filtered.length} PRODOTTI`;
 
-        if (filtered.length === 0) {
-            container.innerHTML = `<div class="text-center py-20 text-stone-400 font-bold uppercase tracking-widest text-xs">Nessun risultato</div>`;
-            return;
-        }
-
         container.innerHTML = filtered.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
                 <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
-                    <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" 
-                         onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
+                    <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <div class="flex justify-between items-start mb-1 gap-2">
@@ -319,7 +259,7 @@
                     </div>
                     <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
                     <div class="mt-2 flex flex-wrap gap-1">
-                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold">VEGETARIANO</span>' : ''}
+                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold">VEG</span>' : ''}
                         ${item.isSpicy ? '<span class="text-[9px] bg-red-50 text-red-700 px-2 py-0.5 rounded-lg font-bold">PICCANTE</span>' : ''}
                         ${item.isFrozen ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg font-bold">SURGELATO</span>' : ''}
                     </div>
@@ -328,22 +268,12 @@
         `).join('');
     }
 
-    // --- AZIONI MODALE ---
     function openItemDetail(id) {
         const item = allItems.find(i => i.id === id);
         const modal = document.getElementById('modal-backdrop');
         const panel = document.getElementById('modal-panel');
-        
-        const allergeniHtml = item.allergeni ? `
-            <div class="mt-6 p-4 bg-stone-50 rounded-2xl border border-stone-100">
-                <p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-2">Allergeni</p>
-                <p class="text-xs text-stone-600 font-medium">${item.allergeni}</p>
-            </div>` : '';
-
         document.getElementById('modal-content').innerHTML = `
-            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 bg-stone-100 shadow-inner">
-                <img src="${getSafeImage(item)}" class="w-full h-full object-cover">
-            </div>
+            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 bg-stone-100"><img src="${getSafeImage(item)}" class="w-full h-full object-cover"></div>
             <div class="flex justify-between items-start mb-4">
                 <div class="min-w-0 pr-4">
                     <h2 class="text-3xl font-display font-bold text-ink leading-tight">${item.nome}</h2>
@@ -352,21 +282,12 @@
                 <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl shrink-0">€${item.prezzo.toFixed(2)}</span>
             </div>
             <p class="text-stone-500 text-base leading-relaxed italic">"${item.ingredienti}"</p>
-            ${allergeniHtml}
-            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-[28px] py-6 mt-8 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">
-                Aggiungi all'ordine
-            </button>
+            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-[28px] py-6 mt-8 font-bold text-lg shadow-xl active:scale-95 transition-all">Aggiungi all'ordine</button>
         `;
         modal.classList.add('modal-active');
         setTimeout(() => panel.classList.add('modal-panel-active'), 10);
     }
 
-    function closeModal() {
-        document.getElementById('modal-panel').classList.remove('modal-panel-active');
-        setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300);
-    }
-
-    // --- CARRELLO ---
     function addToCart(id) {
         const item = allItems.find(i => i.id === id);
         cart.push({ cartId: Date.now(), ...item, qty: 1 });
@@ -377,27 +298,21 @@
     function updateCartUI() {
         localStorage.setItem('filippone_cart', JSON.stringify(cart));
         const totalItems = cart.reduce((acc, i) => acc + i.qty, 0);
-        const badge = document.getElementById('cart-badge');
-        badge.textContent = totalItems;
-        badge.classList.toggle('hidden', totalItems === 0);
+        document.getElementById('cart-badge').textContent = totalItems;
+        document.getElementById('cart-badge').classList.toggle('hidden', totalItems === 0);
         document.getElementById('cart-qty-footer').textContent = `${totalItems} Prodotti`;
     }
 
     function openCart() {
         const drawer = document.getElementById('cart-backdrop');
-        const panel = document.getElementById('cart-panel');
         const container = document.getElementById('cart-items');
-        
         if(cart.length === 0) {
-            container.innerHTML = `<div class="text-center py-20"><p class="text-stone-300 font-bold uppercase tracking-widest text-xs">Il carrello è vuoto</p></div>`;
+            container.innerHTML = `<div class="text-center py-20 text-stone-300 font-bold uppercase tracking-widest text-xs">Vuoto</div>`;
             document.getElementById('cart-summary').innerHTML = "";
         } else {
             container.innerHTML = cart.map(item => `
                 <div class="bg-stone-50 p-6 rounded-[32px] border border-stone-100 mb-4 flex flex-col gap-4">
-                    <div class="flex justify-between font-bold text-base text-ink">
-                        <span class="truncate pr-4">${item.nome}</span>
-                        <span class="text-brand shrink-0">€${(item.prezzo * item.qty).toFixed(2)}</span>
-                    </div>
+                    <div class="flex justify-between font-bold text-base text-ink"><span>${item.nome}</span><span class="text-brand">€${(item.prezzo * item.qty).toFixed(2)}</span></div>
                     <div class="flex justify-between items-center">
                         <button onclick="removeFromCart(${item.cartId})" class="text-[10px] font-black text-brand/50 uppercase">Elimina</button>
                         <div class="flex items-center gap-5 bg-white px-5 py-2.5 rounded-2xl font-black shadow-sm border border-stone-100">
@@ -407,67 +322,30 @@
                         </div>
                     </div>
                 </div>`).join('');
-            
             const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-            document.getElementById('cart-summary').innerHTML = `
-                <div class="mt-8 pt-8 border-t border-stone-100 space-y-6">
-                    <div class="flex justify-between items-center px-2">
-                        <span class="text-stone-300 font-bold uppercase tracking-widest text-xs">Totale stimato</span>
-                        <span class="text-3xl font-black text-ink">€${total.toFixed(2)}</span>
-                    </div>
-                    <button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all">
-                        Invia Ordine su WhatsApp
-                    </button>
-                </div>`;
+            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-95 transition-all">WhatsApp (Tot: €${total.toFixed(2)})</button>`;
         }
         drawer.classList.add('modal-active');
-        setTimeout(() => panel.classList.add('modal-panel-active'), 10);
+        setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
     }
 
     function changeQty(id, delta) {
         const item = cart.find(i => i.cartId === id);
-        if(item) {
-            item.qty += delta;
-            if(item.qty < 1) return removeFromCart(id);
-            updateCartUI();
-            openCart();
-        }
+        if(item) { item.qty += delta; if(item.qty < 1) return removeFromCart(id); updateCartUI(); openCart(); }
     }
-
-    function removeFromCart(id) {
-        cart = cart.filter(i => i.cartId !== id);
-        updateCartUI();
-        openCart();
-    }
-
-    function closeCart() {
-        document.getElementById('cart-panel').classList.remove('modal-panel-active');
-        setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300);
-    }
-
-    function clearCart() {
-        cart = [];
-        updateCartUI();
-        closeCart();
-    }
-
+    function removeFromCart(id) { cart = cart.filter(i => i.cartId !== id); updateCartUI(); openCart(); }
+    function closeModal() { document.getElementById('modal-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300); }
+    function closeCart() { document.getElementById('cart-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300); }
+    function clearCart() { cart = []; updateCartUI(); closeCart(); }
     function sendWhatsApp() {
-        if(cart.length === 0) return;
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
         let msg = "🍕 *Nuovo Ordine Pizzeria Filippone*\n\n";
         cart.forEach(i => { msg += `• ${i.qty}x *${i.nome}* (€${(i.prezzo * i.qty).toFixed(2)})\n`; });
-        msg += `\n💰 *Totale: €${total.toFixed(2)}*\n\nAspetto conferma per l'orario di ritiro/consegna. Grazie!`;
+        msg += `\n💰 *Totale: €${total.toFixed(2)}*`;
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
     }
-
-    function loadCart() {
-        const s = localStorage.getItem('filippone_cart');
-        if(s) { cart = JSON.parse(s); updateCartUI(); }
-    }
-
-    function renderSkeletons() {
-        document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton h-32 rounded-[32px]"></div>').join('');
-    }
+    function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) { cart = JSON.parse(s); updateCartUI(); } }
+    function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton h-32 rounded-[32px]"></div>').join(''); }
   </script>
 </body>
 </html>
