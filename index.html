@@ -136,32 +136,43 @@
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
       WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n',
-      CACHE_KEY: 'filippone_menu_v6' // Cache incrementata per forzare rilettura prezzi
+      CACHE_KEY: 'filippone_menu_v7' 
     };
 
-    // --- LOGICA IMMAGINI INTELLIGENTI ---
+    // --- LOGICA IMMAGINI CORRETTA ---
     function getSafeImage(item) {
-        // Se c'è un link immagine nel database e non è vuoto, usa quello
+        // 1. Priorità all'immagine specifica del database
         if (item.immagine && item.immagine.length > 10) return item.immagine;
         
+        // 2. Mappatura coerente in base alla categoria
         const cat = (item.categoria || "").toLowerCase();
         
-        // Coerenza Placeholders Unsplash
-        if (cat.includes('bevand') || cat.includes('birr') || cat.includes('bibit') || cat.includes('vino') || cat.includes('acqua')) 
+        // Bevande e Birre
+        if (cat.includes('bevand') || cat.includes('birr') || cat.includes('bibit') || cat.includes('vin') || cat.includes('acqua')) 
             return 'https://images.unsplash.com/photo-1544145945-f904253d0c71?auto=format&fit=crop&w=600&q=80';
+        
+        // Insalate
         if (cat.includes('insalat')) 
             return 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80';
+        
+        // Dolci e Dessert
         if (cat.includes('dolc') || cat.includes('dessert')) 
             return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt')) 
+        
+        // Antipasti e Fritti
+        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt') || cat.includes('stuzzich')) 
             return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
         
-        // Default per pizze o altro
+        // Pizze (Default per qualsiasi categoria che contiene "Pizza")
+        if (cat.includes('pizz'))
+            return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
+
+        // Default Assoluto
         return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
     }
 
     let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', filters = { veg: false, spicy: false, frozen: false }, searchTerm = '', cart = [];
-    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Bevande':'🍺','Dolci':'🍮' };
+    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Pizze Rosse':'🍅','Pizze Bianche':'🧀','Bevande':'🍺','Birre':'🍺','Dolci':'🍮' };
 
     document.addEventListener('DOMContentLoaded', () => {
         renderSkeletons();
@@ -202,7 +213,6 @@
         renderCards();
     }
 
-    // --- PARSER CSV POTENZIATO PER I PREZZI ---
     function parseCSV(text) {
         const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
         const headers = lines[0].split(',').map(h => h.trim());
@@ -212,7 +222,6 @@
             const row = {};
             headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
             
-            // Cerca dinamicamente la colonna del prezzo (anche se si chiama "Prezzo (€)")
             let prezzoValue = 0;
             for (let key in row) {
                 if (key.toLowerCase().includes("prezzo")) {
@@ -274,6 +283,7 @@
                 <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
                     <img src="${getSafeImage(item)}" 
                          class="w-full h-full object-cover" 
+                         loading="lazy"
                          onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80'">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
