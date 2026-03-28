@@ -194,7 +194,7 @@
     // ① Pubblica il tuo Google Sheet come CSV:
     //    File → Pubblica sul Web → Foglio1 → CSV
     //    e incolla l'URL qui sotto:
-    CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?output=csv',
+    CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
 
     // ② Numero di telefono (formato internazionale, solo cifre)
     PHONE: '+390461924565',
@@ -276,8 +276,10 @@
       csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
     }
 
+    // Usa proxy CORS per aggirare il blocco browser su Google Sheets
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
     try {
-      const r = await fetch(csvUrl);
+      const r = await fetch(proxyUrl);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const text = await r.text();
       allItems = parseCSV(text);
