@@ -3,745 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pizzeria Filippone – Dal 1966 a Trento</title>
+  <title>Pizzeria Filippone – Menu Digitale</title>
 
-  <!-- ═══════════════════════════════════════════
-       SEO & OpenGraph (WhatsApp / Social preview)
-  ═══════════════════════════════════════════ -->
-  <meta name="description" content="Menu digitale della Pizzeria Filippone, Trento. Dal 1966. Pizze classiche, speciali, antipasti, bevande e dolci." />
-  <meta property="og:type"        content="restaurant.restaurant" />
-  <meta property="og:title"       content="Pizzeria Filippone – Dal 1966 a Trento" />
-  <meta property="og:description" content="Sfoglia il menu, filtra per vegetariano o piccante e ordina direttamente su WhatsApp!" />
-  <meta property="og:image"       content="https://filipponepizzeria.github.io/og-image.jpg" />
-  <meta property="og:url"         content="https://filipponepizzeria.github.io/" />
-  <meta name="twitter:card"       content="summary_large_image" />
-  <link rel="canonical"           href="https://filipponepizzeria.github.io/" />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS v3 CDN (ottimale per GitHub Pages statico senza build pipeline) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            display: ['"Playfair Display"', 'serif'],
-            body: ['"DM Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand:  { DEFAULT: '#C1440E', light: '#E85D20', dark: '#8B2E07' },
-            cream:  { DEFAULT: '#FAF6EF', dark: '#F0E8D8' },
-            ink:    { DEFAULT: '#1A120B', muted: '#6B5744' },
-          },
-          animation: {
-            'fade-in':    'fadeIn .35s ease forwards',
-            'slide-up':   'slideUp .4s ease forwards',
-            'shimmer':    'shimmer 1.4s infinite linear',
-            'pulse-slow': 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite',
-          },
-          keyframes: {
-            fadeIn:  { from:{ opacity:0 }, to:{ opacity:1 } },
-            slideUp: { from:{ opacity:0, transform:'translateY(12px)' }, to:{ opacity:1, transform:'translateY(0)' } },
-            shimmer: { '0%':{ backgroundPosition:'-400px 0' }, '100%':{ backgroundPosition:'400px 0' } },
-          },
-        },
-      },
-    };
+          colors: { brand: '#C1440E', cream: '#FAF6EF', ink: '#1A120B' },
+          fontFamily: { display: ['Playfair Display', 'serif'], body: ['DM Sans', 'sans-serif'] }
+        }
+      }
+    }
   </script>
 
   <style>
-    /* ─── Base ─── */
-    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    html, body { height: 100%; overscroll-behavior: none; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #FAF6EF;
-      color: #1A120B;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ─── Scrollbar ─── */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #C1440E55; border-radius: 2px; }
-
-    /* ─── Tab bar ─── */
-    #tab-bar { scrollbar-width: none; }
-    #tab-bar::-webkit-scrollbar { display: none; }
-
-    /* ─── Skeleton shimmer ─── */
-    .skeleton {
-      background: linear-gradient(90deg, #e8ddd0 25%, #f5ede0 50%, #e8ddd0 75%);
-      background-size: 400px 100%;
-      animation: shimmer 1.4s infinite linear;
-      border-radius: 8px;
-    }
-
-    /* ─── Card hover ─── */
-    .menu-card {
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .menu-card:active { transform: scale(.985); }
-
-    /* ─── Badge pill ─── */
-    .badge { display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; letter-spacing:.03em; }
-
-    /* ─── Modal backdrop blur ─── */
-    #modal-backdrop { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-
-    /* ─── Sticky bottom safe-area ─── */
-    #action-bar { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
-
-    /* ─── Filter chip active ─── */
-    .chip.active { background: #C1440E; color: #fff; border-color: #C1440E; }
-
-    /* ─── Hero texture ─── */
-    #hero::after {
-      content:'';
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 3px,
-        rgba(0,0,0,.03) 3px,
-        rgba(0,0,0,.03) 6px
-      );
-      pointer-events:none;
-    }
-
-    /* staggered animation for cards */
-    .menu-card { opacity:0; }
-    .menu-card.visible { animation: slide-up .38s ease forwards; }
-    @keyframes slide-up {
-      from { opacity:0; transform:translateY(14px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
+    .skeleton { background: linear-gradient(90deg, #e8ddd0 25%, #f5ede0 50%, #e8ddd0 75%); background-size: 400px 100%; animation: shimmer 1.4s infinite linear; }
+    @keyframes shimmer { 0% { backgroundPosition: -400px 0; } 100% { backgroundPosition: 400px 0; } }
+    .menu-card { opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+    .menu-card.visible { opacity: 1; transform: translateY(0); }
+    .chip.active { background: #C1440E; color: white; }
   </style>
 </head>
 
-<body class="flex flex-col h-full">
+<body class="bg-cream text-ink font-body flex flex-col h-screen overflow-hidden">
 
-  <!-- ═══════ HERO ═══════ -->
-  <header id="hero" class="relative bg-brand text-cream overflow-hidden shrink-0" style="min-height:120px;">
-    <!-- decorative circle -->
-    <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-brand-light opacity-30"></div>
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-1 bg-cream opacity-10 rounded-full"></div>
-
-    <div class="relative z-10 px-5 pt-8 pb-4">
-      <p class="text-xs tracking-[.2em] uppercase text-cream/60 font-body mb-1">Dal 1966 · Trento</p>
-      <h1 class="font-display text-3xl font-bold leading-tight">Filippone</h1>
-      <p class="text-cream/70 text-sm mt-1 font-body">La leggenda delle melanzane 🍆</p>
-    </div>
+  <header class="bg-brand text-white p-6 shrink-0 shadow-lg">
+    <h1 class="text-3xl font-display font-bold">Pizzeria Filippone</h1>
+    <p class="opacity-80 text-sm">Qualità e tradizione dal 1966</p>
   </header>
 
-  <!-- ═══════ TAB BAR (categorie) ═══════ -->
-  <nav id="tab-bar" class="shrink-0 flex gap-2 overflow-x-auto px-4 py-3 bg-cream-dark border-b border-ink/10 sticky top-0 z-30">
-    <!-- tabs injected by JS -->
-  </nav>
+  <nav id="tab-bar" class="flex gap-2 overflow-x-auto p-4 bg-white border-b shrink-0 no-scrollbar"></nav>
 
-  <!-- ═══════ FILTER CHIPS ═══════ -->
-  <div class="shrink-0 flex gap-2 px-4 py-2 bg-cream sticky top-[56px] z-20 border-b border-ink/5">
-    <button id="chip-veg"   class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-600 text-green-700 bg-green-50 transition-all" onclick="toggleFilter('veg')">
-      🌿 Vegetariano
-    </button>
-    <button id="chip-spicy" class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-orange-500 text-orange-600 bg-orange-50 transition-all" onclick="toggleFilter('spicy')">
-      🌶️ Piccante
-    </button>
-    <div id="result-count" class="ml-auto text-xs text-ink/40 self-center shrink-0"></div>
+  <div class="flex gap-2 px-4 py-2 bg-cream border-b shrink-0">
+    <button id="btn-veg" onclick="toggleFilter('veg')" class="chip border border-green-600 text-green-700 px-3 py-1 rounded-full text-xs font-bold">🌿 Veg</button>
+    <button id="btn-spicy" onclick="toggleFilter('spicy')" class="chip border border-red-600 text-red-700 px-3 py-1 rounded-full text-xs font-bold">🌶️ Piccante</button>
   </div>
 
-  <!-- ═══════ MAIN SCROLL ═══════ -->
-  <main id="content" class="flex-1 overflow-y-auto pb-32 px-4 pt-4 space-y-3">
-    <!-- skeleton or cards injected by JS -->
-  </main>
+  <main id="content" class="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
+    </main>
 
-  <!-- ═══════ STICKY ACTION BAR ═══════ -->
-  <div id="action-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-cream/95 backdrop-blur border-t border-ink/10 px-4 pt-3">
-    <div class="flex gap-3 max-w-lg mx-auto">
-      <a id="btn-call" href="tel:+390461924565"
-         class="flex items-center justify-center gap-2 bg-ink text-cream rounded-2xl py-3.5 px-5 font-semibold text-sm transition active:scale-95 shrink-0">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
-        Chiama
-      </a>
-      <button onclick="openCart()"
-         class="relative flex-1 flex items-center justify-center gap-2 bg-brand text-cream rounded-2xl py-3.5 font-semibold text-sm transition active:scale-95">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-        Il mio ordine
-        <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow"></span>
-      </button>
-    </div>
+  <div class="fixed bottom-0 w-full bg-white/90 backdrop-blur p-4 border-t flex gap-4">
+    <a href="tel:+390461924565" class="flex-1 bg-ink text-white text-center py-3 rounded-xl font-bold">Chiama</a>
+    <button onclick="window.open('https://wa.me/390461924565')" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold">WhatsApp</button>
   </div>
 
-  <!-- ═══════ MODAL dettaglio / varianti ═══════ -->
-  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/50 hidden items-end justify-center" onclick="closeModal(event)">
-    <div id="modal-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-10 transform translate-y-4 transition-transform duration-300 max-h-[85vh] overflow-y-auto">
-      <div class="w-10 h-1 bg-ink/20 rounded-full mx-auto mb-5"></div>
-      <div id="modal-content"></div>
-    </div>
-  </div>
-
-  <!-- ═══════ CARRELLO MODAL ═══════ -->
-  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/50 hidden items-end justify-center" onclick="closeCart(event)" style="backdrop-filter:blur(6px)">
-    <div id="cart-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-10 transform translate-y-4 transition-transform duration-300 max-h-[85vh] overflow-y-auto">
-      <div class="w-10 h-1 bg-ink/20 rounded-full mx-auto mb-5"></div>
-      <div id="cart-content"></div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════
-       JAVASCRIPT
-  ═══════════════════════════════════ -->
   <script>
-  // ──────────────────────────────────────────────
-  // CONFIGURAZIONE – modifica questi valori
-  // ──────────────────────────────────────────────
-  const CONFIG = {
-    // ① Pubblica il tuo Google Sheet come CSV:
-    //    File → Pubblica sul Web → Foglio1 → CSV
-    //    e incolla l'URL qui sotto:
-    CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
-
-    // ② Numero di telefono (formato internazionale, solo cifre)
-    PHONE: '+390461924565',
-
-    // ③ Numero WhatsApp (stesso formato)
-    WA_NUMBER: '390461924565',
-
-    // ④ Testo preimpostato WhatsApp
-    WA_TEXT: 'Ciao Filippone! 🍕 Vorrei ordinare: \n\n',
-
-    // ⑤ Varianti standard mostrate in ogni modal
-    VARIANTI: [
-      { label: 'Impasto Kamut / Khorasan', delta: '+1.20' },
-      { label: 'Impasto Farro',            delta: '+1.20' },
-      { label: 'Aggiunta mozzarella di bufala', delta: '+2.00' },
-      { label: 'Aggiunta ingrediente',     delta: '+1.00–5.00' },
-    ],
-  };
-
-  // ──────────────────────────────────────────────
-  // GOOGLE SHEETS COLUMN MAPPING
-  // Il tuo foglio deve avere ESATTAMENTE queste intestazioni
-  // nella prima riga (case-sensitive):
-  //
-  //  ID | Nome | Categoria | Ingredienti | Allergeni
-  //  Prezzo (€) | Disponibile | Immagine URL | IsVeg | IsSpicy
-  //
-  // IsVeg   → "SI" / "NO"
-  // IsSpicy → "SI" / "NO"
-  // Disponibile → "SI" / "NO"
-  // ──────────────────────────────────────────────
-
-  // ─── State ───
-  let allItems       = [];
-  let activeCategory = 'Tutti';
-  let filters        = { veg: false, spicy: false };
-
-  // ─── Category groups (tab display names) ───
-  const CAT_GROUPS = {
-    'Tutti': null,
-    'Pizze': ['Pizza Classica','Pizza Bianca','Pizza Speciale','Pizza della Casa'],
-    'Sfizi': ['Antipasto','Insalata','Focaccia'],
-    'Bevande': ['Bibita','Birra','Vino','Aperitivo','Amaro/Liquore','Caffetteria'],
-    'Dolci': ['Dolce'],
-  };
-
-  const CAT_EMOJI = {
-    'Tutti':'🍽️','Pizze':'🍕','Sfizi':'🫒','Bevande':'🍺','Dolci':'🍮',
-  };
-
-  // Categorie per cui mostrare varianti impasto/aggiunte
-  const CAT_WITH_VARIANTS = new Set([
-    'Pizza Classica','Pizza Bianca','Pizza Speciale','Pizza della Casa','Focaccia',
-  ]);
-
-  // ─── Carrello ───
-  let cart = []; // [{id, nome, categoria, prezzo, qty}]
-
-  function addToCart(item) {
-    const existing = cart.find(c => c.id === item.id);
-    if (existing) {
-      existing.qty++;
-    } else {
-      cart.push({ id: item.id, nome: item.nome, categoria: item.categoria, prezzo: item.prezzo, qty: 1 });
-    }
-    updateCartBadge();
-    showAddedFeedback();
-  }
-
-  function removeFromCart(id) {
-    const idx = cart.findIndex(c => c.id === id);
-    if (idx === -1) return;
-    if (cart[idx].qty > 1) cart[idx].qty--;
-    else cart.splice(idx, 1);
-    updateCartBadge();
-    renderCartContent();
-  }
-
-  function updateCartBadge() {
-    const total = cart.reduce((s, c) => s + c.qty, 0);
-    const badge = document.getElementById('cart-badge');
-    if (total > 0) {
-      badge.textContent = total;
-      badge.classList.remove('hidden');
-    } else {
-      badge.classList.add('hidden');
-    }
-  }
-
-  function showAddedFeedback() {
-    // Flash verde sul bottone carrello
-    const btn = document.querySelector('[onclick="openCart()"]');
-    btn.style.background = '#16a34a';
-    setTimeout(() => btn.style.background = '', 600);
-    // Close item modal
-    document.getElementById('modal-backdrop').classList.add('hidden');
-    document.getElementById('modal-backdrop').classList.remove('flex');
-  }
-
-  function openCart() {
-    renderCartContent();
-    const bd = document.getElementById('cart-backdrop');
-    bd.classList.remove('hidden');
-    bd.classList.add('flex');
-    requestAnimationFrame(() => {
-      document.getElementById('cart-panel').style.transform = 'translateY(0)';
-    });
-  }
-
-  function closeCart(e) {
-    if (e.target === document.getElementById('cart-backdrop')) {
-      document.getElementById('cart-backdrop').classList.add('hidden');
-      document.getElementById('cart-backdrop').classList.remove('flex');
-      document.getElementById('cart-panel').style.transform = 'translateY(4px)';
-    }
-  }
-
-  function renderCartContent() {
-    const el = document.getElementById('cart-content');
-    if (!cart.length) {
-      el.innerHTML = `
-        <div class="text-center py-12 text-ink/40">
-          <p class="text-5xl mb-3">🛒</p>
-          <p class="font-semibold text-ink/60">Il carrello è vuoto</p>
-          <p class="text-sm mt-1">Aggiungi qualcosa dal menu!</p>
-        </div>`;
-      return;
-    }
-
-    const total = cart.reduce((s, c) => s + c.prezzo * c.qty, 0);
-    const itemsText = cart.map(c =>
-      c.qty > 1 ? `• ${c.nome} x${c.qty}` : `• ${c.nome}`
-    ).join('\n');
-    const waText = encodeURIComponent(
-      CONFIG.WA_TEXT + itemsText + `\n\nTotale stimato: €${total.toFixed(2)}`
-    );
-
-    el.innerHTML = `
-      <h2 class="font-display text-2xl font-bold text-ink mb-4">Il mio ordine</h2>
-      <div class="space-y-2 mb-4">
-        ${cart.map(c => `
-          <div class="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm">
-            <div class="flex-1 min-w-0">
-              <p class="font-semibold text-sm text-ink truncate">${c.nome}</p>
-              <p class="text-xs text-ink/50">€${c.prezzo.toFixed(2)} cad.</p>
-            </div>
-            <div class="flex items-center gap-2 ml-3 shrink-0">
-              <button onclick="removeFromCart('${c.id}')" class="w-7 h-7 rounded-full bg-cream-dark flex items-center justify-center text-ink font-bold text-lg leading-none active:scale-90 transition">−</button>
-              <span class="w-5 text-center font-bold text-sm">${c.qty}</span>
-              <button onclick="addToCartById('${c.id}')" class="w-7 h-7 rounded-full bg-brand text-cream flex items-center justify-center font-bold text-lg leading-none active:scale-90 transition">+</button>
-            </div>
-            <span class="ml-3 font-bold text-brand text-sm shrink-0">€${(c.prezzo * c.qty).toFixed(2)}</span>
-          </div>
-        `).join('')}
-      </div>
-
-      <div class="flex justify-between items-center px-1 mb-5">
-        <span class="text-ink/50 text-sm">Totale stimato</span>
-        <span class="font-display font-bold text-xl text-brand">€${total.toFixed(2)}</span>
-      </div>
-
-      <a href="https://wa.me/${CONFIG.WA_NUMBER}?text=${waText}"
-         class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-4 rounded-2xl font-semibold text-base active:scale-95 transition mb-3">
-        <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.474 2.027 7.78L0 32l8.47-2.22A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.087 22.357c-.34.955-1.987 1.827-2.717 1.942-.694.108-1.57.154-2.532-.159a23.05 23.05 0 01-2.292-.847C12.7 21.677 10.03 18.9 9.61 18.362c-.42-.538-1.54-2.046-1.54-3.905 0-1.86.977-2.775 1.32-3.155.343-.38.75-.476.999-.476l.714.014c.229.01.537-.087.84.64.318.756 1.08 2.616 1.174 2.806.095.19.158.413.031.666-.127.253-.19.413-.381.635-.19.222-.4.497-.571.666-.19.19-.388.396-.167.776.222.38.985 1.624 2.115 2.63 1.452 1.292 2.676 1.692 3.057 1.882.38.19.603.159.825-.095.222-.254.952-1.11 1.206-1.49.254-.38.508-.317.856-.19.349.127 2.21 1.042 2.59 1.232.38.19.634.285.728.444.096.16.096.928-.244 1.883z"/></svg>
-        Invia ordine su WhatsApp
-      </a>
-      <button onclick="cart=[];updateCartBadge();renderCartContent()"
-        class="w-full text-center text-sm text-ink/40 py-2 active:text-red-500 transition">
-        🗑️ Svuota carrello
-      </button>`;
-  }
-
-  function addToCartById(id) {
-    const item = allItems.find(i => i.id === id);
-    if (item) addToCart(item);
-    renderCartContent();
-  }
-
-  // ─── Init ───
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('btn-call').href = `tel:${CONFIG.PHONE}`;
-    document.getElementById('btn-wa').href =
-      `https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent(CONFIG.WA_TEXT)}`;
-
-    renderTabs();
-    renderSkeletons();
-    loadData();
-  });
-
-  // ─── CSV fetch & parse ───
-  async function loadData() {
-    if (CONFIG.CSV_URL === 'PLACEHOLDER_GOOGLE_SHEETS_CSV_URL') {
-      allItems = DEMO_DATA;
-      renderCards();
-      return;
-    }
-
-    const csvUrl = CONFIG.CSV_URL;
-
-    // Proxy cascade: prova in ordine finché uno funziona
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(csvUrl)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`,
-      `https://thingproxy.freeboard.io/fetch/${csvUrl}`,
-      csvUrl, // tentativo diretto (funziona se non c'è CORS)
-    ];
-
-    let lastError = '';
-    const labels = ['corsproxy.io', 'allorigins.win', 'thingproxy', 'diretto'];
-    for (let i = 0; i < proxies.length; i++) {
-      const url = proxies[i];
-      const statusEl = document.getElementById('load-status');
-      if (statusEl) statusEl.textContent = `Tentativo ${i+1}/4 via ${labels[i]}...`;
-      try {
-        const r = await fetch(url, { cache: 'no-store' });
-        if (!r.ok) { lastError = `HTTP ${r.status}`; continue; }
-        const text = await r.text();
-        if (!text || text.trim().length < 10) { lastError = 'Risposta vuota'; continue; }
-        const parsed = parseCSV(text);
-        if (!parsed.length) { lastError = 'CSV vuoto o intestazioni errate'; continue; }
-        allItems = parsed;
-        renderCards();
-        return; // successo, esci
-      } catch(e) {
-        lastError = `[${labels[i]}] ${e.message}`;
-        continue;
-      }
-    }
-
-    // Tutti i proxy hanno fallito
-    document.getElementById('content').innerHTML =
-      `<div class="text-center py-16" style="color:#6B5744;padding:2rem">
-        <p style="font-size:2.5rem;margin-bottom:.75rem">😕</p>
-        <p style="font-weight:700;font-size:1.1rem">Impossibile caricare il menu.</p>
-        <p style="font-size:.85rem;margin-top:.5rem;opacity:.7;line-height:1.6">
-          Assicurati che il foglio sia pubblicato pubblicamente.<br>
-          <b>File → Pubblica sul web → Foglio1 → CSV</b>
-        </p>
-        <p style="font-size:.7rem;margin-top:1rem;opacity:.4;font-family:monospace">${lastError}</p>
-      </div>`;
-  }
-
-  function parseCSV(text) {
-    // Normalize line endings (Google Sheets exports \r\n)
-    const lines = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
-    const headers = splitCSVLine(lines[0]).map(h => h.trim().replace(/^"|"$/g,''));
-
-    return lines.slice(1).map((line, idx) => {
-      if (!line.trim()) return null;
-      const vals = splitCSVLine(line);
-      const obj = {};
-      headers.forEach((h, i) => { obj[h] = (vals[i] || '').replace(/^"|"$/g,'').trim(); });
-
-      // Strip € symbol and handle Italian decimal comma
-      const rawPrice = (obj['Prezzo (€)'] || obj['Prezzo'] || '0')
-        .replace(/[€$£\s]/g, '')
-        .replace(',', '.');
-
-      const isVegVal   = (obj['IsVeg']   || obj['Is Veg']   || '').toUpperCase();
-      const isSpicyVal = (obj['IsSpicy'] || obj['Is Spicy'] || '').toUpperCase();
-      const trueVals   = ['SI', 'S\u00cc', 'YES', '1', 'TRUE'];
-
-      return {
-        id:          obj['ID']           || String(idx + 1),
-        nome:        obj['Nome']         || '',
-        categoria:   obj['Categoria']    || '',
-        ingredienti: obj['Ingredienti']  || '',
-        allergeni:   obj['Allergeni']    || '',
-        prezzo:      parseFloat(rawPrice) || 0,
-        disponibile: (obj['Disponibile'] || 'SI').toUpperCase() !== 'NO',
-        immagine:    obj['Immagine URL'] || '',
-        isVeg:       trueVals.includes(isVegVal),
-        isSpicy:     trueVals.includes(isSpicyVal),
-      };
-    }).filter(i => i && i.nome);
-  }
-
-  function splitCSVLine(line) {
-    const result = []; let cur = ''; let inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '"') { inQ = !inQ; }
-      else if (line[i] === ',' && !inQ) { result.push(cur); cur = ''; }
-      else { cur += line[i]; }
-    }
-    result.push(cur);
-    return result;
-  }
-
-  // ─── Tabs ───
-  function renderTabs() {
-    const bar = document.getElementById('tab-bar');
-    bar.innerHTML = Object.keys(CAT_GROUPS).map(cat => `
-      <button onclick="setCategory('${cat}')"
-        id="tab-${cat}"
-        class="shrink-0 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all
-               ${cat === activeCategory
-                 ? 'bg-brand text-cream shadow-md'
-                 : 'bg-cream text-ink/60 border border-ink/15'}">
-        <span>${CAT_EMOJI[cat]}</span> ${cat}
-      </button>
-    `).join('');
-  }
-
-  function setCategory(cat) {
-    activeCategory = cat;
-    renderTabs();
-    renderCards();
-  }
-
-  // ─── Filters ───
-  function toggleFilter(f) {
-    filters[f] = !filters[f];
-    document.getElementById(`chip-${f}`).classList.toggle('active', filters[f]);
-    renderCards();
-  }
-
-  // ─── Skeleton ───
-  function renderSkeletons() {
-    const c = document.getElementById('content');
-    c.innerHTML = `<p id="load-status" style="text-align:center;font-size:.7rem;color:#aaa;padding:.5rem 1rem;font-family:monospace">Caricamento menu in corso...</p>` +
-    Array(6).fill(0).map(() => `
-      <div class="bg-white rounded-2xl p-4 flex gap-3 shadow-sm">
-        <div class="skeleton w-20 h-20 rounded-xl shrink-0"></div>
-        <div class="flex-1 space-y-2 py-1">
-          <div class="skeleton h-4 w-3/4"></div>
-          <div class="skeleton h-3 w-full"></div>
-          <div class="skeleton h-3 w-2/3"></div>
-          <div class="skeleton h-4 w-1/4 mt-2"></div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ─── Cards ───
-  function renderCards() {
-    const cats = CAT_GROUPS[activeCategory];
-    let items = cats
-      ? allItems.filter(i => cats.includes(i.categoria))
-      : allItems;
-
-    if (filters.veg)   items = items.filter(i => i.isVeg);
-    if (filters.spicy) items = items.filter(i => i.isSpicy);
-    items = items.filter(i => i.disponibile);
-
-    const count = document.getElementById('result-count');
-    count.textContent = items.length ? `${items.length} voci` : '';
-
-    if (!items.length) {
-      document.getElementById('content').innerHTML = `
-        <div class="text-center py-20 text-ink/40">
-          <p class="text-5xl mb-4">🔍</p>
-          <p class="font-semibold text-ink/60">Nessun risultato</p>
-          <p class="text-sm mt-1">Prova a cambiare filtro o categoria</p>
-        </div>`;
-      return;
-    }
-
-    // Group by subcategory
-    const grouped = {};
-    items.forEach(item => {
-      if (!grouped[item.categoria]) grouped[item.categoria] = [];
-      grouped[item.categoria].push(item);
-    });
-
-    let html = '';
-    Object.entries(grouped).forEach(([cat, list]) => {
-      if (Object.keys(CAT_GROUPS).length > 1 && activeCategory === 'Tutti') {
-        html += `<h2 class="text-xs font-semibold tracking-widest uppercase text-ink/40 mt-4 mb-1 px-1">${cat}</h2>`;
-      }
-      html += list.map((item, idx) => cardHTML(item, idx)).join('');
-    });
-
-    document.getElementById('content').innerHTML = html;
-
-    // Stagger animation
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.menu-card').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), i * 40);
-      });
-    });
-  }
-
-  function cardHTML(item, idx) {
-    const hasImg = item.immagine && item.immagine !== '';
-    const badges = [
-      item.isVeg   ? '<span class="badge bg-green-100 text-green-700">🌿 Veg</span>' : '',
-      item.isSpicy ? '<span class="badge bg-orange-100 text-orange-700">🌶️ Piccante</span>' : '',
-    ].filter(Boolean).join('');
-
-    const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
-
-    return `
-    <div class="menu-card bg-white rounded-2xl shadow-sm border border-ink/5 overflow-hidden cursor-pointer"
-         onclick="openModalById('${item.id}')">
-      <div class="flex gap-3 p-4">
-        ${hasImg
-          ? `<img src="${item.immagine}" alt="${item.nome}"
-               class="w-20 h-20 object-cover rounded-xl shrink-0 bg-cream"
-               loading="lazy" onerror="this.style.display='none'" />`
-          : `<div class="w-20 h-20 rounded-xl shrink-0 bg-cream-dark flex items-center justify-center text-3xl select-none">
-               ${catEmoji(item.categoria)}
-             </div>`
-        }
-        <div class="flex-1 min-w-0">
-          <div class="flex items-start justify-between gap-2">
-            <h3 class="font-display font-bold text-base leading-snug text-ink">${item.nome}</h3>
-            <span class="text-brand font-bold text-base shrink-0">${priceStr}</span>
-          </div>
-          ${item.ingredienti
-            ? `<p class="text-ink/55 text-xs mt-1 line-clamp-2 leading-relaxed">${item.ingredienti}</p>`
-            : ''}
-          ${badges ? `<div class="flex gap-1.5 mt-2">${badges}</div>` : ''}
-        </div>
-      </div>
-    </div>`;
-  }
-
-  function catEmoji(cat) {
-    const map = {
-      'Pizza Classica':'🍕','Pizza Bianca':'🤍','Pizza Speciale':'⭐',
-      'Pizza della Casa':'🏠','Antipasto':'🫒','Insalata':'🥗',
-      'Focaccia':'🥖','Bibita':'🥤','Birra':'🍺','Vino':'🍷',
-      'Aperitivo':'🍹','Amaro/Liquore':'🥃','Caffetteria':'☕','Dolce':'🍮',
+    const CONFIG = {
+      // URL del tuo CSV (Assicurati che sia PUBBLICATO SUL WEB come CSV)
+      CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv'
     };
-    return map[cat] || '🍽️';
-  }
 
-  // ─── Modal ───
-  function openModalById(id) {
-    const item = allItems.find(i => String(i.id) === String(id));
-    if (item) openModal(item);
-  }
+    let allItems = [];
+    let currentCategory = 'Tutti';
+    let filters = { veg: false, spicy: false };
 
-  function openModal(item) {
-    const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
-    const showVariants = CAT_WITH_VARIANTS.has(item.categoria);
-    const allergens = item.allergeni
-      ? item.allergeni.split(',').map(a => `<span class="badge bg-yellow-100 text-yellow-800">${a.trim()}</span>`).join('')
-      : '';
+    // 1. Caricamento Dati
+    async function loadData() {
+      const container = document.getElementById('content');
+      container.innerHTML = '<p class="text-center py-10 opacity-50">Caricamento menu...</p>';
 
-    const variantiHTML = showVariants ? `
-      <div>
-        <p class="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-1">Varianti &amp; aggiunte</p>
-        <div class="bg-cream rounded-xl px-3">
-          ${CONFIG.VARIANTI.map(v => `
-            <div class="flex justify-between items-center py-2.5 border-b border-ink/5 last:border-0">
-              <span class="text-sm text-ink">${v.label}</span>
-              <span class="text-sm font-semibold text-brand">${v.delta}</span>
-            </div>`).join('')}
-        </div>
-        <p class="text-xs text-ink/30 mt-1.5 px-1">Variazioni da €1,00 a €5,00</p>
-      </div>` : '';
-
-    document.getElementById('modal-content').innerHTML = `
-      <div class="space-y-4">
-        ${item.immagine
-          ? `<img src="${item.immagine}" alt="${item.nome}" class="w-full h-44 object-cover rounded-2xl bg-cream" />`
-          : `<div class="w-full h-28 rounded-2xl bg-cream-dark flex items-center justify-center text-6xl">${catEmoji(item.categoria)}</div>`
-        }
-
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-xs text-ink/40 uppercase tracking-widest font-semibold">${item.categoria}</p>
-            <h2 class="font-display text-2xl font-bold text-ink mt-0.5">${item.nome}</h2>
-          </div>
-          <span class="text-brand text-2xl font-bold shrink-0">${priceStr}</span>
-        </div>
-
-        ${item.ingredienti ? `
-          <div>
-            <p class="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-1">Ingredienti</p>
-            <p class="text-sm text-ink/70 leading-relaxed">${item.ingredienti}</p>
-          </div>` : ''}
-
-        ${allergens ? `
-          <div>
-            <p class="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-2">Allergeni</p>
-            <div class="flex flex-wrap gap-1.5">${allergens}</div>
-          </div>` : ''}
-
-        ${variantiHTML}
-
-        <button onclick="addToCartById('${item.id}')" class="flex items-center justify-center gap-2 w-full bg-brand text-cream py-4 rounded-2xl font-semibold text-base active:scale-95 transition">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-          </svg>
-          Aggiungi all'ordine
-        </button>
-      </div>`;
-
-    const backdrop = document.getElementById('modal-backdrop');
-    backdrop.classList.remove('hidden');
-    backdrop.classList.add('flex');
-    requestAnimationFrame(() => {
-      document.getElementById('modal-panel').style.transform = 'translateY(0)';
-    });
-  }
-
-  function closeModal(e) {
-    if (e.target === document.getElementById('modal-backdrop') || e.target.closest('#modal-close')) {
-      document.getElementById('modal-backdrop').classList.add('hidden');
-      document.getElementById('modal-backdrop').classList.remove('flex');
-      document.getElementById('modal-panel').style.transform = 'translateY(4px)';
+      try {
+        // Usiamo un proxy per evitare errori CORS su GitHub Pages
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(CONFIG.CSV_URL)}`);
+        if (!response.ok) throw new Error("Errore nel recupero dati");
+        
+        const csvText = await response.text();
+        allItems = parseCSV(csvText);
+        
+        renderTabs();
+        renderCards();
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div class="text-center py-10 text-red-600">
+          <p>Errore nel caricamento del foglio Google.</p>
+          <p class="text-xs opacity-50">${err.message}</p>
+        </div>`;
+      }
     }
-  }
 
-  // ESC to close
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal({ target: document.getElementById('modal-backdrop') });
-  });
+    // 2. Parser CSV Robusto
+    function parseCSV(text) {
+      const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/["']/g, ""));
+      
+      return lines.slice(1).map(line => {
+        const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/["']/g, ""));
+        const item = {};
+        headers.forEach((header, i) => {
+            // Mappatura flessibile delle colonne
+            if (header.includes('nome')) item.nome = values[i];
+            if (header.includes('categoria')) item.categoria = values[i];
+            if (header.includes('prezzo')) item.prezzo = values[i].replace(',', '.');
+            if (header.includes('ingredienti')) item.ingredienti = values[i];
+            if (header.includes('isveg')) item.isVeg = values[i].toLowerCase() === 'si';
+            if (header.includes('isspicy')) item.isSpicy = values[i].toLowerCase() === 'si';
+            if (header.includes('disponibile')) item.disponibile = values[i].toLowerCase() !== 'no';
+            if (header.includes('immagine')) item.immagine = values[i];
+        });
+        return item;
+      }).filter(item => item.nome && item.disponibile);
+    }
 
-  // ──────────────────────────────────────────────
-  // DEMO DATA (usato quando CSV_URL non è ancora
-  // configurato – rimuovi o ignora in produzione)
-  // ──────────────────────────────────────────────
-  const DEMO_DATA = [
-    { id:'1',  nome:'Margherita',      categoria:'Pizza Classica', ingredienti:'Polpa di pomodoro, mozzarella',                                                          allergeni:'Glutine, Latte', prezzo:7.50,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'2',  nome:'Diavola',         categoria:'Pizza Classica', ingredienti:'Polpa di pomodoro, mozzarella, salamino piccante',                                       allergeni:'Glutine, Latte', prezzo:8.50,  disponibile:true,  immagine:'', isVeg:false, isSpicy:true  },
-    { id:'3',  nome:'Quattro formaggi',categoria:'Pizza Classica', ingredienti:'Polpa di pomodoro, mozzarella, asiago D.O.P, alpinella, emmental, gorgonzola',           allergeni:'Glutine, Latte', prezzo:9.00,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'4',  nome:'Rucola',          categoria:'Pizza Classica', ingredienti:'Polpa di pomodoro, mozzarella, rucola fresca dopo cottura',                              allergeni:'Glutine, Latte', prezzo:8.00,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'5',  nome:'Napoli',          categoria:'Pizza Classica', ingredienti:'Polpa di pomodoro, mozzarella, filetti di acciuga',                                      allergeni:'Glutine, Latte, Pesce', prezzo:8.00, disponibile:true, immagine:'', isVeg:false, isSpicy:false },
-    { id:'6',  nome:'Carbonara',       categoria:'Pizza Bianca',   ingredienti:'Mozzarella, due uova, pancetta, grana padano, pepe',                                     allergeni:'Glutine, Latte, Uova', prezzo:10.00, disponibile:true, immagine:'', isVeg:false, isSpicy:false },
-    { id:'7',  nome:'Pestifera',       categoria:'Pizza Bianca',   ingredienti:'Mozzarella, pesto di basilico, lucanica fresca, pomodorini pachino',                    allergeni:'Glutine, Latte', prezzo:9.50,  disponibile:true,  immagine:'', isVeg:false, isSpicy:false },
-    { id:'8',  nome:'Desmo4',          categoria:'Pizza Bianca',   ingredienti:'Mozzarella fior di latte, salamino piccante, speck, wurstel, porcini, pomodorini, rambol',allergeni:'Glutine, Latte', prezzo:13.00, disponibile:true,  immagine:'', isVeg:false, isSpicy:true  },
-    { id:'9',  nome:'Trentina',        categoria:'Pizza Speciale', ingredienti:'Polpa di pomodoro, mozzarella, lucanica fresca, funghi porcini',                         allergeni:'Glutine, Latte', prezzo:9.50,  disponibile:true,  immagine:'', isVeg:false, isSpicy:false },
-    { id:'10', nome:'Verdure',         categoria:'Pizza Speciale', ingredienti:'Polpa di pomodoro, mozzarella, melanzane alla parmigiana, peperoni, zucchine, radicchio',allergeni:'Glutine, Latte', prezzo:14.00, disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'11', nome:'Caprese',         categoria:'Antipasto',      ingredienti:'Mozzarella di bufala campana D.O.P con pomodorino pachino e basilico',                   allergeni:'Latte',          prezzo:9.00,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'12', nome:'Melanzane alla parmigiana', categoria:'Antipasto', ingredienti:'Melanzane fritte, salsa di pomodoro, grana padano D.O.P e basilico',               allergeni:'Glutine, Latte', prezzo:10.00, disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'13', nome:'Tagliere Filippone', categoria:'Antipasto',   ingredienti:'Melanzane, peperoni, crudo di parma, speck, salamino, asiago, grana, olive, focaccia',   allergeni:'Glutine, Latte', prezzo:25.00, disponibile:true,  immagine:'', isVeg:false, isSpicy:false },
-    { id:'14', nome:'Greca',           categoria:'Insalata',       ingredienti:'Insalata verde, zucchine trifolate, cipolle, olive nere, feta',                          allergeni:'Latte',          prezzo:9.50,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'15', nome:'Stai fresca',     categoria:'Focaccia',       ingredienti:'Pomodorini pachino, rucola, mozzarella fior di latte, tonno, origano',                   allergeni:'Glutine, Latte, Pesce', prezzo:8.00, disponibile:true, immagine:'', isVeg:false, isSpicy:false },
-    { id:'16', nome:'Ichnusa non filtrata', categoria:'Birra',     ingredienti:'Birra artigianale in bottiglia',                                                          allergeni:'Glutine',        prezzo:4.50,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'17', nome:'Spritz Aperol',   categoria:'Aperitivo',      ingredienti:'Prosecco, Aperol, seltz',                                                                 allergeni:'Solfiti',        prezzo:4.50,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-    { id:'18', nome:'Tiramisù',        categoria:'Dolce',          ingredienti:'Mascarpone, uova, savoiardi, caffè, cacao – Don Diego artigianale',                      allergeni:'Latte, Uova, Glutine', prezzo:6.00, disponibile:true, immagine:'', isVeg:true, isSpicy:false },
-    { id:'19', nome:'Cioco Pizza',     categoria:'Dolce',          ingredienti:'Due fagottini di pasta della pizza con nutella – di nostra produzione',                  allergeni:'Glutine, Latte, Frutta a guscio', prezzo:6.00, disponibile:true, immagine:'', isVeg:true, isSpicy:false },
-    { id:'20', nome:'Coca Cola media', categoria:'Bibita',         ingredienti:'Coca Cola alla spina',                                                                    allergeni:'',               prezzo:4.50,  disponibile:true,  immagine:'', isVeg:true,  isSpicy:false },
-  ];
+    // 3. Rendering
+    function renderTabs() {
+      const categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
+      const bar = document.getElementById('tab-bar');
+      bar.innerHTML = categories.map(cat => `
+        <button onclick="setCategory('${cat}')" class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-bold border ${currentCategory === cat ? 'bg-brand text-white' : 'bg-white'}">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function renderCards() {
+      const container = document.getElementById('content');
+      let filtered = allItems.filter(i => {
+        const catMatch = currentCategory === 'Tutti' || i.categoria === currentCategory;
+        const vegMatch = !filters.veg || i.isVeg;
+        const spicyMatch = !filters.spicy || i.isSpicy;
+        return catMatch && vegMatch && spicyMatch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-center py-10 opacity-50">Nessun piatto trovato.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((item, idx) => `
+        <div class="menu-card bg-white p-4 rounded-2xl shadow-sm flex gap-4 border border-gray-100" style="animation-delay: ${idx * 0.05}s">
+          ${item.immagine ? `<img src="${item.immagine}" class="w-20 h-20 object-cover rounded-lg">` : `<div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">🍕</div>`}
+          <div class="flex-1">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg">${item.nome}</h3>
+              <span class="text-brand font-bold">€${parseFloat(item.prezzo).toFixed(2)}</span>
+            </div>
+            <p class="text-sm text-gray-500 line-clamp-2">${item.ingredienti || ''}</p>
+            <div class="mt-2 flex gap-1">
+              ${item.isVeg ? '<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">VEG</span>' : ''}
+              ${item.isSpicy ? '<span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">PICCANTE</span>' : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Trigger animazione
+      setTimeout(() => {
+        document.querySelectorAll('.menu-card').forEach(el => el.classList.add('visible'));
+      }, 100);
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderTabs();
+      renderCards();
+    }
+
+    function toggleFilter(f) {
+      filters[f] = !filters[f];
+      document.getElementById(`btn-${f}`).classList.toggle('active');
+      renderCards();
+    }
+
+    // Start
+    loadData();
   </script>
 </body>
 </html>
