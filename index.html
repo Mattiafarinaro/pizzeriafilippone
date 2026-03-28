@@ -4,29 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   
-  <!-- SEO AVANZATA -->
-  <title>Pizzeria Filippone Trento – Menu Digitale e Ordini WhatsApp</title>
-  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Pizze classiche, bianche e speciali, fritti, dolci e un'ampia selezione di birre e cocktail. Ordina ora!" />
-  <meta name="keywords" content="Pizzeria Filippone, Pizza Trento, Menu Digitale, Pizzeria Trento, Ordine Pizza WhatsApp" />
-  <meta name="author" content="Pizzeria Filippone" />
-  <link rel="canonical" href="https://vostronomeutente.github.io/vostrarepo/" />
-
-  <!-- META TAG SOCIAL (Social Preview) -->
+  <title>Pizzeria Filippone Trento – Menu Digitale</title>
+  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Pizze classiche, bianche e speciali. Ordina ora via WhatsApp!" />
+  
+  <!-- Social Preview -->
   <meta property="og:title" content="Pizzeria Filippone – Menu Digitale" />
   <meta property="og:description" content="Scopri le nostre specialità e ordina comodamente dal tuo smartphone." />
-  <meta property="og:type" content="website" />
-  <!-- Immagine che apparirà su WhatsApp/Social -->
   <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- TAILWIND & THEME -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -70,13 +60,13 @@
       </div>
     </div>
     
-    <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 active:scale-90 transition shadow-sm" aria-label="Vedi Carrello">
+    <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 active:scale-90 transition shadow-sm" aria-label="Carrello">
       <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-brand text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">0</span>
     </button>
   </header>
 
-  <!-- SEARCH & STICKY NAV -->
+  <!-- SEARCH & NAV -->
   <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm">
     <div class="px-5 py-4 max-w-xl mx-auto">
       <div class="mb-4 p-3 bg-brand/5 rounded-2xl border border-brand/10 text-center">
@@ -86,7 +76,7 @@
         </p>
       </div>
       <div class="relative">
-        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu (es. Margherita, Birra...)" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all border-none">
+        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all border-none">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
     </div>
@@ -111,17 +101,17 @@
   <!-- CTA BAR -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-t border-stone-100 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-3 max-w-xl mx-auto">
-      <a href="tel:+390461924565" class="bg-stone-900 text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-3 active:scale-95 transition-all shadow-lg shadow-stone-200">
+      <a href="tel:+390461924565" class="bg-stone-900 text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-3 shadow-lg">
         <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
         Chiama
       </a>
-      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all">
+      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center justify-center gap-3 shadow-xl">
         Ordina <span id="cart-qty-footer" class="bg-white/20 px-3 py-1 rounded-lg text-[11px]">0 Prodotti</span>
       </button>
     </div>
   </div>
 
-  <!-- MODALS -->
+  <!-- MODAL -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
     <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
@@ -129,6 +119,7 @@
     </div>
   </div>
 
+  <!-- CART -->
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
@@ -144,32 +135,15 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v13' 
+      CACHE_KEY: 'filippone_menu_v14' 
     };
 
-    // --- LOGICA EMOJI DINAMICA (BUG FIX) ---
+    // --- LOGICA EMOJI ---
     const CAT_EMOJI_MAP = {
-      'tutti': '🍽️',
-      'classica': '🍕',
-      'rossa': '🍅',
-      'bianca': '🧀',
-      'speciale': '✨',
-      'antipast': '🫒',
-      'fritt': '🍟',
-      'sfiz': '😋',
-      'birra': '🍺',
-      'vino': '🍷',
-      'bevand': '🥤',
-      'bibit': '🥤',
-      'lattin': '🥫',
-      'aperitiv': '🍹',
-      'cocktail': '🍸',
-      'caff': '☕',
-      'amar': '🥃',
-      'liquor': '🥃',
-      'dolc': '🍮',
-      'dessert': '🍰',
-      'insalat': '🥗'
+      'tutti': '🍽️', 'classica': '🍕', 'rossa': '🍅', 'bianca': '🧀', 'speciale': '✨',
+      'antipast': '🫒', 'fritt': '🍟', 'sfiz': '😋', 'birra': '🍺', 'vino': '🍷',
+      'bevand': '🥤', 'bibit': '🥤', 'lattin': '🥫', 'aperitiv': '🍹', 'cocktail': '🍸',
+      'caff': '☕', 'amar': '🥃', 'liquor': '🥃', 'dolc': '🍮', 'dessert': '🍰', 'insalat': '🥗'
     };
 
     function getEmojiForCategory(categoryName) {
@@ -177,46 +151,34 @@
         for (const [key, emoji] of Object.entries(CAT_EMOJI_MAP)) {
             if (cat.includes(key)) return emoji;
         }
-        return '🍕'; // Default
+        return '🍕';
     }
 
-    // --- LOGICA IMMAGINI AVANZATA ---
+    // --- LOGICA IMMAGINI (ROBUSTA) ---
     function getSafeImage(item) {
-        if (item.immagine && item.immagine.length > 10) return item.immagine;
+        // Se c'è un'immagine nel database ed è un link valido, usala
+        if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) {
+            return item.immagine;
+        }
+        
         const cat = (item.categoria || "").toLowerCase();
         const nome = (item.nome || "").toLowerCase();
         
-        const img = {
-            pizza_rossa: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80',
-            pizza_bianca: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
-            aperitivi: 'https://images.unsplash.com/photo-1536935338218-841273f2a64c?auto=format&fit=crop&w=600&q=80',
-            analcolici: 'https://images.unsplash.com/photo-1544145945-f904253d0c7e?auto=format&fit=crop&w=600&q=80',
-            caffetteria: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
-            amari: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80',
-            birra: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80',
-            vino: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80',
-            bibite: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
-            acqua: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80',
-            antipasti: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80',
-            insalate: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80',
-            dolci: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80'
-        };
+        // Placeholder specifici da Unsplash
+        if (nome.includes('marinara')) return 'https://images.unsplash.com/photo-1572441712842-63704602163b?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('calabrese') || nome.includes('diavola') || nome.includes('piccante')) return 'https://images.unsplash.com/photo-1593504049359-74330189a355?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('hugo') || nome.includes('spritz') || nome.includes('gin')) return 'https://images.unsplash.com/photo-1536935338218-841273f2a64c?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('crodino')) return 'https://images.unsplash.com/photo-1544145945-f904253d0c7e?auto=format&fit=crop&w=600&q=80';
+        
+        if (cat.includes('caff')) return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('rossa') || cat.includes('pizz')) return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('antipast') || cat.includes('friz')) return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('dolc')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
 
-        if (nome.includes('hugo') || nome.includes('spritz') || nome.includes('gin') || nome.includes('tonic') || nome.includes('aperitivo')) return img.aperitivi;
-        if (nome.includes('crodino') || nome.includes('sanbitter') || nome.includes('analcolico')) return img.analcolici;
-        if (cat.includes('caff') || nome.includes('caff')) return img.caffetteria;
-        if (cat.includes('amar') || cat.includes('liquor')) return img.amari;
-        if (cat.includes('vino') || nome.includes('prosecco')) return img.vino;
-        if (cat.includes('birra')) return img.birra;
-        if (cat.includes('acqua')) return img.acqua;
-        if (cat.includes('bevand') || cat.includes('bibit')) return img.bibite;
-        if (cat.includes('bianca')) return img.pizza_bianca;
-        if (cat.includes('rossa') || cat.includes('pizz')) return img.pizza_rossa;
-        if (cat.includes('antipast') || cat.includes('friz')) return img.antipasti;
-        if (cat.includes('insalat')) return img.insalate;
-        if (cat.includes('dolc')) return img.dolci;
-
-        return img.pizza_rossa;
+        // Default: Pizza Classica
+        return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
     }
 
     let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', searchTerm = '', cart = [], filters = { veg: false, spicy: false, frozen: false };
@@ -301,7 +263,11 @@
         container.innerHTML = filtered.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
                 <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
-                    <img src="${getSafeImage(item)}" alt="${item.nome}" class="w-full h-full object-cover" loading="lazy">
+                    <img src="${getSafeImage(item)}" 
+                         alt="${item.nome}" 
+                         class="w-full h-full object-cover" 
+                         loading="lazy"
+                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <div class="flex justify-between items-start mb-1 gap-2">
@@ -310,9 +276,9 @@
                     </div>
                     <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
                     <div class="mt-2 flex flex-wrap gap-1">
-                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold">VEG</span>' : ''}
-                        ${item.isSpicy ? '<span class="text-[9px] bg-red-50 text-red-700 px-2 py-0.5 rounded-lg font-bold">PICCANTE</span>' : ''}
-                        ${item.isFrozen ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg font-bold">SURGELATO</span>' : ''}
+                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold uppercase">Veg</span>' : ''}
+                        ${item.isSpicy ? '<span class="text-[9px] bg-red-50 text-red-700 px-2 py-0.5 rounded-lg font-bold uppercase">Piccante</span>' : ''}
+                        ${item.isFrozen ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg font-bold uppercase">Surgelato</span>' : ''}
                     </div>
                 </div>
             </div>
@@ -323,7 +289,9 @@
         const item = allItems.find(i => i.id === id);
         const modal = document.getElementById('modal-backdrop');
         document.getElementById('modal-content').innerHTML = `
-            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 bg-stone-100"><img src="${getSafeImage(item)}" class="w-full h-full object-cover"></div>
+            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 bg-stone-100">
+                <img src="${getSafeImage(item)}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
+            </div>
             <div class="flex justify-between items-start mb-4">
                 <div class="min-w-0 pr-4">
                     <h2 class="text-3xl font-display font-bold text-ink leading-tight">${item.nome}</h2>
@@ -373,7 +341,7 @@
                     </div>
                 </div>`).join('');
             const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-95 transition-all">WhatsApp (Tot: €${total.toFixed(2)})</button>`;
+            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-95 transition-all">Invia su WhatsApp (Tot: €${total.toFixed(2)})</button>`;
         }
         drawer.classList.add('modal-active');
         setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
@@ -387,6 +355,7 @@
     function closeModal() { document.getElementById('modal-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300); }
     function closeCart() { document.getElementById('cart-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300); }
     function clearCart() { cart = []; updateCartUI(); closeCart(); }
+    
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
         let msg = "🍕 *Nuovo Ordine Pizzeria Filippone*\n\n";
