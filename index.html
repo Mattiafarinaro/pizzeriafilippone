@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   
   <title>Pizzeria Filippone Trento – Menu Digitale</title>
-  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Pizze classiche, bianche e speciali. Ordina ora via WhatsApp!" />
-  
+  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Pizze, bevande e specialità locali ordinate via WhatsApp." />
+
   <!-- Social Preview -->
-  <meta property="og:title" content="Pizzeria Filippone – Menu Digitale" />
-  <meta property="og:description" content="Scopri le nostre specialità e ordina comodamente dal tuo smartphone." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop" />
-  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,12 +29,18 @@
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
+    
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
+    
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
+    
     .no-scrollbar::-webkit-scrollbar { display: none; }
-    .chip-active { background-color: #C1440E15 !important; border-color: #C1440E !important; color: #1A120B !important; font-weight: 800 !important; }
+    
+    /* Ingredient Tag Style */
+    .ing-tag { background: #f3f4f6; color: #4b5563; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 600; border: 1px solid #e5e7eb; display: inline-block; margin: 2px; }
+    
     .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
   </style>
@@ -48,84 +51,50 @@
   <!-- HEADER -->
   <header class="bg-white px-6 pt-10 pb-6 shadow-sm border-b border-stone-100 relative text-center">
     <div class="max-w-2xl mx-auto">
-      <img src="logo.png" alt="Pizzeria Filippone Logo" class="h-24 w-auto mx-auto mb-4 object-contain" 
-           onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
+      <img src="logo.png" alt="Pizzeria Filippone Logo" class="h-24 w-auto mx-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
       <h1 class="font-display text-4xl font-bold text-ink mb-1">Pizzeria Filippone</h1>
-      <p class="text-ink/50 text-sm italic mt-2 px-6 max-w-sm mx-auto leading-snug">
-        "L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."
-      </p>
-      <div class="mt-6 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
-        <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        Via Anna Frank n.7, 38123 Trento
-      </div>
+      <p class="text-ink/50 text-sm italic mt-2 px-6 max-w-sm mx-auto leading-snug">"L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."</p>
     </div>
-    
-    <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 active:scale-90 transition shadow-sm" aria-label="Carrello">
+    <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 shadow-sm">
       <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-brand text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">0</span>
     </button>
   </header>
 
   <!-- SEARCH & NAV -->
-  <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm">
+  <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100">
     <div class="px-5 py-4 max-w-xl mx-auto">
-      <div class="mb-4 p-3 bg-brand/5 rounded-2xl border border-brand/10 text-center">
-        <p class="text-[11px] leading-relaxed text-brand-dark font-semibold">
-            Per ordinazioni via app non sono previste variazioni.<br> 
-            Richieste particolari? Usa il tasto <b>"Chiama"</b>.
-        </p>
-      </div>
       <div class="relative">
-        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all border-none">
+        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
     </div>
     <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar max-w-xl mx-auto"></nav>
   </div>
 
-  <!-- FILTERS -->
-  <div class="bg-white/50 border-b border-stone-100 px-5 py-3">
-    <div class="flex items-center justify-between max-w-xl mx-auto w-full">
-        <div class="flex gap-2 overflow-x-auto no-scrollbar">
-            <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Veg</button>
-            <button id="chip-spicy" onclick="toggleFilter('spicy')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌶️ Piccante</button>
-            <button id="chip-frozen" onclick="toggleFilter('frozen')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">❄️ Surgelato</button>
-        </div>
-        <div id="result-count" class="pl-4 text-[10px] font-black uppercase text-stone-300 tracking-widest whitespace-nowrap">0 Prodotti</div>
-    </div>
-  </div>
-
-  <!-- PRODUCT LIST -->
+  <!-- CONTENT -->
   <main id="content" class="flex-1 px-5 pt-6 pb-44 space-y-4 max-w-xl mx-auto w-full"></main>
 
   <!-- CTA BAR -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-t border-stone-100 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-3 max-w-xl mx-auto">
-      <a href="tel:+390461924565" class="bg-stone-900 text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-3 shadow-lg">
-        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
-        Chiama
-      </a>
-      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center justify-center gap-3 shadow-xl">
-        Ordina <span id="cart-qty-footer" class="bg-white/20 px-3 py-1 rounded-lg text-[11px]">0 Prodotti</span>
-      </button>
+      <a href="tel:+390461924565" class="bg-stone-900 text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center gap-3"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>Chiama</a>
+      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm flex items-center justify-center gap-3 shadow-xl">Ordina <span id="cart-qty-footer" class="bg-white/20 px-3 py-1 rounded-lg text-[11px]">0 Prodotti</span></button>
     </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL DETAIL -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
-    <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
+    <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[95vh]" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
       <div id="modal-content"></div>
     </div>
   </div>
 
-  <!-- CART -->
+  <!-- MODAL CART -->
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="font-display text-3xl font-bold text-ink">Il tuo ordine</h2>
-        <button onclick="clearCart()" class="text-[10px] font-black text-brand bg-brand/5 px-4 py-2 rounded-xl uppercase tracking-widest">Svuota</button>
-      </div>
+      <h2 class="font-display text-3xl font-bold text-ink mb-8">Il tuo ordine</h2>
       <div id="cart-items" class="space-y-4 mb-8"></div>
       <div id="cart-summary"></div>
     </div>
@@ -135,151 +104,92 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v14' 
+      CACHE_KEY: 'filippone_menu_v15' 
     };
 
-    // --- LOGICA EMOJI ---
-    const CAT_EMOJI_MAP = {
-      'tutti': '🍽️', 'classica': '🍕', 'rossa': '🍅', 'bianca': '🧀', 'speciale': '✨',
-      'antipast': '🫒', 'fritt': '🍟', 'sfiz': '😋', 'birra': '🍺', 'vino': '🍷',
-      'bevand': '🥤', 'bibit': '🥤', 'lattin': '🥫', 'aperitiv': '🍹', 'cocktail': '🍸',
-      'caff': '☕', 'amar': '🥃', 'liquor': '🥃', 'dolc': '🍮', 'dessert': '🍰', 'insalat': '🥗'
-    };
-
-    function getEmojiForCategory(categoryName) {
-        const cat = categoryName.toLowerCase();
-        for (const [key, emoji] of Object.entries(CAT_EMOJI_MAP)) {
-            if (cat.includes(key)) return emoji;
-        }
-        return '🍕';
-    }
-
-    // --- LOGICA IMMAGINI (ROBUSTA) ---
+    // --- LOGICA IMMAGINI (COERENTE CON BIBITE) ---
     function getSafeImage(item) {
-        // Se c'è un'immagine nel database ed è un link valido, usala
-        if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) {
-            return item.immagine;
-        }
+        if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) return item.immagine;
         
-        const cat = (item.categoria || "").toLowerCase();
         const nome = (item.nome || "").toLowerCase();
-        
-        // Placeholder specifici da Unsplash
-        if (nome.includes('marinara')) return 'https://images.unsplash.com/photo-1572441712842-63704602163b?auto=format&fit=crop&w=600&q=80';
-        if (nome.includes('calabrese') || nome.includes('diavola') || nome.includes('piccante')) return 'https://images.unsplash.com/photo-1593504049359-74330189a355?auto=format&fit=crop&w=600&q=80';
-        if (nome.includes('hugo') || nome.includes('spritz') || nome.includes('gin')) return 'https://images.unsplash.com/photo-1536935338218-841273f2a64c?auto=format&fit=crop&w=600&q=80';
-        if (nome.includes('crodino')) return 'https://images.unsplash.com/photo-1544145945-f904253d0c7e?auto=format&fit=crop&w=600&q=80';
-        
-        if (cat.includes('caff')) return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('rossa') || cat.includes('pizz')) return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('antipast') || cat.includes('friz')) return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('dolc')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
+        const cat = (item.categoria || "").toLowerCase();
 
-        // Default: Pizza Classica
-        return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
+        // BEVANDE PRIORITÀ
+        if (nome.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('coca') || nome.includes('lattina') || nome.includes('fanta') || nome.includes('sprite')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('caff') || nome.includes('espresso')) return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80';
+
+        // PIZZE SPECIFICHE
+        if (nome.includes('marinara')) return 'https://images.unsplash.com/photo-1572441712842-63704602163b?auto=format&fit=crop&w=600&q=80';
+        if (nome.includes('calabrese') || nome.includes('diavola')) return 'https://images.unsplash.com/photo-1593504049359-74330189a355?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
+
+        // DEFAULT
+        return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
     }
 
-    let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', searchTerm = '', cart = [], filters = { veg: false, spicy: false, frozen: false };
+    let allItems = [], categories = [], activeCategory = 'Tutti', cart = [];
 
     document.addEventListener('DOMContentLoaded', () => { renderSkeletons(); initData(); loadCart(); });
 
     async function initData() {
-        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
-        if (cached) { allItems = JSON.parse(cached); setupMenu(); }
-        await fetchData();
-    }
-
-    async function fetchData() {
-        const proxies = [url => `https://corsproxy.io/?${encodeURIComponent(url)}`, url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` ];
-        for (let proxyFn of proxies) {
-            try {
-                const r = await fetch(proxyFn(CONFIG.CSV_URL));
-                if (!r.ok) throw new Error();
-                const text = await r.text();
-                allItems = parseCSV(text);
-                localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(allItems));
-                setupMenu();
-                return;
-            } catch (e) {}
-        }
+        try {
+            const r = await fetch(`https://corsproxy.io/?${encodeURIComponent(CONFIG.CSV_URL)}`);
+            const text = await r.text();
+            allItems = parseCSV(text);
+            categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
+            renderTabs();
+            renderCards();
+        } catch (e) { console.error("Errore caricamento dati"); }
     }
 
     function parseCSV(text) {
-        const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
-        const headers = lines[0].split(',').map(h => h.trim());
+        const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
         return lines.slice(1).map(line => {
             const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const row = {};
             headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
-            let prezzoValue = 0;
-            for (let key in row) { if (key.toLowerCase().includes("prezzo")) { prezzoValue = parseFloat(row[key].replace(/[€$\s]/g, '').replace(',', '.')) || 0; } }
             return {
-                id: row.ID || Math.random().toString(36).substr(2, 9),
-                nome: row.Nome || "",
-                categoria: row.Categoria || "Pizze",
+                id: row.ID,
+                nome: row.Nome,
+                categoria: row.Categoria,
                 ingredienti: row.Ingredienti || "",
-                prezzo: prezzoValue,
-                immagine: row['Immagine URL'] || "",
-                isVeg: row.IsVeg?.toUpperCase().startsWith('S'),
-                isSpicy: row.IsSpicy?.toUpperCase().startsWith('S'),
-                isFrozen: row.IsFrozen?.toUpperCase().startsWith('S'),
-                allergeni: row.Allergeni || ""
+                allergeni: row.Allergeni || "",
+                varianti: row.Varianti || "",
+                prezzo: parseFloat(row['Prezzo (€)']?.replace('€', '').replace(',', '.')) || 0,
+                immagine: row['Immagine URL'],
+                isVeg: row.IsVeg === 'SI',
+                isSpicy: row.IsSpicy === 'SI',
+                isFrozen: row.IsFrozen === 'SI'
             };
         }).filter(i => i.nome);
-    }
-
-    function setupMenu() {
-        categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
-        renderTabs();
-        renderCards();
     }
 
     function renderTabs() {
         const bar = document.getElementById('tab-bar');
         bar.innerHTML = categories.map(cat => `
-            <button onclick="setCategory('${cat}')" 
-                class="shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-[13px] font-bold border transition-all ${cat === activeCategory ? 'bg-stone-900 text-white border-stone-900 shadow-md' : 'bg-white text-stone-400 border-stone-100'}">
-                <span>${getEmojiForCategory(cat)}</span> ${cat}
-            </button>
+            <button onclick="setCategory('${cat}')" class="shrink-0 px-6 py-3 rounded-2xl font-bold border ${cat === activeCategory ? 'bg-stone-900 text-white' : 'bg-white text-stone-400 border-stone-100'}">${cat}</button>
         `).join('');
     }
 
     function setCategory(cat) { activeCategory = cat; renderTabs(); renderCards(); }
-    function toggleFilter(f) { filters[f] = !filters[f]; document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]); renderCards(); }
-    function handleSearch() { searchTerm = document.getElementById('search-input').value.toLowerCase(); renderCards(); }
 
     function renderCards() {
         const container = document.getElementById('content');
-        let filtered = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
-        if (searchTerm) filtered = filtered.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
-        if (filters.veg) filtered = filtered.filter(i => i.isVeg);
-        if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
-        if (filters.frozen) filtered = filtered.filter(i => i.isFrozen);
-
-        document.getElementById('result-count').textContent = `${filtered.length} PRODOTTI`;
-
+        const filtered = allItems.filter(i => activeCategory === 'Tutti' || i.categoria === activeCategory);
         container.innerHTML = filtered.map(item => `
-            <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
-                <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
-                    <img src="${getSafeImage(item)}" 
-                         alt="${item.nome}" 
-                         class="w-full h-full object-cover" 
-                         loading="lazy"
-                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
+            <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm" onclick="openItemDetail('${item.id}')">
+                <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100">
+                    <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
                 </div>
-                <div class="flex flex-col justify-center min-w-0">
-                    <div class="flex justify-between items-start mb-1 gap-2">
-                        <h3 class="font-bold text-ink text-lg leading-tight truncate">${item.nome}</h3>
-                        <span class="font-black text-brand text-base shrink-0">€${item.prezzo.toFixed(2)}</span>
+                <div class="flex flex-col justify-center">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-ink text-lg leading-tight">${item.nome}</h3>
+                        <span class="font-black text-brand">€${item.prezzo.toFixed(2)}</span>
                     </div>
-                    <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
-                    <div class="mt-2 flex flex-wrap gap-1">
-                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold uppercase">Veg</span>' : ''}
-                        ${item.isSpicy ? '<span class="text-[9px] bg-red-50 text-red-700 px-2 py-0.5 rounded-lg font-bold uppercase">Piccante</span>' : ''}
-                        ${item.isFrozen ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg font-bold uppercase">Surgelato</span>' : ''}
-                    </div>
+                    <p class="text-stone-400 text-xs mt-1 line-clamp-1">${item.ingredienti}</p>
                 </div>
             </div>
         `).join('');
@@ -287,22 +197,45 @@
 
     function openItemDetail(id) {
         const item = allItems.find(i => i.id === id);
-        const modal = document.getElementById('modal-backdrop');
-        document.getElementById('modal-content').innerHTML = `
-            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8 bg-stone-100">
-                <img src="${getSafeImage(item)}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
-            </div>
-            <div class="flex justify-between items-start mb-4">
-                <div class="min-w-0 pr-4">
-                    <h2 class="text-3xl font-display font-bold text-ink leading-tight">${item.nome}</h2>
-                    <p class="text-brand font-bold uppercase tracking-widest text-[10px] mt-2">${item.categoria}</p>
+        
+        // Formattazione Ingredienti Originale (Petali/Tags)
+        const ingredientiTags = item.ingredienti.split(',').map(ing => `<span class="ing-tag">${ing.trim()}</span>`).join('');
+        
+        // Formattazione Allergeni (Alert Style)
+        const allergeniHtml = item.allergeni ? `
+            <div class="mt-6 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                <div class="flex items-center gap-2 mb-2 text-amber-700 font-bold text-[10px] uppercase tracking-widest">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    Allergeni presenti
                 </div>
-                <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl shrink-0">€${item.prezzo.toFixed(2)}</span>
+                <p class="text-xs text-amber-800/80 font-medium leading-relaxed">${item.allergeni}</p>
+            </div>` : '';
+
+        // Varianti
+        const variantiHtml = item.varianti ? `<p class="mt-4 text-[11px] text-stone-400 font-bold italic uppercase tracking-tighter">Varianti: ${item.varianti}</p>` : '';
+
+        document.getElementById('modal-content').innerHTML = `
+            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-8"><img src="${getSafeImage(item)}" class="w-full h-full object-cover"></div>
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h2 class="text-3xl font-display font-bold text-ink leading-tight">${item.nome}</h2>
+                    <p class="text-brand font-bold text-[10px] uppercase mt-1 tracking-widest">${item.categoria}</p>
+                </div>
+                <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl">€${item.prezzo.toFixed(2)}</span>
             </div>
-            <p class="text-stone-500 text-base leading-relaxed italic">"${item.ingredienti}"</p>
-            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-[28px] py-6 mt-8 font-bold text-lg shadow-xl active:scale-95 transition-all">Aggiungi all'ordine</button>
+            
+            <div class="space-y-2">
+                <p class="text-[10px] font-black text-stone-300 uppercase tracking-widest mb-3">Composizione del piatto</p>
+                <div class="flex flex-wrap -m-1">${ingredientiTags}</div>
+            </div>
+
+            ${variantiHtml}
+            ${allergeniHtml}
+
+            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 mt-10 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">Aggiungi all'ordine</button>
         `;
-        modal.classList.add('modal-active');
+        
+        document.getElementById('modal-backdrop').classList.add('modal-active');
         setTimeout(() => document.getElementById('modal-panel').classList.add('modal-panel-active'), 10);
     }
 
@@ -315,46 +248,47 @@
 
     function updateCartUI() {
         localStorage.setItem('filippone_cart', JSON.stringify(cart));
-        const totalItems = cart.reduce((acc, i) => acc + i.qty, 0);
-        document.getElementById('cart-badge').textContent = totalItems;
-        document.getElementById('cart-badge').classList.toggle('hidden', totalItems === 0);
-        document.getElementById('cart-qty-footer').textContent = `${totalItems} Prodotti`;
+        const total = cart.reduce((acc, i) => acc + i.qty, 0);
+        document.getElementById('cart-badge').textContent = total;
+        document.getElementById('cart-badge').classList.toggle('hidden', total === 0);
+        document.getElementById('cart-qty-footer').textContent = `${total} Prodotti`;
     }
 
     function openCart() {
-        const drawer = document.getElementById('cart-backdrop');
         const container = document.getElementById('cart-items');
         if(cart.length === 0) {
             container.innerHTML = `<div class="text-center py-20 text-stone-300 font-bold uppercase tracking-widest text-xs">Carrello Vuoto</div>`;
             document.getElementById('cart-summary').innerHTML = "";
         } else {
             container.innerHTML = cart.map(item => `
-                <div class="bg-stone-50 p-6 rounded-[32px] border border-stone-100 mb-4 flex flex-col gap-4">
-                    <div class="flex justify-between font-bold text-base text-ink"><span>${item.nome}</span><span class="text-brand">€${(item.prezzo * item.qty).toFixed(2)}</span></div>
-                    <div class="flex justify-between items-center">
-                        <button onclick="removeFromCart(${item.cartId})" class="text-[10px] font-black text-brand/50 uppercase">Elimina</button>
-                        <div class="flex items-center gap-5 bg-white px-5 py-2.5 rounded-2xl font-black shadow-sm border border-stone-100">
-                            <button onclick="changeQty(${item.cartId}, -1)" class="text-brand text-xl">-</button>
-                            <span class="text-sm font-bold text-ink">${item.qty}</span>
-                            <button onclick="changeQty(${item.cartId}, 1)" class="text-brand text-xl">+</button>
-                        </div>
+                <div class="bg-stone-50 p-6 rounded-[32px] flex justify-between items-center border border-stone-100">
+                    <div>
+                        <p class="font-bold text-ink">${item.nome}</p>
+                        <p class="text-brand font-black text-sm">€${(item.prezzo * item.qty).toFixed(2)}</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-xl shadow-sm border border-stone-100">
+                        <button onclick="changeQty(${item.cartId}, -1)" class="text-brand font-bold">-</button>
+                        <span class="font-bold text-xs">${item.qty}</span>
+                        <button onclick="changeQty(${item.cartId}, 1)" class="text-brand font-bold">+</button>
                     </div>
                 </div>`).join('');
             const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-95 transition-all">Invia su WhatsApp (Tot: €${total.toFixed(2)})</button>`;
+            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl shadow-green-100">WhatsApp (Tot: €${total.toFixed(2)})</button>`;
         }
-        drawer.classList.add('modal-active');
+        document.getElementById('cart-backdrop').classList.add('modal-active');
         setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
     }
 
     function changeQty(id, delta) {
         const item = cart.find(i => i.cartId === id);
-        if(item) { item.qty += delta; if(item.qty < 1) return removeFromCart(id); updateCartUI(); openCart(); }
+        if(item) { item.qty += delta; if(item.qty < 1) cart = cart.filter(i => i.cartId !== id); updateCartUI(); openCart(); }
     }
-    function removeFromCart(id) { cart = cart.filter(i => i.cartId !== id); updateCartUI(); openCart(); }
     function closeModal() { document.getElementById('modal-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300); }
     function closeCart() { document.getElementById('cart-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300); }
     function clearCart() { cart = []; updateCartUI(); closeCart(); }
+    function handleSearch() { const q = document.getElementById('search-input').value.toLowerCase(); renderCards(allItems.filter(i => i.nome.toLowerCase().includes(q))); }
+    function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) { cart = JSON.parse(s); updateCartUI(); } }
+    function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton h-32 rounded-[32px]"></div>').join(''); }
     
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
@@ -363,8 +297,6 @@
         msg += `\n💰 *Totale: €${total.toFixed(2)}*`;
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
     }
-    function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) { cart = JSON.parse(s); updateCartUI(); } }
-    function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton h-32 rounded-[32px]"></div>').join(''); }
   </script>
 </body>
 </html>
