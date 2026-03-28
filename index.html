@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  
-  <!-- SEO & SOCIAL PREVIEW -->
   <title>Pizzeria Filippone Trento – Menu Digitale</title>
-  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Pizze, fritti, dolci e bibite. Ordina comodamente via WhatsApp." />
-  <meta property="og:title" content="Pizzeria Filippone – Menu Digitale" />
-  <meta property="og:description" content="Scopri le nostre specialità e ordina dal tuo smartphone." />
+  
+  <!-- SEO & Social -->
+  <meta name="description" content="Menu digitale Pizzeria Filippone Trento. Pizze artigianali e ingredienti di qualità." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop" />
-  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- FONTS -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- TAILWIND -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -33,21 +29,28 @@
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
+    
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; cursor: pointer; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
+    
     .modal-active { opacity: 1 !important; visibility: visible !important; }
     .modal-panel-active { transform: translateY(0) !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
-    .chip-active { background-color: #C1440E15 !important; border-color: #C1440E !important; color: #1A120B !important; font-weight: 800 !important; }
+    
+    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; box-shadow: 0 4px 12px -4px #C1440E; }
     .ing-tag { background: #f3f4f6; color: #4b5563; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 600; border: 1px solid #e5e7eb; display: inline-block; margin: 2px; }
+    
     .skeleton { background: linear-gradient(90deg, #ede9e6 25%, #f5f2f0 50%, #ede9e6 75%); background-size: 400px 100%; animation: shimmer 1.5s infinite linear; }
     @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+    
+    @keyframes pulse-cart { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .cart-animate { animation: pulse-cart 0.4s ease-out; }
   </style>
 </head>
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- HEADER -->
+  <!-- HEADER (STRUTTURA FISSA RICHIESTA) -->
   <header class="bg-white px-6 pt-10 pb-6 shadow-sm border-b border-stone-100 relative text-center">
     <div class="max-w-2xl mx-auto">
       <img src="logo.png" alt="Logo" class="h-24 w-auto mx-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
@@ -60,13 +63,15 @@
         Via Anna Frank n.7, 38123 Trento
       </div>
     </div>
-    <button onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 shadow-sm active:scale-90 transition">
+    
+    <!-- Carrello flottante alto -->
+    <button id="cart-btn-top" onclick="openCart()" class="absolute top-8 right-6 bg-brand/5 p-4 rounded-2xl border border-brand/10 shadow-sm active:scale-90 transition">
       <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-brand text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">0</span>
     </button>
   </header>
 
-  <!-- SEARCH & CATEGORIES -->
+  <!-- INFO & SEARCH (Sticky) -->
   <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm">
     <div class="px-5 py-4 max-w-xl mx-auto">
       <div class="mb-4 p-3 bg-brand/5 rounded-2xl border border-brand/10 text-center">
@@ -76,7 +81,7 @@
         </p>
       </div>
       <div class="relative">
-        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
+        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu (es. Margherita, Coca...)" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
     </div>
@@ -87,11 +92,11 @@
   <div class="bg-white/50 border-b border-stone-100 px-5 py-3">
     <div class="flex items-center justify-between max-w-xl mx-auto w-full">
         <div class="flex gap-2 overflow-x-auto no-scrollbar">
-            <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Veg</button>
-            <button id="chip-spicy" onclick="toggleFilter('spicy')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌶️ Piccante</button>
-            <button id="chip-frozen" onclick="toggleFilter('frozen')" class="shrink-0 text-[12px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">❄️ Surgelato</button>
+            <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Veg</button>
+            <button id="chip-spicy" onclick="toggleFilter('spicy')" class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌶️ Piccante</button>
+            <button id="chip-frozen" onclick="toggleFilter('frozen')" class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">❄️ Surgelato</button>
         </div>
-        <div id="result-count" class="pl-4 text-[10px] font-black uppercase text-stone-300 tracking-widest whitespace-nowrap">0 PRODOTTI</div>
+        <div id="result-count" class="pl-4 text-[10px] font-black uppercase text-stone-400 tracking-widest whitespace-nowrap">0 PRODOTTI</div>
     </div>
   </div>
 
@@ -135,36 +140,19 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v17'
+      CACHE_KEY: 'filippone_menu_v20'
     };
 
-    // --- LOGICA EMOJI DINAMICA ---
-    const CAT_EMOJI_MAP = {
-      'tutti': '🍽️', 'classica': '🍕', 'rossa': '🍅', 'bianca': '🧀', 'speciale': '✨',
-      'antipast': '🫒', 'fritt': '🍟', 'sfiz': '😋', 'birra': '🍺', 'vino': '🍷',
-      'bevand': '🥤', 'bibit': '🥤', 'lattin': '🥫', 'aperitiv': '🍹', 'cocktail': '🍸',
-      'caff': '☕', 'amar': '🥃', 'liquor': '🥃', 'dolc': '🍮', 'dessert': '🍰', 'insalat': '🥗'
-    };
-
-    function getEmojiForCategory(categoryName) {
-        const cat = categoryName.toLowerCase();
-        for (const [key, emoji] of Object.entries(CAT_EMOJI_MAP)) {
-            if (cat.includes(key)) return emoji;
-        }
-        return '🍕';
-    }
-
-    // --- LOGICA IMMAGINI RESILIENTE ---
+    // --- IMMAGINI COERENTI ---
     function getSafeImage(item) {
         if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) return item.immagine;
-        const nome = (item.nome || "").toLowerCase();
-        const cat = (item.categoria || "").toLowerCase();
+        const n = (item.nome || "").toLowerCase();
+        const c = (item.categoria || "").toLowerCase();
 
-        if (nome.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
-        if (nome.includes('coca') || nome.includes('lattina') || cat.includes('bevande')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
-        if (nome.includes('marinara')) return 'https://images.unsplash.com/photo-1572441712842-63704602163b?auto=format&fit=crop&w=600&q=80';
+        if (n.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
+        if (n.includes('coca') || n.includes('lattina') || c.includes('bevande')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
+        if (c.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        if (c.includes('bianca')) return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
         return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
     }
 
@@ -173,70 +161,75 @@
 
     document.addEventListener('DOMContentLoaded', () => { renderSkeletons(); initData(); loadCart(); });
 
+    // --- CARICAMENTO DATI RESILIENTE ---
     async function initData() {
         const proxies = [
             url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
             url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
         ];
-        let text = "";
+        
+        let textData = "";
         for (let proxyFn of proxies) {
             try {
-                const r = await fetch(proxyFn(CONFIG.CSV_URL));
-                if (r.ok) { text = await r.text(); break; }
-            } catch (e) {}
+                const response = await fetch(proxyFn(CONFIG.CSV_URL));
+                if (response.ok) { textData = await response.text(); break; }
+            } catch (e) { console.warn("Proxy fallito, provo il prossimo..."); }
         }
-        if (text) {
-            allItems = parseCSV(text);
+
+        if (textData) {
+            allItems = parseCSV(textData);
             categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
             renderTabs();
             renderCards();
+        } else {
+            document.getElementById('content').innerHTML = `<div class='text-center py-20 text-stone-400'>Impossibile caricare il menu. Controlla la connessione.</div>`;
         }
     }
 
     function parseCSV(text) {
         const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
+        const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
         
-        // Mappatura dinamica colonne
-        const idx = {
-            id: headers.findIndex(h => h.includes('id')),
-            nome: headers.findIndex(h => h.includes('nome')),
-            cat: headers.findIndex(h => h.includes('categoria')),
-            ing: headers.findIndex(h => h.includes('ingredienti')),
-            all: headers.findIndex(h => h.includes('allergeni')),
-            pre: headers.findIndex(h => h.includes('prezzo')),
-            img: headers.findIndex(h => h.includes('immagine')),
-            var: headers.findIndex(h => h.includes('varianti')),
-            veg: headers.findIndex(h => h.includes('isveg')),
-            spi: headers.findIndex(h => h.includes('isspicy')),
-            fro: headers.findIndex(h => h.includes('isfrozen'))
+        const col = {
+            id: rawHeaders.findIndex(h => h.includes('id')),
+            nome: rawHeaders.findIndex(h => h.includes('nome')),
+            cat: rawHeaders.findIndex(h => h.includes('categoria')),
+            ing: rawHeaders.findIndex(h => h.includes('ingredienti')),
+            all: rawHeaders.findIndex(h => h.includes('allergeni')),
+            pre: rawHeaders.findIndex(h => h.includes('prezzo')),
+            img: rawHeaders.findIndex(h => h.includes('immagine')),
+            var: rawHeaders.findIndex(h => h.includes('varianti')),
+            veg: rawHeaders.findIndex(h => h.includes('isveg')),
+            spi: rawHeaders.findIndex(h => h.includes('isspicy')),
+            fro: rawHeaders.findIndex(h => h.includes('isfrozen'))
         };
 
         return lines.slice(1).map(line => {
             const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const clean = (val) => val?.replace(/^"|"$/g, '').trim() || "";
+            const get = (idx) => v[idx]?.replace(/^"|"$/g, '').trim() || "";
             return {
-                id: clean(v[idx.id]),
-                nome: clean(v[idx.nome]),
-                categoria: clean(v[idx.cat]),
-                ingredienti: clean(v[idx.ing]),
-                allergeni: clean(v[idx.all]),
-                varianti: clean(v[idx.var]),
-                prezzo: parseFloat(clean(v[idx.pre]).replace('€', '').replace(',', '.')) || 0,
-                immagine: clean(v[idx.img]),
-                isVeg: clean(v[idx.veg]).toUpperCase() === 'SI',
-                isSpicy: clean(v[idx.spi]).toUpperCase() === 'SI',
-                isFrozen: clean(v[idx.fro]).toUpperCase() === 'SI'
+                id: get(col.id),
+                nome: get(col.nome),
+                categoria: get(col.cat) || "Pizze",
+                ingredienti: get(col.ing),
+                allergeni: get(col.all),
+                varianti: get(col.var),
+                prezzo: parseFloat(get(col.pre).replace('€', '').replace(',', '.')) || 0,
+                immagine: get(col.img),
+                isVeg: get(col.veg).toUpperCase() === 'SI',
+                isSpicy: get(col.spi).toUpperCase() === 'SI',
+                isFrozen: get(col.fro).toUpperCase() === 'SI'
             };
         }).filter(i => i.nome);
     }
 
+    // --- UI RENDERING ---
     function renderTabs() {
         const bar = document.getElementById('tab-bar');
         bar.innerHTML = categories.map(cat => `
             <button onclick="setCategory('${cat}')" 
-                class="shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl text-[13px] font-bold border transition-all ${cat === activeCategory ? 'bg-stone-900 text-white border-stone-900 shadow-md' : 'bg-white text-stone-400 border-stone-100'}">
-                <span>${getEmojiForCategory(cat)}</span> ${cat}
+                class="shrink-0 px-6 py-3 rounded-2xl font-bold border transition-all ${cat === activeCategory ? 'bg-stone-900 text-white border-stone-900 shadow-md' : 'bg-white text-stone-400 border-stone-100'}">
+                ${cat}
             </button>
         `).join('');
     }
@@ -258,8 +251,12 @@
 
         container.innerHTML = filtered.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
-                <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 border border-stone-50">
+                <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 relative">
                     <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
+                    <div class="absolute top-2 right-2 flex flex-col gap-1">
+                        ${item.isVeg ? '<span class="bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] shadow-sm">🌿</span>' : ''}
+                        ${item.isSpicy ? '<span class="bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
+                    </div>
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <div class="flex justify-between items-start mb-1 gap-2">
@@ -267,11 +264,6 @@
                         <span class="font-black text-brand text-base shrink-0">€${item.prezzo.toFixed(2)}</span>
                     </div>
                     <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
-                    <div class="mt-2 flex flex-wrap gap-1">
-                        ${item.isVeg ? '<span class="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-lg font-bold uppercase">Veg</span>' : ''}
-                        ${item.isSpicy ? '<span class="text-[9px] bg-red-50 text-red-700 px-2 py-0.5 rounded-lg font-bold uppercase">Piccante</span>' : ''}
-                        ${item.isFrozen ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg font-bold uppercase">Surgelato</span>' : ''}
-                    </div>
                 </div>
             </div>
         `).join('');
@@ -292,8 +284,11 @@
                 </div>
                 <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl">€${item.prezzo.toFixed(2)}</span>
             </div>
-            <div class="mb-6"><p class="text-[10px] font-black text-stone-300 uppercase tracking-widest mb-3">Composizione</p><div class="flex flex-wrap">${tags || 'Nessuno'}</div></div>
-            ${item.varianti ? `<p class="text-xs text-stone-400 italic mb-6">Varianti: ${item.varianti}</p>` : ''}
+            <div class="mb-6">
+                <p class="text-[10px] font-black text-stone-300 uppercase tracking-widest mb-3">Ingredienti</p>
+                <div class="flex flex-wrap">${tags || 'Vedi descrizione'}</div>
+            </div>
+            ${item.varianti ? `<p class="text-xs text-stone-400 italic mb-6">Opzioni: ${item.varianti}</p>` : ''}
             ${item.allergeni ? `<div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 mb-6"><p class="text-[10px] text-amber-700 font-bold uppercase mb-1 tracking-widest">Allergeni</p><p class="text-xs text-amber-800">${item.allergeni}</p></div>` : ''}
             <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">Aggiungi all'ordine</button>
         `;
@@ -301,13 +296,18 @@
         setTimeout(() => document.getElementById('modal-panel').classList.add('modal-panel-active'), 10);
     }
 
-    // --- CARRELLO & UTILITY ---
+    // --- CARRELLO ---
     function addToCart(id) {
         const item = allItems.find(i => i.id === id);
         cart.push({ cartId: Date.now(), ...item, qty: 1 });
         updateCartUI();
         closeModal();
+        // Animazione micro-UX
+        const btn = document.getElementById('cart-btn-top');
+        btn.classList.add('cart-animate');
+        setTimeout(() => btn.classList.remove('cart-animate'), 400);
     }
+
     function updateCartUI() {
         localStorage.setItem('filippone_cart', JSON.stringify(cart));
         const total = cart.reduce((acc, i) => acc + i.qty, 0);
@@ -315,27 +315,32 @@
         document.getElementById('cart-badge').classList.toggle('hidden', total === 0);
         document.getElementById('cart-qty-footer').textContent = `${total} Prodotti`;
     }
+
     function openCart() {
         const container = document.getElementById('cart-items');
         if(cart.length === 0) {
-            container.innerHTML = `<p class="text-center py-20 text-stone-300 font-bold uppercase text-xs">Carrello Vuoto</p>`;
+            container.innerHTML = `<p class="text-center py-20 text-stone-300 font-bold uppercase text-xs tracking-widest">Il carrello è vuoto</p>`;
             document.getElementById('cart-summary').innerHTML = "";
         } else {
             container.innerHTML = cart.map(item => `
                 <div class="bg-stone-50 p-6 rounded-[32px] flex justify-between items-center border border-stone-100">
-                    <div><p class="font-bold text-ink">${item.nome}</p><p class="text-brand font-black text-sm">€${(item.prezzo * item.qty).toFixed(2)}</p></div>
+                    <div class="min-w-0 pr-4">
+                        <p class="font-bold text-ink truncate">${item.nome}</p>
+                        <p class="text-brand font-black text-sm">€${(item.prezzo * item.qty).toFixed(2)}</p>
+                    </div>
                     <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-xl shadow-sm">
-                        <button onclick="changeQty(${item.cartId}, -1)" class="text-brand font-bold">-</button>
-                        <span class="font-bold text-xs">${item.qty}</span>
-                        <button onclick="changeQty(${item.cartId}, 1)" class="text-brand font-bold">+</button>
+                        <button onclick="changeQty(${item.cartId}, -1)" class="text-brand font-bold p-1">-</button>
+                        <span class="font-bold text-xs w-4 text-center">${item.qty}</span>
+                        <button onclick="changeQty(${item.cartId}, 1)" class="text-brand font-bold p-1">+</button>
                     </div>
                 </div>`).join('');
             const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl">WhatsApp (Tot: €${total.toFixed(2)})</button>`;
+            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-95 transition-all">WhatsApp (Tot: €${total.toFixed(2)})</button>`;
         }
         document.getElementById('cart-backdrop').classList.add('modal-active');
         setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
     }
+
     function changeQty(id, delta) {
         const idx = cart.findIndex(i => i.cartId === id);
         if(idx !== -1) { cart[idx].qty += delta; if(cart[idx].qty < 1) cart.splice(idx, 1); updateCartUI(); openCart(); }
@@ -345,6 +350,7 @@
     function clearCart() { cart = []; updateCartUI(); closeCart(); }
     function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) { cart = JSON.parse(s); updateCartUI(); } }
     function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton h-32 rounded-[32px]"></div>').join(''); }
+    
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
         let msg = "🍕 *Ordine Pizzeria Filippone*\n\n";
