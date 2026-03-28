@@ -8,6 +8,7 @@
   <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Ordina pizze artigianali e bibite via WhatsApp." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -27,7 +28,8 @@
   <style>
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; scroll-behavior: smooth; }
-    
+    body.modal-open { overflow: hidden; }
+
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; cursor: pointer; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
     
@@ -64,18 +66,13 @@
   <!-- RICERCA E CATEGORIE -->
   <div class="bg-white border-b border-stone-100">
     <div class="px-5 py-4 max-w-xl mx-auto">
-      <div class="mb-6 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center">
-        <p class="text-[11px] leading-relaxed text-brand-dark font-semibold">
-            Per ordinazioni via app non sono previste variazioni.<br> 
-            Richieste particolari? Usa il tasto <b>"Chiama"</b>.
-        </p>
+      <div class="mb-6 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-semibold text-[11px]">
+        Per ordinazioni via app non sono previste variazioni. Richieste particolari? Usa il tasto <b>"Chiama"</b>.
       </div>
-      
       <div class="relative mb-6">
         <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
-
       <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar"></nav>
     </div>
   </div>
@@ -95,29 +92,16 @@
   <!-- CONTENT -->
   <main id="content" class="flex-1 px-5 pt-6 pb-44 space-y-4 max-w-xl mx-auto w-full"></main>
 
-  <!-- BACK TO TOP -->
-  <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-32 right-6 z-40 bg-stone-900 text-white p-4 rounded-full shadow-2xl active:scale-90 transition-all">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
-  </button>
-
-  <!-- FOOTER BAR (FISSA A 3 PULSANTI) -->
+  <!-- FOOTER BAR -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-t border-stone-100 px-5 pt-4 pb-8 shadow-2xl">
     <div class="flex gap-2 max-w-xl mx-auto">
-      <!-- 1. Chiama -->
       <a href="tel:+390461924565" class="flex-1 bg-stone-900 text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
-        Chiama
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>Chiama
       </a>
-      
-      <!-- 2. WhatsApp Business (Centrale) -->
       <a href="https://wa.me/390461924565" target="_blank" class="flex-1 bg-[#25D366] text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        WhatsApp
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp
       </a>
-
-      <!-- 3. Ordina -->
-      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 active:scale-95 transition-all shadow-xl">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <button onclick="openCart()" class="flex-1 bg-brand text-white rounded-2xl py-4 font-bold text-[13px] flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all">
         Ordina (<span id="cart-qty-footer">0</span>)
       </button>
     </div>
@@ -127,12 +111,9 @@
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
     <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[95vh] relative" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
-      
-      <!-- Pulsante Chiusura -->
       <button onclick="closeModal()" class="absolute top-6 right-6 bg-white shadow-lg p-3 rounded-full z-10 text-stone-900 border border-stone-100 active:scale-90 transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
-
       <div id="modal-content"></div>
     </div>
   </div>
@@ -140,19 +121,23 @@
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
-        <h2 class="font-display text-3xl font-bold text-ink">Il tuo ordine</h2>
-        <button onclick="clearCart()" class="text-[10px] font-black text-brand bg-brand/5 px-4 py-2 rounded-xl uppercase tracking-widest">Svuota</button>
+        <h2 class="font-display text-3xl font-bold text-ink tracking-tight">Il tuo ordine</h2>
+        <button onclick="clearCart()" class="text-[10px] font-black text-brand bg-brand/5 px-4 py-2 rounded-xl uppercase tracking-widest border border-brand/10 active:bg-brand/10">Svuota</button>
       </div>
       <div id="cart-items" class="space-y-4 mb-8"></div>
       <div id="cart-summary"></div>
     </div>
   </div>
 
+  <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-32 right-6 z-40 bg-stone-900 text-white p-4 rounded-full shadow-2xl active:scale-90 transition-all">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
+  </button>
+
   <script>
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v40'
+      CACHE_KEY: 'filippone_menu_v50'
     };
 
     const EMOJI_MAP = {
@@ -162,36 +147,28 @@
       'caff': '☕', 'amar': '🥃', 'liquor': '🥃', 'dolc': '🍮', 'dessert': '🍰', 'insalat': '🥗'
     };
 
-    function getEmoji(catName) {
-        const c = catName.toLowerCase();
-        for (const [key, emoji] of Object.entries(EMOJI_MAP)) { if (c.includes(key)) return emoji; }
-        return '🍕';
-    }
-
-    // --- LOGICA IMMAGINI (ROBUSTA) ---
-    function getSafeImage(item) {
-        // Se c'è un'immagine valida nel DB, usala
-        if (item && item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) {
-            return item.immagine;
-        }
-        
-        const n = (item.nome || "").toLowerCase();
-        const c = (item.categoria || "").toLowerCase();
-
-        if (n.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
-        if (n.includes('coca') || n.includes('fanta') || n.includes('sprite') || n.includes('lattina') || c.includes('bevand')) 
-            return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
-        if (c.includes('birra') || n.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
-        if (c.includes('dolc')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
-        if (c.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
-        
-        // Default
-        return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
-    }
-
     let allItems = [], categories = [], activeCategory = 'Tutti', cart = [], searchTerm = '';
     let filters = { veg: false, spicy: false, frozen: false };
 
+    // --- UTILITIES ---
+    const getEmoji = (cat) => {
+        const c = cat.toLowerCase();
+        for (const [key, emoji] of Object.entries(EMOJI_MAP)) { if (c.includes(key)) return emoji; }
+        return '🍕';
+    };
+
+    const getSafeImage = (item) => {
+        if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) return item.immagine;
+        const n = item.nome.toLowerCase();
+        const c = item.categoria.toLowerCase();
+        if (n.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
+        if (n.includes('coca') || n.includes('lattina') || c.includes('bevand')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
+        if (c.includes('birra') || n.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        if (c.includes('dolc')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
+        return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
+    };
+
+    // --- CORE LOGIC ---
     document.addEventListener('DOMContentLoaded', () => { 
         renderSkeletons();
         initData(); 
@@ -204,18 +181,18 @@
 
     async function initData() {
         const proxies = [
-            url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-            url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+            u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+            u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
         ];
-        let textData = "";
-        for (let proxyFn of proxies) {
+        let raw = "";
+        for (let proxy of proxies) {
             try {
-                const response = await fetch(proxyFn(CONFIG.CSV_URL));
-                if (response.ok) { textData = await response.text(); break; }
+                const res = await fetch(proxy(CONFIG.CSV_URL));
+                if (res.ok) { raw = await res.text(); break; }
             } catch (e) {}
         }
-        if (textData) {
-            allItems = parseCSV(textData);
+        if (raw) {
+            allItems = parseCSV(raw);
             categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
             renderTabs();
             renderCards();
@@ -224,22 +201,21 @@
 
     function parseCSV(text) {
         text = text.replace(/^\uFEFF/, ""); 
-        const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
-        const findCol = (keys) => headers.findIndex(h => keys.some(k => h.includes(k)));
-
+        const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+        const head = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
+        const f = (keys) => head.findIndex(h => keys.some(k => h.includes(k)));
+        
         const col = {
-            id: findCol(['id']), nome: findCol(['nome']), cat: findCol(['categoria']),
-            ing: findCol(['ingredienti']), all: findCol(['allergeni']), pre: findCol(['prezzo', '€']),
-            img: findCol(['immagine', 'url']), var: findCol(['varianti']), veg: findCol(['isveg']),
-            spi: findCol(['isspicy']), fro: findCol(['isfrozen'])
+            id: f(['id']), nome: f(['nome']), cat: f(['categoria']), ing: f(['ingredienti']), 
+            all: f(['allergeni']), pre: f(['prezzo', '€']), img: f(['immagine', 'url']),
+            var: f(['varianti']), veg: f(['isveg']), spi: f(['isspicy']), fro: f(['isfrozen'])
         };
 
         return lines.slice(1).map(line => {
             const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            const get = (idx) => v[idx]?.replace(/^"|"$/g, '').trim() || "";
+            const get = (i) => v[i]?.replace(/^"|"$/g, '').trim() || "";
             return {
-                id: get(col.id), nome: get(col.nome), categoria: get(col.cat),
+                id: get(col.id), nome: get(col.nome), categoria: get(col.cat) || "Pizze",
                 ingredienti: get(col.ing), allergeni: get(col.all), varianti: get(col.var),
                 prezzo: parseFloat(get(col.pre).replace('€', '').replace(',', '.')) || 0,
                 immagine: get(col.img), isVeg: get(col.veg).toUpperCase() === 'SI',
@@ -248,6 +224,7 @@
         }).filter(i => i.nome);
     }
 
+    // --- UI ENGINE ---
     function renderTabs() {
         const bar = document.getElementById('tab-bar');
         bar.innerHTML = categories.map(cat => `
@@ -258,21 +235,21 @@
         `).join('');
     }
 
-    function setCategory(cat) { activeCategory = cat; renderTabs(); renderCards(); }
+    function setCategory(c) { activeCategory = c; renderTabs(); renderCards(); }
     function toggleFilter(f) { filters[f] = !filters[f]; document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]); renderCards(); }
     function handleSearch() { searchTerm = document.getElementById('search-input').value.toLowerCase(); renderCards(); }
 
     function renderCards() {
         const container = document.getElementById('content');
-        let filtered = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
-        if (searchTerm) filtered = filtered.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
-        if (filters.veg) filtered = filtered.filter(i => i.isVeg);
-        if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
-        if (filters.frozen) filtered = filtered.filter(i => i.isFrozen);
+        let data = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
+        if (searchTerm) data = data.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
+        if (filters.veg) data = data.filter(i => i.isVeg);
+        if (filters.spicy) data = data.filter(i => i.isSpicy);
+        if (filters.frozen) data = data.filter(i => i.isFrozen);
 
-        document.getElementById('result-count').textContent = `${filtered.length} PRODOTTI`;
+        document.getElementById('result-count').textContent = `${data.length} PRODOTTI`;
 
-        container.innerHTML = filtered.map(item => `
+        container.innerHTML = data.map(item => `
             <div class="item-card bg-white rounded-[32px] p-4 border border-stone-100 shadow-sm active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')">
                 <div class="aspect-square rounded-[24px] overflow-hidden bg-stone-100 relative">
                     <img src="${getSafeImage(item)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
@@ -295,68 +272,97 @@
     function openItemDetail(id) {
         const item = allItems.find(i => i.id === id);
         const tags = item.ingredienti.split(',').filter(t => t.trim()).map(t => `<span class="ing-tag">${t.trim()}</span>`).join('');
-        const imgUrl = getSafeImage(item);
-        
+        document.body.classList.add('modal-open');
         document.getElementById('modal-content').innerHTML = `
-            <div class="aspect-video w-full rounded-[32px] overflow-hidden mb-6 bg-stone-100">
-                <img src="${imgUrl}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80';">
-            </div>
+            <img src="${getSafeImage(item)}" class="w-full aspect-video rounded-[32px] object-cover mb-6 bg-stone-100 shadow-inner">
             <div class="flex justify-between items-start mb-6">
                 <div><h2 class="text-3xl font-display font-bold text-ink leading-tight">${item.nome}</h2><p class="text-brand font-bold text-[10px] uppercase mt-1 tracking-widest">${item.categoria}</p></div>
                 <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl">€${item.prezzo.toFixed(2)}</span>
             </div>
-            <div class="mb-6"><p class="text-[10px] font-black text-stone-300 uppercase mb-3">Ingredienti</p><div class="flex flex-wrap">${tags || 'Nessuno'}</div></div>
-            ${item.varianti ? `<p class="text-[11px] text-stone-400 mb-6 italic font-bold uppercase tracking-tight">Varianti: ${item.varianti}</p>` : ''}
-            ${item.allergeni ? `<div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 mb-6"><p class="text-[10px] text-amber-700 font-bold uppercase mb-1">Allergeni</p><p class="text-xs text-amber-800">${item.allergeni}</p></div>` : ''}
-            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 font-bold text-lg shadow-xl active:scale-95 transition-all">Aggiungi all'ordine</button>
+            <div class="mb-6"><p class="text-[10px] font-black text-stone-300 uppercase mb-3 tracking-widest">Ingredienti</p><div class="flex flex-wrap">${tags || 'Nessuno'}</div></div>
+            ${item.varianti ? `<p class="text-[10px] text-stone-400 mb-6 italic font-bold uppercase tracking-tight">Varianti: ${item.varianti}</p>` : ''}
+            ${item.allergeni ? `<div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 mb-6"><p class="text-[10px] text-amber-700 font-bold uppercase mb-1 tracking-widest">Allergeni</p><p class="text-xs text-amber-800 font-medium">${item.allergeni}</p></div>` : ''}
+            <button onclick="addToCart('${item.id}')" class="w-full bg-brand text-white rounded-3xl py-6 font-bold text-lg shadow-xl active:scale-[0.97] transition-all">Aggiungi all'ordine</button>
         `;
         document.getElementById('modal-backdrop').classList.add('modal-active');
         setTimeout(() => document.getElementById('modal-panel').classList.add('modal-panel-active'), 10);
     }
 
+    // --- CART SYSTEM (FIXED) ---
     function addToCart(id) {
         const item = allItems.find(i => i.id === id);
-        cart.push({ cartId: Date.now(), ...item, qty: 1 });
+        const existing = cart.find(c => c.id === item.id);
+        if (existing) { existing.qty++; } else { cart.push({ ...item, qty: 1, cartId: Date.now() }); }
         updateCartUI();
         closeModal();
     }
+
+    function clearCart() {
+        cart = [];
+        updateCartUI();
+        closeCart();
+    }
+
     function updateCartUI() {
         localStorage.setItem('filippone_cart', JSON.stringify(cart));
-        const total = cart.reduce((acc, i) => acc + i.qty, 0);
-        document.getElementById('cart-badge').textContent = total;
-        document.getElementById('cart-badge').classList.toggle('hidden', total === 0);
-        document.getElementById('cart-qty-footer').textContent = total;
+        const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+        document.getElementById('cart-qty-footer').textContent = totalQty;
+        const badge = document.getElementById('cart-badge'); // Se presente in futuro
+        // Rinfresca il contenuto se il carrello è già aperto
+        if(document.getElementById('cart-backdrop').classList.contains('modal-active')) renderCartItems();
     }
-    function openCart() {
+
+    function renderCartItems() {
         const container = document.getElementById('cart-items');
         if(cart.length === 0) {
-            container.innerHTML = `<p class="text-center py-20 text-stone-300 font-bold uppercase text-xs">Carrello Vuoto</p>`;
+            container.innerHTML = `<div class="text-center py-20"><p class="text-stone-300 font-bold uppercase text-xs tracking-widest">Il carrello è vuoto</p></div>`;
             document.getElementById('cart-summary').innerHTML = "";
-        } else {
-            container.innerHTML = cart.map(item => `
-                <div class="bg-stone-50 p-6 rounded-[32px] flex justify-between items-center border border-stone-100">
-                    <div><p class="font-bold text-ink">${item.nome}</p><p class="text-brand font-black text-sm">€${(item.prezzo * item.qty).toFixed(2)}</p></div>
-                    <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-xl shadow-sm"><button onclick="changeQty(${item.cartId}, -1)" class="text-brand font-bold p-1">-</button><span class="font-bold text-xs">${item.qty}</span><button onclick="changeQty(${item.cartId}, 1)" class="text-brand font-bold p-1">+</button></div>
-                </div>`).join('');
-            const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-            document.getElementById('cart-summary').innerHTML = `<button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl">Invia Ordine WhatsApp (Tot: €${total.toFixed(2)})</button>`;
+            return;
         }
+        container.innerHTML = cart.map(item => `
+            <div class="bg-stone-50 p-6 rounded-[32px] flex justify-between items-center border border-stone-100">
+                <div class="min-w-0 pr-4">
+                    <p class="font-bold text-ink truncate">${item.nome}</p>
+                    <p class="text-brand font-black text-sm">€${(item.prezzo * item.qty).toFixed(2)}</p>
+                </div>
+                <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-xl shadow-sm border border-stone-100">
+                    <button onclick="changeQty(${item.cartId}, -1)" class="text-brand font-bold p-1 active:scale-125 transition-transform">-</button>
+                    <span class="font-bold text-xs w-4 text-center">${item.qty}</span>
+                    <button onclick="changeQty(${item.cartId}, 1)" class="text-brand font-bold p-1 active:scale-125 transition-transform">+</button>
+                </div>
+            </div>`).join('');
+        
+        const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
+        document.getElementById('cart-summary').innerHTML = `
+            <div class="pt-4"><button onclick="sendWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-bold text-lg shadow-xl active:scale-[0.98] transition-all">Invia su WhatsApp (Tot: €${total.toFixed(2)})</button></div>`;
+    }
+
+    function openCart() {
+        renderCartItems();
+        document.body.classList.add('modal-open');
         document.getElementById('cart-backdrop').classList.add('modal-active');
         setTimeout(() => document.getElementById('cart-panel').classList.add('modal-panel-active'), 10);
     }
-    function changeQty(id, delta) {
-        const idx = cart.findIndex(i => i.cartId === id);
-        if(idx !== -1) { cart[idx].qty += delta; if(cart[idx].qty < 1) cart.splice(idx, 1); updateCartUI(); openCart(); }
+
+    function changeQty(cartId, delta) {
+        const idx = cart.findIndex(i => i.cartId === cartId);
+        if(idx !== -1) {
+            cart[idx].qty += delta;
+            if(cart[idx].qty < 1) cart.splice(idx, 1);
+            updateCartUI();
+            renderCartItems(); 
+        }
     }
-    function closeModal() { document.getElementById('modal-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300); }
-    function closeCart() { document.getElementById('cart-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300); }
-    function clearCart() { cart = []; updateCartUI(); closeCart(); }
+
+    function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modal-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('modal-backdrop').classList.remove('modal-active'), 300); }
+    function closeCart() { document.body.classList.remove('modal-open'); document.getElementById('cart-panel').classList.remove('modal-panel-active'); setTimeout(() => document.getElementById('cart-backdrop').classList.remove('modal-active'), 300); }
     function loadCart() { const s = localStorage.getItem('filippone_cart'); if(s) { cart = JSON.parse(s); updateCartUI(); } }
     function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton mb-4"></div>').join(''); }
     
     function sendWhatsApp() {
+        if(cart.length === 0) return;
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-        let msg = "🍕 *Ordine Pizzeria Filippone*\n\n";
+        let msg = "🍕 *Nuovo Ordine Pizzeria Filippone*\n\n";
         cart.forEach(i => { msg += `• ${i.qty}x *${i.nome}* (€${(i.prezzo * i.qty).toFixed(2)})\n`; });
         msg += `\n💰 *Totale: €${total.toFixed(2)}*`;
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
