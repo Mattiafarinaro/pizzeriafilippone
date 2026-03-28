@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pizzeria Filippone – Menu Digitale Potenziato</title>
+  <title>Pizzeria Filippone – Menu Digitale</title>
 
-  <meta name="description" content="Sfoglia il menu digitale potenziato della Pizzeria Filippone. Pizze, extra e ordine su WhatsApp!" />
-  <meta property="og:type" content="restaurant.restaurant" />
-  <meta property="og:title" content="Pizzeria Filippone – Menu Digitale Potenziato" />
-  <meta property="og:description" content="Sfoglia, cerca, personalizza e ordina il tuo ordine direttamente su WhatsApp!" />
-  <meta property="og:image" content="https://filipponepizzeria.github.io/og-image.jpg" /> <meta property="og:url" content="https://filipponepizzeria.github.io/" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Meta per Mobile -->
+  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone e ordina comodamente su WhatsApp." />
+  <meta name="theme-color" content="#C1440E" />
 
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -23,23 +22,12 @@
         extend: {
           fontFamily: {
             display: ['"Playfair Display"', 'serif'],
-            body: ['"DM Sans"', 'sans-serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           colors: {
-            brand:  { DEFAULT: '#C1440E', light: '#E85D20', dark: '#8B2E07' },
-            cream:  { DEFAULT: '#FAF6EF', dark: '#F0E8D8' },
-            ink:    { DEFAULT: '#1A120B', muted: '#6B5744' },
-          },
-          animation: {
-            'fade-in':    'fadeIn .35s ease forwards',
-            'slide-up':   'slideUp .4s ease forwards',
-            'shimmer':    'shimmer 1.4s infinite linear',
-            'pulse-slow': 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite',
-          },
-          keyframes: {
-            fadeIn:  { from:{ opacity:0 }, to:{ opacity:1 } },
-            slideUp: { from:{ opacity:0, transform:'translateY(12px)' }, to:{ opacity:1, transform:'translateY(0)' } },
-            shimmer: { '0%':{ backgroundPosition:'-400px 0' }, '100%':{ backgroundPosition:'400px 0' } },
+            brand: { DEFAULT: '#C1440E', light: '#E85D20', dark: '#8B2E07', surface: '#FFF5F0' },
+            cream: { DEFAULT: '#FAF6EF', dark: '#F0E8D8' },
+            ink: { DEFAULT: '#1A120B', muted: '#6B5744', soft: '#A08E7D' },
           },
         },
       },
@@ -47,714 +35,462 @@
   </script>
 
   <style>
-    /* ─── Base ─── */
+    /* Reset & Smoothness */
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    html, body { height: 100%; overscroll-behavior: none; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #FAF6EF;
-      color: #1A120B;
-      -webkit-font-smoothing: antialiased;
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAF6EF; color: #1A120B; -webkit-font-smoothing: antialiased; }
 
-    /* ─── Scrollbar ─── */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #C1440E55; border-radius: 2px; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #C1440E44; border-radius: 10px; }
 
-    /* ─── Tab bar ─── */
-    #tab-bar { scrollbar-width: none; }
-    #tab-bar::-webkit-scrollbar { display: none; }
+    /* Glassmorphism */
+    .glass { background: rgba(250, 246, 239, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 
-    /* ─── Skeleton shimmer ─── */
+    /* Animations */
+    @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
+    .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    .menu-card { opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
+    .menu-card.visible { opacity: 1; transform: translateY(0); }
+
+    /* Skeleton Shimmer */
     .skeleton {
-      background: linear-gradient(90deg, #e8ddd0 25%, #f5ede0 50%, #e8ddd0 75%);
+      background: linear-gradient(90deg, #f0e8d8 25%, #f9f3e9 50%, #f0e8d8 75%);
       background-size: 400px 100%;
-      animation: shimmer 1.4s infinite linear;
-      border-radius: 8px;
+      animation: shimmer 1.5s infinite linear;
     }
+    @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
 
-    /* ─── Card hover ─── */
-    .menu-card {
-      transition: transform .2s ease, box-shadow .2s ease;
-      cursor: pointer;
-    }
-    .menu-card:active { transform: scale(.985); }
-
-    /* ─── Badge pill ─── */
-    .badge { display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; letter-spacing:.03em; }
-
-    /* ─── Sticky bottom safe-area ─── */
-    #action-bar { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
-
-    /* ─── Filter chip active ─── */
-    .chip.active { background: #C1440E; color: #fff; border-color: #C1440E; }
-
-    /* ─── Hero texture ─── */
-    #hero::after {
-      content:'';
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 3px,
-        rgba(0,0,0,.03) 3px,
-        rgba(0,0,0,.03) 6px
-      );
-      pointer-events:none;
-    }
-
-    /* staggered animation for cards */
-    .menu-card { opacity:0; }
-    .menu-card.visible { animation: slide-up .38s ease forwards; }
-    @keyframes slide-up {
-      from { opacity:0; transform:translateY(14px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
+    /* Chips */
+    .chip-active { background-color: #C1440E !important; color: white !important; border-color: #C1440E !important; box-shadow: 0 4px 12px rgba(193, 68, 14, 0.2); }
   </style>
 </head>
 
-<body class="flex flex-col h-full">
+<body class="flex flex-col min-h-screen">
 
-  <header id="hero" class="relative bg-brand text-cream overflow-hidden shrink-0" style="min-height:160px;">
-    <button onclick="openCart()" class="absolute top-6 right-5 z-20 bg-cream text-brand p-3 rounded-full shadow-lg active:scale-95 transition">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-      <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-brand text-cream text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
-    </button>
-    <div class="absolute -top-8 -left-8 w-40 h-40 rounded-full bg-brand-light opacity-30"></div>
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-1 bg-cream opacity-10 rounded-full"></div>
-
-    <div class="relative z-10 px-5 pt-10 pb-4">
-      <p class="text-xs tracking-[.2em] uppercase text-cream/60 font-body mb-1">Dal 1966</p>
-      <h1 class="font-display text-4xl font-bold leading-tight">Filippone</h1>
-      <p class="text-cream/70 text-sm mt-1 font-body max-w-sm">Qualità e tradizione, ora anche nel carrello.</p>
+  <!-- HERO SECTION -->
+  <header class="relative bg-brand text-cream overflow-hidden pb-8">
+    <div class="absolute top-0 right-0 p-6 z-20">
+        <button onclick="openCart()" class="relative bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 active:scale-90 transition-transform">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-white text-brand text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center shadow-lg">0</span>
+        </button>
     </div>
+    
+    <div class="relative z-10 px-6 pt-16">
+      <div class="inline-block px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 border border-white/10">Dal 1966 • Trento</div>
+      <h1 class="font-display text-5xl font-bold leading-tight">Pizzeria<br>Filippone</h1>
+      <p class="text-white/70 text-sm mt-3 font-medium max-w-[240px] leading-relaxed">L'arte della pizza tramandata da generazioni, ora sul tuo smartphone.</p>
+    </div>
+
+    <!-- Background Decor -->
+    <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-brand-light opacity-20 rounded-full blur-3xl"></div>
   </header>
 
-  <div class="shrink-0 px-4 py-3 bg-cream sticky top-0 z-30 border-b border-ink/10">
-    <div class="relative">
-      <span class="absolute inset-y-0 left-3 flex items-center text-ink/40">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      </span>
-      <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca pizza, ingrediente, categoria..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-ink/15 bg-white text-ink placeholder:text-ink/40 text-sm focus:border-brand focus:ring-brand focus:ring-1 transition">
+  <!-- SEARCH & FILTERS (Sticky) -->
+  <div class="sticky top-0 z-40 glass border-b border-ink/5 shadow-sm">
+    <div class="px-5 py-4">
+        <div class="relative">
+            <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca la tua pizza preferita..." 
+            class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-none bg-ink/[0.03] text-ink placeholder:text-ink/40 text-sm focus:ring-2 focus:ring-brand/20 transition-all outline-none">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-ink/30">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </span>
+        </div>
     </div>
+
+    <!-- Categories Scrollable -->
+    <nav id="tab-bar" class="flex gap-2 overflow-x-auto px-5 pb-4 no-scrollbar">
+        <!-- Rendered by JS -->
+    </nav>
   </div>
 
-  <nav id="tab-bar" class="shrink-0 flex gap-2 overflow-x-auto px-4 py-3 bg-cream border-b border-ink/5 sticky top-[61px] z-30">
-    </nav>
-
-  <div class="shrink-0 flex gap-2 px-4 py-2 bg-cream sticky top-[117px] z-20 border-b border-ink/5">
-    <button id="chip-veg"   class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-600 text-green-700 bg-green-50 transition-all" onclick="toggleFilter('veg')">
-      🌿 Veg
+  <!-- SECONDARY FILTERS -->
+  <div class="flex items-center gap-2 px-5 py-3 bg-cream/50">
+    <button id="chip-veg" onclick="toggleFilter('veg')" class="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">
+      🌿 Vegano
     </button>
-    <button id="chip-spicy" class="chip flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-orange-500 text-orange-600 bg-orange-50 transition-all" onclick="toggleFilter('spicy')">
+    <button id="chip-spicy" onclick="toggleFilter('spicy')" class="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2 rounded-xl border border-ink/10 bg-white text-ink/60 transition-all">
       🌶️ Piccante
     </button>
-    <div id="result-count" class="ml-auto text-xs text-ink/40 self-center shrink-0">0 voci</div>
+    <div id="result-count" class="ml-auto text-[10px] font-bold uppercase tracking-tighter text-ink/30">Caricamento...</div>
   </div>
 
-  <main id="content" class="flex-1 overflow-y-auto pb-32 px-4 pt-4 space-y-3 relative">
-    </main>
+  <!-- MAIN CONTENT -->
+  <main id="content" class="flex-1 px-5 pt-2 pb-32 space-y-4">
+    <!-- Skeletons will appear here -->
+  </main>
 
-  <div id="action-bar" class="fixed bottom-0 left-0 right-0 z-30 bg-cream/95 backdrop-blur border-t border-ink/10 px-4 pt-3 shadow-2xl">
-    <div class="flex gap-3 max-w-lg mx-auto">
-      <a href="tel:+390461924565"
-         class="flex items-center justify-center gap-2 bg-ink text-cream rounded-2xl py-3.5 px-5 font-semibold text-sm transition active:scale-95 shrink-0">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
-        Chiama
+  <!-- BOTTOM ACTION BAR -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 glass border-t border-ink/5 px-5 pt-4 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+    <div class="flex gap-3 max-w-xl mx-auto">
+      <a href="tel:+390461924565" class="flex items-center justify-center gap-3 bg-ink text-white rounded-2xl px-6 py-4 font-bold text-sm shadow-xl active:scale-95 transition-all">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
+        Chiama Ora
       </a>
-      <p class="flex-1 flex items-center justify-center text-xs text-center text-ink/50 py-3.5 max-w-[16rem]">Chiama per info, o usa WhatsApp nel carrello.</p>
-    </div>
-  </div>
-
-  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm hidden items-end justify-center transition-opacity" onclick="closeModal()">
-    <div id="modal-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-12 transition-transform duration-300 transform translate-y-full max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
-      <div id="modal-content" class="space-y-4">
-        </div>
-      <button onclick="closeModal()" class="absolute top-6 right-6 text-ink/50 p-2 rounded-full hover:bg-ink/5">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      <button onclick="openCart()" class="flex-1 flex items-center justify-center gap-3 bg-brand text-white rounded-2xl px-6 py-4 font-bold text-sm shadow-xl shadow-brand/20 active:scale-95 transition-all">
+        Vedi Carrello
+        <span id="cart-total-footer" class="bg-white/20 px-2 py-0.5 rounded-lg text-xs">€0.00</span>
       </button>
     </div>
   </div>
 
-  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/50 backdrop-blur-sm hidden items-end justify-center transition-opacity" onclick="closeCart()">
-    <div id="cart-panel" class="bg-cream w-full max-w-lg rounded-t-3xl p-6 pb-12 transition-transform duration-300 transform translate-y-full max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="font-display text-2xl font-bold text-ink">Il mio ordine</h2>
-        <button onclick="clearCart()" class="text-xs text-brand-dark/70 hover:text-brand font-semibold">Svuota tutto</button>
+  <!-- ITEM MODAL (Bottom Sheet) -->
+  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden flex-end items-end justify-center transition-all opacity-0" onclick="closeModal()">
+    <div id="modal-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-6 pb-12 transition-transform duration-500 translate-y-full max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="w-12 h-1.5 bg-ink/10 rounded-full mx-auto mb-6"></div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-backdrop" class="fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm hidden items-end justify-center transition-all opacity-0" onclick="closeCart()">
+    <div id="cart-panel" class="bg-cream w-full max-w-xl rounded-t-[40px] p-8 pb-12 transition-transform duration-500 translate-y-full max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-display text-3xl font-bold">Il tuo ordine</h2>
+        <button onclick="clearCart()" class="text-xs font-bold text-brand uppercase tracking-widest bg-brand/5 px-3 py-2 rounded-xl">Svuota</button>
       </div>
-      <div id="cart-content" class="space-y-3 mb-8">
-        </div>
-      <button onclick="closeCart()" class="absolute top-6 right-6 text-ink/50 p-2 rounded-full hover:bg-ink/5">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+      <div id="cart-items" class="space-y-4 mb-8"></div>
+      <div id="cart-summary"></div>
     </div>
   </div>
 
+  <!-- SCRIPTS -->
   <script>
-  // ──────────────────────────────────────────────
-  // CONFIGURAZIONE – modifica questi valori
-  // ──────────────────────────────────────────────
-  const CONFIG = {
-    // Sostituisci con l'URL reale del tuo CSV
-    CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
-    // Testo preimpostato per WhatsApp
-    WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare: \n\n',
-  };
+    const CONFIG = {
+      CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
+      WA_PHONE: '390461924565',
+      WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n'
+    };
 
-  // ─── State ───
-  let allItems       = [];
-  let activeCategory = 'Tutti';
-  let filters        = { veg: false, spicy: false };
-  let searchTerm     = '';
-  let cart           = []; // [{id, nome, prezzo, qty, note, varianti}]
+    let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti';
+    let filters = { veg: false, spicy: false }, searchTerm = '', cart = [];
 
-  // ─── Categories ───
-  let categories = ['Tutti'];
-  const CAT_EMOJI = {
-    'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Bevande':'🍺','Dolci':'🍮','Senza Categoria':'❓'
-  };
+    const CAT_EMOJI = { 'Tutti':'🍽️','Antipasti':'🫒','Insalate':'🥗','Pizze':'🍕','Bevande':'🍺','Dolci':'🍮' };
 
-  // ─── Init ───
-  document.addEventListener('DOMContentLoaded', () => {
-    loadCartFromLocalStorage();
-    updateCartBadge();
-    renderSkeletons();
-    loadData();
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+        renderSkeletons();
+        loadData();
+        loadCart();
+    });
 
-  // ─── CSV fetch & parse ───
-  async function loadData() {
-    const csvUrl = CONFIG.CSV_URL;
-    if (csvUrl === 'PLACEHOLDER_GOOGLE_SHEETS_CSV_URL') {
-      alert("Configurazione mancante: incollare l'URL CSV del foglio Google Sheet nel codice JS.");
-      return;
+    async function loadData() {
+        try {
+            const r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(CONFIG.CSV_URL)}`);
+            const text = await r.text();
+            allItems = parseCSV(text);
+            categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
+            renderTabs();
+            renderCards();
+        } catch (e) {
+            document.getElementById('content').innerHTML = `<div class="text-center py-20 text-ink/40">Errore nel caricamento menu. Riprova più tardi.</div>`;
+        }
     }
 
-    // Proxy cascade
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(csvUrl)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`,
-      csvUrl, // tentativo diretto
-    ];
+    function parseCSV(text) {
+        const lines = text.trim().split('\n');
+        const headers = lines[0].split(',').map(h => h.trim());
+        return lines.slice(1).map(line => {
+            const vals = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const obj = {};
+            headers.forEach((h, i) => obj[h] = vals[i]?.replace(/"/g, '').trim());
+            return {
+                id: obj.ID || Math.random().toString(),
+                nome: obj.Nome,
+                categoria: obj.Categoria || 'Pizze',
+                ingredienti: obj.Ingredienti || '',
+                prezzo: parseFloat(obj.Prezzo?.replace(',', '.') || 0),
+                immagine: obj['Immagine URL'] || '',
+                isVeg: obj.IsVeg?.toUpperCase() === 'SI',
+                isSpicy: obj.IsSpicy?.toUpperCase() === 'SI',
+                allergeni: obj.Allergeni || '',
+                varianti: obj.Varianti || ''
+            };
+        }).filter(i => i.nome);
+    }
 
-    let lastError = '';
-    const labels = ['corsproxy.io', 'allorigins.win', 'diretto'];
-    for (let i = 0; i < proxies.length; i++) {
-      const url = proxies[i];
-      const statusEl = document.getElementById('load-status');
-      if (statusEl) statusEl.textContent = `Tentativo ${i+1}/3 via ${labels[i]}...`;
-      try {
-        const r = await fetch(url, { cache: 'no-store' }); // No cache per evitare vecchi dati
-        if (!r.ok) { lastError = `HTTP ${r.status}`; continue; }
-        const text = await r.text();
-        if (!text || text.trim().length < 10) { lastError = 'Risposta vuota'; continue; }
-        const parsed = parseCSV(text);
-        if (!parsed.length) { lastError = 'CSV vuoto o intestazioni errate'; continue; }
-        allItems = parsed;
-        extractCategories();
+    function renderTabs() {
+        const bar = document.getElementById('tab-bar');
+        bar.innerHTML = categories.map(cat => `
+            <button onclick="setCategory('${cat}')" id="tab-${cat}" 
+                class="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold whitespace-nowrap transition-all border border-ink/5 ${cat === activeCategory ? 'chip-active' : 'bg-white text-ink/50'}">
+                <span>${CAT_EMOJI[cat] || '🍕'}</span> ${cat}
+            </button>
+        `).join('');
+    }
+
+    function setCategory(cat) {
+        activeCategory = cat;
         renderTabs();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         renderCards();
-        return; // successo, esci
-      } catch(e) {
-        lastError = `[${labels[i]}] ${e.message}`;
-        continue;
-      }
     }
 
-    // Tutti i proxy hanno fallito
-    document.getElementById('content').innerHTML =
-      `<div class="text-center py-16" style="color:#6B5744;padding:2rem">
-        <p style="font-size:2.5rem;margin-bottom:.75rem">😕</p>
-        <p style="font-weight:700;font-size:1.1rem">Errore nel caricamento del foglio Google.</p>
-        <p style="font-size:.85rem;margin-top:.5rem;opacity:.7;line-height:1.6">
-          Assicurati che il foglio sia pubblicato pubblicamente.<br>
-          <b>File → Pubblica sul web → Foglio1 → CSV</b>
-        </p>
-        <p style="font-size:.7rem;margin-top:1rem;opacity:.4;font-family:monospace">Load failed</p>
-      </div>`;
-  }
-
-  function parseCSV(text) {
-    const lines = text.trim().replace(/\r\n/g, '\n').split('\n');
-    const headers = splitCSVLine(lines[0]).map(h => h.trim());
-
-    return lines.slice(1).map(line => {
-      if (!line.trim()) return null;
-      const vals = splitCSVLine(line);
-      const obj = {};
-      headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
-
-      const rawPrice = (obj['Prezzo (€)'] || obj['Prezzo'] || '0')
-        .replace(/[€$£\s]/g, '')
-        .replace(',', '.');
-
-      const isVegVal   = (obj['IsVeg']   || obj['Is Veg']   || '').toUpperCase();
-      const isSpicyVal = (obj['IsSpicy'] || obj['Is Spicy'] || '').toUpperCase();
-      const trueVals   = ['SI', 'S\u00cc', 'YES', '1', 'TRUE'];
-
-      return {
-        id:          obj['ID']           || String(Math.random()),
-        nome:        obj['Nome']         || '',
-        categoria:   obj['Categoria']    || 'Senza Categoria',
-        ingredienti: obj['Ingredienti']  || '',
-        allergeni:   obj['Allergeni']    || '',
-        varianti:    obj['Varianti']     || '',
-        prezzo:      parseFloat(rawPrice) || 0,
-        disponibile: (obj['Disponibile'] || 'SI').toUpperCase() !== 'NO',
-        immagine:    obj['Immagine URL'] || '',
-        isVeg:       trueVals.includes(isVegVal),
-        isSpicy:     trueVals.includes(isSpicyVal),
-      };
-    }).filter(i => i && i.disponibile && i.nome);
-  }
-
-  function splitCSVLine(line) {
-    const result = []; let cur = ''; let inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '"') { inQ = !inQ; }
-      else if (line[i] === ',' && !inQ) { result.push(cur); cur = ''; }
-      else { cur += line[i]; }
-    }
-    result.push(cur);
-    return result;
-  }
-
-  // ─── Categories ───
-  function extractCategories() {
-    categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
-  }
-
-  function renderTabs() {
-    const bar = document.getElementById('tab-bar');
-    bar.innerHTML = categories.map(cat => `
-      <button onclick="setCategory('${cat}')"
-        id="tab-${cat}"
-        class="shrink-0 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all
-               ${cat === activeCategory
-                 ? 'bg-brand text-cream shadow-md'
-                 : 'bg-cream text-ink/60 border border-ink/15'}">
-        <span>${CAT_EMOJI[cat] || CAT_EMOJI['Senza Categoria']}</span> ${cat}
-      </button>
-    `).join('');
-  }
-
-  function setCategory(cat) {
-    activeCategory = cat;
-    renderTabs();
-    renderCards();
-  }
-
-  // ─── Filters & Search ───
-  function toggleFilter(f) {
-    filters[f] = !filters[f];
-    document.getElementById(`chip-${f}`).classList.toggle('active', filters[f]);
-    renderCards();
-  }
-
-  function handleSearch() {
-    searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
-    renderCards();
-  }
-
-  // ─── Skeleton ───
-  function renderSkeletons() {
-    const c = document.getElementById('content');
-    c.innerHTML = `<p id="load-status" style="text-align:center;font-size:.7rem;color:#aaa;padding:.5rem 1rem;font-family:monospace">Caricamento menu...</p>` +
-    Array(5).fill(0).map(() => `
-      <div class="bg-white rounded-2xl p-4 flex gap-3 shadow-sm border border-ink/5">
-        <div class="skeleton w-20 h-20 rounded-xl shrink-0"></div>
-        <div class="flex-1 space-y-2 py-1">
-          <div class="skeleton h-4 w-3/4"></div>
-          <div class="skeleton h-3 w-full"></div>
-          <div class="skeleton h-3 w-2/3"></div>
-          <div class="skeleton h-4 w-1/4 mt-2"></div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ─── Cards ───
-  function renderCards() {
-    let items = activeCategory === 'Tutti'
-      ? allItems
-      : allItems.filter(i => i.categoria === activeCategory);
-
-    // Apply search
-    if (searchTerm) {
-      items = items.filter(i =>
-        i.nome.toLowerCase().includes(searchTerm) ||
-        i.ingredienti.toLowerCase().includes(searchTerm) ||
-        i.categoria.toLowerCase().includes(searchTerm)
-      );
+    function toggleFilter(f) {
+        filters[f] = !filters[f];
+        document.getElementById(`chip-${f}`).classList.toggle('chip-active', filters[f]);
+        renderCards();
     }
 
-    // Apply filters
-    if (filters.veg)   items = items.filter(i => i.isVeg);
-    if (filters.spicy) items = items.filter(i => i.isSpicy);
-
-    const count = document.getElementById('result-count');
-    count.textContent = `${items.length} voci`;
-
-    if (!items.length) {
-      document.getElementById('content').innerHTML = `
-        <div class="text-center py-20 text-ink/40 animate-fade-in">
-          <p class="text-5xl mb-4">🔍</p>
-          <p class="font-semibold text-ink/60">Nessun risultato</p>
-          <p class="text-sm mt-1">Prova a cambiare filtro o categoria</p>
-        </div>`;
-      return;
+    function handleSearch() {
+        searchTerm = document.getElementById('search-input').value.toLowerCase();
+        renderCards();
     }
 
-    const html = items.map((item, idx) => {
-      const hasImg = item.immagine && item.immagine !== '';
-      const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
-      const catIcon = CAT_EMOJI[item.categoria] || CAT_EMOJI['Senza Categoria'];
+    function renderCards() {
+        const container = document.getElementById('content');
+        let filtered = allItems.filter(i => (activeCategory === 'Tutti' || i.categoria === activeCategory));
+        
+        if (searchTerm) filtered = filtered.filter(i => i.nome.toLowerCase().includes(searchTerm) || i.ingredienti.toLowerCase().includes(searchTerm));
+        if (filters.veg) filtered = filtered.filter(i => i.isVeg);
+        if (filters.spicy) filtered = filtered.filter(i => i.isSpicy);
 
-      return `
-      <div class="menu-card bg-white rounded-2xl shadow-sm border border-ink/5 overflow-hidden" style="animation-delay: ${idx * 40}ms" onclick="openItemDetail('${item.id}')">
-        <div class="flex gap-3 p-4">
-          ${hasImg
-            ? `<img src="${item.immagine}" alt="${item.nome}"
-                 class="w-20 h-20 object-cover rounded-xl shrink-0 bg-cream"
-                 loading="lazy" onerror="this.style.display='none'" />`
-            : `<div class="w-20 h-20 rounded-xl shrink-0 bg-cream-dark flex items-center justify-center text-3xl select-none">${catIcon}</div>`
-          }
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-2">
-              <h3 class="font-body font-semibold text-base leading-tight text-ink">${item.nome}</h3>
-              <span class="text-brand font-bold text-base shrink-0">${priceStr}</span>
+        document.getElementById('result-count').textContent = `${filtered.length} Prodotti`;
+
+        container.innerHTML = filtered.map((item, idx) => `
+            <div class="menu-card bg-white rounded-[24px] p-4 flex gap-4 shadow-sm border border-ink/5 active:scale-[0.98] transition-all" onclick="openItemDetail('${item.id}')" style="transition-delay: ${idx * 30}ms">
+                <div class="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-cream-dark">
+                    ${item.immagine ? `<img src="${item.immagine}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-3xl">${CAT_EMOJI[item.categoria] || '🍕'}</div>`}
+                </div>
+                <div class="flex-1 flex flex-col justify-center">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-bold text-base text-ink leading-tight">${item.nome}</h3>
+                        <span class="font-black text-brand text-sm">€${item.prezzo.toFixed(2)}</span>
+                    </div>
+                    <p class="text-ink/40 text-xs line-clamp-2 leading-relaxed mb-2">${item.ingredienti}</p>
+                    <div class="flex gap-2">
+                        ${item.isVeg ? '<span class="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-md font-bold italic">🌿 Veg</span>' : ''}
+                        ${item.isSpicy ? '<span class="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded-md font-bold italic">🌶️ Spicy</span>' : ''}
+                    </div>
+                </div>
             </div>
-            <p class="text-ink/55 text-xs mt-1 line-clamp-2 leading-relaxed">${item.ingredienti || ''}</p>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
+        `).join('');
 
-    document.getElementById('content').innerHTML = html;
-
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.menu-card').forEach(el => {
-        el.classList.add('visible');
-      });
-    });
-  }
-
-  // ─── Modal Detailed View ───
-  function openItemDetail(itemId) {
-    const item = allItems.find(i => i.id === itemId);
-    if (!item) return;
-
-    const priceStr = item.prezzo ? `€${item.prezzo.toFixed(2)}` : '–';
-    const hasImg = item.immagine && item.immagine !== '';
-    const catIcon = CAT_EMOJI[item.categoria] || CAT_EMOJI['Senza Categoria'];
-
-    let allergensHtml = '';
-    if (item.allergeni) {
-      allergensHtml = `<div><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Allergeni</p>
-        <div class="flex flex-wrap gap-1.5">${item.allergeni.split(',').map(a => `<span class="badge bg-yellow-100 text-yellow-800">${a.trim()}</span>`).join('')}</div></div>`;
+        setTimeout(() => document.querySelectorAll('.menu-card').forEach(c => c.classList.add('visible')), 50);
     }
 
-    let variationsHtml = '';
-    if (item.varianti) {
-      const variantsList = item.varianti.split(',').map(v => {
-        const name = v.trim();
-        let nameOnly = name;
-        let price = 0;
-        const priceMatch = name.match(/\((\+?\d+(\.\d{2})?)€\)/);
-        if (priceMatch) {
-          nameOnly = name.replace(priceMatch[0], '').trim();
-          price = parseFloat(priceMatch[1]);
+    function openItemDetail(id) {
+        const item = allItems.find(i => i.id === id);
+        const modal = document.getElementById('modal-backdrop');
+        const content = document.getElementById('modal-content');
+
+        let variantiHtml = '';
+        if (item.varianti) {
+            variantiHtml = `<div class="mt-6">
+                <p class="text-[10px] font-black uppercase tracking-widest text-ink/30 mb-3">Personalizza</p>
+                <div class="grid grid-cols-1 gap-2">
+                    ${item.varianti.split(',').map(v => {
+                        const vPrice = v.match(/\(([^)]+)\)/);
+                        return `
+                        <label class="flex items-center justify-between p-4 bg-ink/[0.03] rounded-2xl cursor-pointer active:bg-brand/5 transition-colors">
+                            <span class="text-sm font-semibold text-ink">${v.split('(')[0].trim()}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold text-brand">${vPrice ? vPrice[1] : ''}</span>
+                                <input type="checkbox" name="variant" value="${v.trim()}" class="w-5 h-5 rounded-lg border-ink/10 text-brand focus:ring-brand">
+                            </div>
+                        </label>`;
+                    }).join('')}
+                </div>
+            </div>`;
         }
-        return { nameOnly, price, full: name };
-      });
 
-      variationsHtml = `<div><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Varianti & Extra (Opzionali)</p>
-        <div class="space-y-1.5">${variantsList.map((v, i) => `
-          <label class="flex items-center gap-2 text-sm text-ink/70">
-            <input type="checkbox" name="variation-${item.id}" value="${v.full}" data-name="${v.nameOnly}" data-price="${v.price}" class="w-4 h-4 rounded border-ink/20 text-brand focus:ring-brand">
-            ${v.nameOnly} <span class="text-brand font-semibold">+€${v.price.toFixed(2)}</span>
-          </label>`).join('')}</div></div>`;
+        content.innerHTML = `
+            ${item.immagine ? `<img src="${item.immagine}" class="w-full h-56 object-cover rounded-[32px] mb-6 shadow-lg">` : ''}
+            <div class="flex justify-between items-start mb-2">
+                <h2 class="text-3xl font-display font-bold">${item.nome}</h2>
+                <span class="text-2xl font-black text-brand">€${item.prezzo.toFixed(2)}</span>
+            </div>
+            <p class="text-ink/50 text-sm leading-relaxed mb-6">${item.ingredienti}</p>
+            ${item.allergeni ? `<p class="text-[10px] text-ink/30 font-bold mb-4 uppercase tracking-widest">Allergeni: ${item.allergeni}</p>` : ''}
+            ${variantiHtml}
+            <button onclick="addToCartFromModal('${item.id}')" class="w-full bg-brand text-white rounded-[24px] py-5 mt-8 font-bold text-lg shadow-xl shadow-brand/20 active:scale-95 transition-all">
+                Aggiungi all'ordine
+            </button>
+        `;
+
+        modal.classList.replace('hidden', 'flex');
+        setTimeout(() => {
+            modal.classList.replace('opacity-0', 'opacity-100');
+            document.getElementById('modal-panel').classList.remove('translate-y-full');
+        }, 10);
     }
 
-    const badgetItemHtml = [
-      item.isVeg   ? '<span class="badge bg-green-100 text-green-700">🌿 Veg</span>' : '',
-      item.isSpicy ? '<span class="badge bg-orange-100 text-orange-700">🌶️ Piccante</span>' : '',
-    ].filter(Boolean).join('');
-
-    document.getElementById('modal-content').innerHTML = `
-      ${hasImg ? `<img src="${item.immagine}" alt="${item.nome}" class="w-full h-48 object-cover rounded-2xl mb-2" />` : ''}
-      <div class="flex items-start justify-between gap-3 pt-2">
-        <div>
-          <h3 class="font-display text-2xl font-bold leading-tight text-ink">${item.nome}</h3>
-          <p class="text-xs text-brand font-semibold uppercase tracking-widest flex items-center gap-1">${catIcon} ${item.categoria}</p>
-        </div>
-        <span class="text-brand font-bold text-3xl shrink-0 pt-1">${priceStr}</span>
-      </div>
-      ${badgetItemHtml ? `<div class="flex gap-1.5 pt-1">${badgetItemHtml}</div>` : ''}
-      <div class="pt-2"><p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Ingredienti</p>
-        <p class="text-ink/80 text-sm leading-relaxed">${item.ingredienti || ''}</p></div>
-      ${allergensHtml}
-      ${variationsHtml}
-      <button onclick="addItemToCartFromModal('${item.id}')" class="flex items-center justify-center gap-2 w-full bg-brand text-cream rounded-2xl py-4 font-semibold text-base transition active:scale-95 shadow-lg mt-6">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-        Aggiungi all'ordine
-      </button>
-    `;
-
-    document.getElementById('modal-backdrop').classList.remove('hidden');
-    document.getElementById('modal-backdrop').classList.add('flex');
-    requestAnimationFrame(() => {
-      document.getElementById('modal-panel').classList.remove('translate-y-full');
-    });
-  }
-
-  function closeModal() {
-    document.getElementById('modal-panel').classList.add('translate-y-full');
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document.getElementById('modal-backdrop').classList.add('hidden');
-        document.getElementById('modal-backdrop').classList.remove('flex');
-      }, 300); // tempo animazione
-    });
-  }
-
-  // ESC key to close modal
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeModal();
-      closeCart();
+    function closeModal() {
+        const modal = document.getElementById('modal-backdrop');
+        document.getElementById('modal-panel').classList.add('translate-y-full');
+        modal.classList.replace('opacity-100', 'opacity-0');
+        setTimeout(() => modal.classList.replace('flex', 'hidden'), 500);
     }
-  });
 
-  // ─── Cart Logic ───
-  function addItemToCartFromModal(itemId) {
-    const item = allItems.find(i => i.id === itemId);
-    if (!item) return;
+    function addToCartFromModal(id) {
+        const item = allItems.find(i => i.id === id);
+        const selectedVariants = Array.from(document.querySelectorAll('input[name="variant"]:checked')).map(v => v.value);
+        
+        let extraPrice = 0;
+        selectedVariants.forEach(v => {
+            const p = v.match(/\+([\d,.]+)/);
+            if (p) extraPrice += parseFloat(p[1].replace(',', '.'));
+        });
 
-    const selectedVariations = Array.from(document.querySelectorAll(`input[name="variation-${item.id}"]:checked`))
-                                      .map(cb => cb.value);
+        const cartItem = {
+            cartId: Date.now(),
+            id: item.id,
+            nome: item.nome,
+            prezzoBase: item.prezzo,
+            prezzoTotale: item.prezzo + extraPrice,
+            varianti: selectedVariants,
+            qty: 1
+        };
 
-    addToCart(item, selectedVariations);
-    closeModal();
-  }
+        cart.push(cartItem);
+        updateCart();
+        closeModal();
+        animateBadge();
+    }
 
-  function addToCart(item, selectedVariations) {
-    // Generate unique cart item key based on id + variations
-    const cartItemKey = item.id + (selectedVariations.length ? '_' + selectedVariations.sort().join('_') : '');
+    function updateCart() {
+        localStorage.setItem('filippone_cart', JSON.stringify(cart));
+        const totalItems = cart.reduce((acc, i) => acc + i.qty, 0);
+        const totalPrice = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
+        
+        const badge = document.getElementById('cart-badge');
+        badge.textContent = totalItems;
+        badge.classList.toggle('hidden', totalItems === 0);
+        
+        document.getElementById('cart-total-footer').textContent = `€${totalPrice.toFixed(2)}`;
+    }
 
-    const existingCartItem = cart.find(c => c.cartItemKey === cartItemKey);
+    function animateBadge() {
+        const badge = document.getElementById('cart-badge');
+        badge.classList.remove('animate-pop');
+        void badge.offsetWidth; // trigger reflow
+        badge.classList.add('animate-pop');
+    }
 
-    if (existingCartItem) {
-      existingCartItem.qty++;
-    } else {
-      let variationsCost = 0;
-      let variationsDescriptions = [];
+    function openCart() {
+        const drawer = document.getElementById('cart-backdrop');
+        renderCartItems();
+        drawer.classList.replace('hidden', 'flex');
+        setTimeout(() => {
+            drawer.classList.replace('opacity-0', 'opacity-100');
+            document.getElementById('cart-panel').classList.remove('translate-y-full');
+        }, 10);
+    }
 
-      selectedVariations.forEach(v => {
-        const priceMatch = v.match(/\((\+?\d+(\.\d{2})?)€\)/);
-        if (priceMatch) {
-          variationsCost += parseFloat(priceMatch[1]);
+    function renderCartItems() {
+        const container = document.getElementById('cart-items');
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="text-center py-12 text-ink/30 font-medium">Carrello vuoto... <br>Aggiungi qualcosa di buono!</div>`;
+            document.getElementById('cart-summary').innerHTML = '';
+            return;
         }
-        variationsDescriptions.push(v);
-      });
 
-      cart.push({
-        cartItemKey,
-        id:          item.id,
-        nome:        item.nome,
-        prezzoUnit: item.prezzo,
-        qty:         1,
-        variantiCost: variationsCost,
-        variantiDesc: variationsDescriptions,
-      });
+        container.innerHTML = cart.map(item => `
+            <div class="flex flex-col gap-2 p-4 bg-white rounded-[24px] border border-ink/5 shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-bold text-ink">${item.nome}</h4>
+                        <p class="text-[10px] text-brand/60 font-bold italic">${item.varianti.join(' • ')}</p>
+                    </div>
+                    <span class="font-bold text-ink">€${(item.prezzoTotale * item.qty).toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                    <button onclick="removeFromCart(${item.cartId})" class="text-xs font-bold text-red-400">Rimuovi</button>
+                    <div class="flex items-center gap-4 bg-ink/[0.03] px-4 py-2 rounded-xl">
+                        <button onclick="changeQty(${item.cartId}, -1)" class="font-black text-brand">−</button>
+                        <span class="text-sm font-black w-4 text-center">${item.qty}</span>
+                        <button onclick="changeQty(${item.cartId}, 1)" class="font-black text-brand">＋</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
+        const savedNotes = localStorage.getItem('cart_notes') || '';
+
+        document.getElementById('cart-summary').innerHTML = `
+            <div class="space-y-6 pt-6 border-t border-ink/5">
+                <div class="flex justify-between items-center">
+                    <span class="text-ink/40 font-bold uppercase tracking-widest text-xs">Totale Stimato</span>
+                    <span class="text-3xl font-black text-brand">€${total.toFixed(2)}</span>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-ink/30 block mb-2">Note Ordine</label>
+                    <textarea id="cart-notes" oninput="updateWANotesOnly()" placeholder="Allergie, campanello, orario..." 
+                        class="w-full p-4 rounded-2xl bg-white border border-ink/10 text-sm focus:ring-2 focus:ring-brand/20 outline-none h-24">${savedNotes}</textarea>
+                </div>
+                <a id="wa-btn" href="#" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white rounded-[24px] py-5 font-bold text-lg shadow-xl shadow-green-500/20 active:scale-95 transition-all">
+                    Invia Ordine su WhatsApp
+                </a>
+            </div>
+        `;
+        updateWANotesOnly();
     }
 
-    saveCartToLocalStorage();
-    updateCartBadge();
-  }
+    function updateWANotesOnly() {
+        const notes = document.getElementById('cart-notes')?.value || '';
+        localStorage.setItem('cart_notes', notes);
+        
+        const total = cart.reduce((acc, i) => acc + (i.prezzoTotale * i.qty), 0);
+        let msg = CONFIG.WA_PREAMBLE;
+        cart.forEach(i => {
+            msg += `• *${i.nome}* x${i.qty} (${i.varianti.join(', ')}) → €${(i.prezzoTotale * i.qty).toFixed(2)}\n`;
+        });
+        if (notes) msg += `\n*NOTE:* ${notes}\n`;
+        msg += `\n*TOTALE:* €${total.toFixed(2)}`;
 
-  function removeFromCart(cartItemKey) {
-    cart = cart.filter(c => c.cartItemKey !== cartItemKey);
-    saveCartToLocalStorage();
-    updateCartBadge();
-    renderCart(); // Refresh view
-  }
-
-  function changeCartQty(cartItemKey, delta) {
-    const cartItem = cart.find(c => c.cartItemKey === cartItemKey);
-    if (cartItem) {
-      cartItem.qty += delta;
-      if (cartItem.qty <= 0) {
-        removeFromCart(cartItemKey);
-      } else {
-        saveCartToLocalStorage();
-        updateCartBadge();
-        renderCart(); // Refresh view
-      }
-    }
-  }
-
-  function clearCart() {
-    cart = [];
-    saveCartToLocalStorage();
-    updateCartBadge();
-    closeCart();
-  }
-
-  function updateCartBadge() {
-    const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-    const badge = document.getElementById('cart-badge');
-    badge.textContent = totalItems;
-    if (totalItems > 0) {
-      badge.classList.remove('hidden');
-    } else {
-      badge.classList.add('hidden');
-    }
-  }
-
-  function openCart() {
-    renderCart();
-    document.getElementById('cart-backdrop').classList.remove('hidden');
-    document.getElementById('cart-backdrop').classList.add('flex');
-    requestAnimationFrame(() => {
-      document.getElementById('cart-panel').classList.remove('translate-y-full');
-    });
-  }
-
-  function closeCart() {
-    document.getElementById('cart-panel').classList.add('translate-y-full');
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document.getElementById('cart-backdrop').classList.add('hidden');
-        document.getElementById('cart-backdrop').classList.remove('flex');
-      }, 300); // tempo animazione
-    });
-  }
-
-  function renderCart() {
-    const container = document.getElementById('cart-content');
-    if (!cart.length) {
-      container.innerHTML = `
-        <div class="text-center py-20 text-ink/40 animate-fade-in">
-          <p class="text-5xl mb-4">🛒</p>
-          <p class="font-semibold text-ink/60">Il carrello è vuoto</p>
-          <p class="text-sm mt-1">Aggiungi qualcosa dal menu!</p>
-        </div>`;
-      return;
+        const btn = document.getElementById('wa-btn');
+        if (btn) btn.href = `https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`;
     }
 
-    let cartHtml = cart.map((c, i) => {
-      const unitTotal = c.prezzoUnit + c.variantiCost;
-      const itemTotal = unitTotal * c.qty;
-      const priceStr = `€${itemTotal.toFixed(2)}`;
-      const unitStr = unitDelta(unitTotal, c.prezzoUnit);
-
-      const variantsHtml = c.variantiDesc.length
-        ? `<div class="flex flex-wrap gap-1 mt-1 text-xs text-ink/60">${c.variantiDesc.map(v => `<span class="badge bg-cream-dark text-ink font-normal border border-ink/5">${v}</span>`).join('')}</div>`
-        : '';
-
-      return `
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-ink/5 relative flex gap-3 animate-slide-up" style="animation-delay: ${i * 40}ms">
-        <div class="flex-1 min-w-0">
-          <div class="flex justify-between items-start gap-1">
-            <p class="font-body font-semibold text-sm leading-tight text-ink">${c.nome}</p>
-            <span class="text-brand font-bold text-sm shrink-0 pt-0.5">${priceStr} ${unitStr}</span>
-          </div>
-          ${variantsHtml}
-        </div>
-        <div class="flex items-center gap-1.5 shrink-0 ml-1">
-          <button onclick="changeCartQty('${c.cartItemKey}', -1)" class="w-8 h-8 rounded-full border border-ink/15 text-ink flex items-center justify-center font-bold text-lg active:scale-90 shadow-inner">−</button>
-          <span class="text-sm font-bold text-ink w-4 text-center">${c.qty}</span>
-          <button onclick="changeCartQty('${c.cartItemKey}', 1)" class="w-8 h-8 rounded-full bg-ink text-cream flex items-center justify-center font-bold text-lg active:scale-90 shadow">＋</button>
-        </div>
-        <button onclick="removeFromCart('${c.cartItemKey}')" class="absolute top-2 right-2 text-ink/20 hover:text-red-500 p-1">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>`;
-    }).join('');
-
-    const cartTotal = cart.reduce((sum, item) => sum + (item.prezzoUnit + item.variantiCost) * item.qty, 0);
-
-    const whatsappMessage = buildWhatsAppMessage(cartTotal);
-    const waUrl = `https://wa.me/390461924565?text=${encodeURIComponent(whatsappMessage)}`;
-
-    container.innerHTML = `
-      ${cartHtml}
-      <div class="space-y-4 pt-6 mt-6 border-t border-ink/5">
-        <div class="flex items-center justify-between px-1">
-          <span class="text-ink/60 text-sm font-semibold">Totale Stimato</span>
-          <span class="text-brand font-bold text-2xl">€${cartTotal.toFixed(2)}</span>
-        </div>
-        <div>
-          <p class="text-xs font-semibold text-ink/40 uppercase tracking-widest mb-1.5">Note Ordine (Opzionali)</p>
-          <textarea id="cart-notes" placeholder="Esempio: Indirizzo consegna, orario, note generali..." class="w-full rounded-xl border-ink/15 bg-white text-ink placeholder:text-ink/40 text-sm focus:border-brand focus:ring-brand focus:ring-1 transition p-3 h-20" oninput="saveCartNotes()"></textarea>
-        </div>
-        <a href="${waUrl}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white rounded-2xl py-4 font-semibold text-base transition active:scale-95 shadow-lg">
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.474 2.027 7.78L0 32l8.47-2.22A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.087 22.357c-.34.955-1.987 1.827-2.717 1.942-.694.108-1.57.154-2.532-.159a23.05 23.05 0 01-2.292-.847C12.7 21.677 10.03 18.9 9.61 18.362c-.42-.538-1.54-2.046-1.54-3.905 0-1.86.977-2.775 1.32-3.155.343-.38.75-.476.999-.476l.714.014c.229.01.537-.087.84.64.318.756 1.08 2.616 1.174 2.806.095.19.158.413.031.666-.127.253-.19.413-.381.635-.19.222-.4.497-.571.666-.19.19-.388.396-.167.776.222.38.985 1.624 2.115 2.63 1.452 1.292 2.676 1.692 3.057 1.882.38.19.603.159.825-.095.222-.254.952-1.11 1.206-1.49.254-.38.508-.317.856-.19.349.127 2.21 1.042 2.59 1.232.38.19.634.285.728.444.096.16.096.928-.244 1.883z"/></svg>
-          Invia ordine su WhatsApp
-        </a>
-      </div>
-    `;
-
-    // Ripristina note se presenti
-    const savedNotes = localStorage.getItem('cart_notes');
-    if (savedNotes) {
-      document.getElementById('cart-notes').value = savedNotes;
-    }
-  }
-
-  function buildWhatsAppMessage(cartTotal) {
-    let msg = CONFIG.WA_PREAMBLE;
-
-    cart.forEach(c => {
-      const unitTotal = c.prezzoUnit + c.variantiCost;
-      const itemTotal = unitTotal * c.qty;
-      msg += `• *${c.nome}* x${c.qty} → _€${itemTotal.toFixed(2)}_\n`;
-      if (c.variantiDesc.length) {
-        msg += `  - _Varianti: ${c.variantiDesc.join(', ')}_\n`;
-      }
-    });
-
-    const savedNotes = localStorage.getItem('cart_notes');
-    if (savedNotes) {
-      msg += `\n*NOTE ORDINE:*\n_${savedNotes}_\n`;
+    function changeQty(cartId, delta) {
+        const item = cart.find(i => i.cartId === cartId);
+        if (item) {
+            item.qty += delta;
+            if (item.qty < 1) return removeFromCart(cartId);
+            updateCart();
+            renderCartItems();
+        }
     }
 
-    msg += `\n*TOTALE STIMATO:* €${cartTotal.toFixed(2)} (*)\n\n(*) Prezzo soggetto a conferma. Grazie!`;
-    return msg;
-  }
-
-  function unitDelta(unitTotal, prezzoUnit) {
-    const delta = unitTotal - prezzoUnit;
-    if (delta > 0) {
-      return `<span class="text-xs text-brand-dark opacity-70">(incl. +€${delta.toFixed(2)})</span>`;
+    function removeFromCart(cartId) {
+        cart = cart.filter(i => i.cartId !== cartId);
+        updateCart();
+        renderCartItems();
     }
-    return '';
-  }
 
-  // ─── LocalStorage ───
-  function saveCartToLocalStorage() {
-    localStorage.setItem('pizzeria_cart', JSON.stringify(cart));
-  }
-
-  function loadCartFromLocalStorage() {
-    const savedCart = localStorage.getItem('pizzeria_cart');
-    if (savedCart) {
-      try {
-        cart = JSON.parse(savedCart);
-      } catch (e) {
-        console.error("Errore caricamento carrello salvato", e);
+    function clearCart() {
         cart = [];
-      }
+        updateCart();
+        closeCart();
     }
-  }
 
-  function saveCartNotes() {
-    const notes = document.getElementById('cart-notes').value;
-    localStorage.setItem('cart_notes', notes);
-    renderCart(); // Aggiorna URL WhatsApp
-  }
+    function closeCart() {
+        const drawer = document.getElementById('cart-backdrop');
+        document.getElementById('cart-panel').classList.add('translate-y-full');
+        drawer.classList.replace('opacity-100', 'opacity-0');
+        setTimeout(() => drawer.classList.replace('flex', 'hidden'), 500);
+    }
+
+    function loadCart() {
+        const saved = localStorage.getItem('filippone_cart');
+        if (saved) cart = JSON.parse(saved);
+        updateCart();
+    }
+
+    function renderSkeletons() {
+        document.getElementById('content').innerHTML = Array(6).fill(0).map(() => `
+            <div class="bg-white rounded-[24px] p-4 flex gap-4 border border-ink/5">
+                <div class="skeleton w-24 h-24 rounded-2xl shrink-0"></div>
+                <div class="flex-1 py-1 space-y-3">
+                    <div class="skeleton h-4 w-1/2"></div>
+                    <div class="skeleton h-3 w-full"></div>
+                    <div class="skeleton h-3 w-3/4"></div>
+                </div>
+            </div>
+        `).join('');
+    }
   </script>
 </body>
 </html>
