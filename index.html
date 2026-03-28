@@ -48,10 +48,10 @@
 
 <body class="flex flex-col min-h-screen">
 
-  <!-- HEADER FISSO IN ALTO (NON STICKY) -->
+  <!-- HEADER -->
   <header class="bg-white px-6 pt-10 pb-6 text-center relative">
     <div class="max-w-2xl mx-auto">
-      <img src="logo.png" alt="Logo Pizzeria Filippone" class="h-24 w-auto mx-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
+      <img src="logo.png" alt="Logo" class="h-24 w-auto mx-auto mb-4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&q=80'">
       <h1 class="font-display text-4xl font-bold text-ink mb-1">Pizzeria Filippone</h1>
       <p class="text-ink/50 text-sm italic mt-2 px-6 leading-snug">"L'arte della vera pizza, tramandata da generazioni con ingredienti d'eccellenza."</p>
       <div class="mt-6 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
@@ -61,27 +61,27 @@
     </div>
   </header>
 
-  <!-- RICERCA E CATEGORIE (SCORRONO) -->
-  <div class="bg-white">
+  <!-- RICERCA E CATEGORIE -->
+  <div class="bg-white border-b border-stone-100">
     <div class="px-5 py-4 max-w-xl mx-auto">
       <div class="mb-6 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center">
         <p class="text-[11px] leading-relaxed text-brand-dark font-semibold">
             Per ordinazioni via app non sono previste variazioni.<br> 
-            Per richieste particolari usa il tasto <b>"Chiama"</b>. Grazie.
+            Richieste particolari? Usa il tasto <b>"Chiama"</b>.
         </p>
       </div>
       
       <div class="relative mb-6">
-        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca una pizza, una bibita..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
+        <input type="search" id="search-input" oninput="handleSearch()" placeholder="Cerca nel menu..." class="w-full pl-12 pr-4 py-4 rounded-2xl bg-stone-100/60 text-sm outline-none border-none focus:ring-2 focus:ring-brand/20 transition-all">
         <svg class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
-      <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-4 no-scrollbar"></nav>
+      <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar"></nav>
     </div>
   </div>
 
   <!-- FILTRI E CONTATORE -->
-  <div class="bg-white/50 border-y border-stone-100 px-5 py-3">
+  <div class="bg-white/50 border-b border-stone-100 px-5 py-3">
     <div class="flex items-center justify-between max-w-xl mx-auto w-full">
         <div class="flex gap-2 overflow-x-auto no-scrollbar">
             <button id="chip-veg" onclick="toggleFilter('veg')" class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all flex items-center gap-1.5">🌿 Veg</button>
@@ -115,8 +115,14 @@
 
   <!-- MODALS -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
-    <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[95vh]" onclick="event.stopPropagation()">
+    <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[95vh] relative" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
+      
+      <!-- Pulsante Chiusura SCHEDA -->
+      <button onclick="closeModal()" class="absolute top-6 right-6 bg-white/80 backdrop-blur shadow-md p-3 rounded-full z-10 text-stone-900 border border-stone-100 active:scale-90 transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
       <div id="modal-content"></div>
     </div>
   </div>
@@ -136,7 +142,7 @@
     const CONFIG = {
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
-      CACHE_KEY: 'filippone_menu_v30'
+      CACHE_KEY: 'filippone_menu_v35'
     };
 
     const EMOJI_MAP = {
@@ -152,13 +158,42 @@
         return '🍕';
     }
 
+    // --- LOGICA IMMAGINI PLACEHOLDER CONFORME (FIXED) ---
     function getSafeImage(item) {
-        if (item.immagine && item.immagine.length > 10) return item.immagine;
+        if (item.immagine && item.immagine.length > 10 && item.immagine.startsWith('http')) return item.immagine;
+        
         const n = (item.nome || "").toLowerCase();
         const c = (item.categoria || "").toLowerCase();
+
+        // 1. Acqua
         if (n.includes('acqua')) return 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80';
-        if (n.includes('coca') || n.includes('lattina') || c.includes('bevand')) return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
-        if (c.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        
+        // 2. Bibite / Lattine
+        if (n.includes('coca') || n.includes('fanta') || n.includes('sprite') || n.includes('lattina') || c.includes('bevand')) 
+            return 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80';
+        
+        // 3. Birre
+        if (c.includes('birra') || n.includes('birra')) return 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80';
+        
+        // 4. Vini
+        if (c.includes('vino') || n.includes('prosecco')) return 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80';
+        
+        // 5. Caffetteria
+        if (c.includes('caff') || n.includes('espresso')) return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80';
+        
+        // 6. Amari e Liquori
+        if (c.includes('amar') || c.includes('liquor') || n.includes('grappa')) return 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80';
+        
+        // 7. Dolci
+        if (c.includes('dolc') || c.includes('dessert')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
+        
+        // 8. Antipasti e Fritti
+        if (c.includes('antipast') || c.includes('fritt')) return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
+        
+        // 9. Pizze Bianche
+        if (c.includes('bianca')) return 'https://images.unsplash.com/photo-1573821663912-5b228173bb9a?auto=format&fit=crop&w=600&q=80';
+
+        // Default: Pizza Classica/Rossa
         return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
     }
 
@@ -180,15 +215,13 @@
             url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
             url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
         ];
-        
         let textData = "";
         for (let proxyFn of proxies) {
             try {
                 const response = await fetch(proxyFn(CONFIG.CSV_URL));
                 if (response.ok) { textData = await response.text(); break; }
-            } catch (e) { console.error("Proxy error"); }
+            } catch (e) {}
         }
-
         if (textData) {
             allItems = parseCSV(textData);
             categories = ['Tutti', ...new Set(allItems.map(i => i.categoria))];
@@ -201,29 +234,20 @@
         text = text.replace(/^\uFEFF/, ""); 
         const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
         const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
-        
-        // Ricerca flessibile delle colonne
         const findCol = (keys) => headers.findIndex(h => keys.some(k => h.includes(k)));
 
         const col = {
-            id: findCol(['id']),
-            nome: findCol(['nome']),
-            cat: findCol(['categoria']),
-            ing: findCol(['ingredienti']),
-            all: findCol(['allergeni']),
-            pre: findCol(['prezzo', '€']),
-            img: findCol(['immagine', 'url']),
-            var: findCol(['varianti']),
-            veg: findCol(['isveg', 'vegetariano']),
-            spi: findCol(['isspicy', 'piccante']),
-            fro: findCol(['isfrozen', 'surgelato'])
+            id: findCol(['id']), nome: findCol(['nome']), cat: findCol(['categoria']),
+            ing: findCol(['ingredienti']), all: findCol(['allergeni']), pre: findCol(['prezzo', '€']),
+            img: findCol(['immagine', 'url']), var: findCol(['varianti']), veg: findCol(['isveg']),
+            spi: findCol(['isspicy']), fro: findCol(['isfrozen'])
         };
 
         return lines.slice(1).map(line => {
             const v = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const get = (idx) => v[idx]?.replace(/^"|"$/g, '').trim() || "";
             return {
-                id: get(col.id), nome: get(col.nome), categoria: get(col.cat) || "Pizze",
+                id: get(col.id), nome: get(col.nome), categoria: get(col.cat),
                 ingredienti: get(col.ing), allergeni: get(col.all), varianti: get(col.var),
                 prezzo: parseFloat(get(col.pre).replace('€', '').replace(',', '.')) || 0,
                 immagine: get(col.img), isVeg: get(col.veg).toUpperCase() === 'SI',
@@ -265,7 +289,7 @@
                         ${item.isSpicy ? '<span class="bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
                     </div>
                 </div>
-                <div class="flex flex-col justify-center min-w-0">
+                <div class="flex flex-col justify-center min-w-0 pr-2">
                     <div class="flex justify-between items-start mb-1 gap-2">
                         <h3 class="font-bold text-ink text-lg leading-tight truncate">${item.nome}</h3>
                         <span class="font-black text-brand text-base shrink-0">€${item.prezzo.toFixed(2)}</span>
@@ -335,7 +359,7 @@
     function renderSkeletons() { document.getElementById('content').innerHTML = Array(4).fill('<div class="skeleton mb-4"></div>').join(''); }
     function sendWhatsApp() {
         const total = cart.reduce((acc, i) => acc + (i.prezzo * i.qty), 0);
-        let msg = "🍕 *Nuovo Ordine Pizzeria Filippone*\n\n";
+        let msg = "🍕 *Ordine Pizzeria Filippone*\n\n";
         cart.forEach(i => { msg += `• ${i.qty}x *${i.nome}* (€${(i.prezzo * i.qty).toFixed(2)})\n`; });
         msg += `\n💰 *Totale: €${total.toFixed(2)}*`;
         window.open(`https://wa.me/${CONFIG.WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
