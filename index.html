@@ -25,7 +25,6 @@
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FBF9F7; color: #1A120B; overscroll-behavior-y: contain; }
     
-    /* Layout Responsivo S22 Ultra / Desktop */
     .item-card { display: grid; grid-template-columns: 110px 1fr; gap: 16px; transition: all 0.2s ease; }
     @media (min-width: 480px) { .item-card { grid-template-columns: 140px 1fr; } }
     
@@ -33,7 +32,6 @@
     .modal-panel-active { transform: translateY(0) !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     
-    /* Fix Filtri: Testo sempre leggibile */
     .chip-active { 
         background-color: #C1440E15 !important; 
         border-color: #C1440E !important; 
@@ -113,7 +111,7 @@
     </div>
   </div>
 
-  <!-- MODAL PRODOTTO -->
+  <!-- MODAL -->
   <div id="modal-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeModal()">
     <div id="modal-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-8"></div>
@@ -121,7 +119,7 @@
     </div>
   </div>
 
-  <!-- MODAL CARRELLO -->
+  <!-- CART -->
   <div id="cart-backdrop" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-end justify-center" onclick="closeCart()">
     <div id="cart-panel" class="bg-white w-full max-w-xl rounded-t-[40px] p-8 pb-12 translate-y-full transition-transform duration-400 overflow-y-auto max-h-[92vh]" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between mb-8">
@@ -138,21 +136,28 @@
       CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIN046Cc83hlXxUZeggwBmrZCwsqNc1a7eaSumJZgBlNo-Hm-kAdWcB8p1O5r3v_xHdrG9Fp50pjjZ/pub?gid=616902249&single=true&output=csv',
       WA_PHONE: '390461924565',
       WA_PREAMBLE: 'Ciao Filippone! 🍕 Vorrei ordinare:\n\n',
-      CACHE_KEY: 'filippone_menu_v4'
+      CACHE_KEY: 'filippone_menu_v6' // Cache incrementata per forzare rilettura prezzi
     };
 
-    // --- FUNZIONE INTELLIGENTE PER IMMAGINI ---
+    // --- LOGICA IMMAGINI INTELLIGENTI ---
     function getSafeImage(item) {
-        if (item.immagine && item.immagine.length > 5) return item.immagine;
+        // Se c'è un link immagine nel database e non è vuoto, usa quello
+        if (item.immagine && item.immagine.length > 10) return item.immagine;
         
-        const cat = item.categoria.toLowerCase();
-        if (cat.includes('pizz')) return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('insalat')) return 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('bevand') || cat.includes('birr') || cat.includes('drink')) return 'https://images.unsplash.com/photo-1544145945-f904253d0c71?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('dolc') || cat.includes('dessert')) return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
-        if (cat.includes('antipast')) return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
+        const cat = (item.categoria || "").toLowerCase();
         
-        return 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=600&q=80';
+        // Coerenza Placeholders Unsplash
+        if (cat.includes('bevand') || cat.includes('birr') || cat.includes('bibit') || cat.includes('vino') || cat.includes('acqua')) 
+            return 'https://images.unsplash.com/photo-1544145945-f904253d0c71?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('insalat')) 
+            return 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('dolc') || cat.includes('dessert')) 
+            return 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80';
+        if (cat.includes('antipast') || cat.includes('friz') || cat.includes('fritt')) 
+            return 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80';
+        
+        // Default per pizze o altro
+        return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80';
     }
 
     let allItems = [], categories = ['Tutti'], activeCategory = 'Tutti', filters = { veg: false, spicy: false, frozen: false }, searchTerm = '', cart = [];
@@ -197,20 +202,31 @@
         renderCards();
     }
 
+    // --- PARSER CSV POTENZIATO PER I PREZZI ---
     function parseCSV(text) {
         const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
         const headers = lines[0].split(',').map(h => h.trim());
+        
         return lines.slice(1).map(line => {
             const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             const row = {};
             headers.forEach((h, i) => row[h] = values[i]?.replace(/^"|"$/g, '').trim());
-            let prezzo = parseFloat(row.Prezzo?.replace(/[€$\s]/g, '').replace(',', '.')) || 0;
+            
+            // Cerca dinamicamente la colonna del prezzo (anche se si chiama "Prezzo (€)")
+            let prezzoValue = 0;
+            for (let key in row) {
+                if (key.toLowerCase().includes("prezzo")) {
+                    let raw = row[key].replace(/[€$\s]/g, '').replace(',', '.');
+                    prezzoValue = parseFloat(raw) || 0;
+                }
+            }
+
             return {
                 id: row.ID || Math.random().toString(),
                 nome: row.Nome || "",
                 categoria: row.Categoria || "Pizze",
                 ingredienti: row.Ingredienti || "",
-                prezzo: prezzo,
+                prezzo: prezzoValue,
                 immagine: row['Immagine URL'] || "",
                 isVeg: row.IsVeg?.toUpperCase().startsWith('S'),
                 isSpicy: row.IsSpicy?.toUpperCase().startsWith('S'),
