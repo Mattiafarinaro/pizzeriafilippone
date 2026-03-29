@@ -593,7 +593,7 @@
             <p class="font-bold text-stone-500">${isSearching ? 'Nessun risultato' : 'Nessun articolo'}</p>
             <p class="text-sm mt-1 text-stone-300">
               ${isSearching
-                ? 'Prova un'altra parola chiave o rimuovi i filtri'
+                ? "Prova un'altra parola chiave o rimuovi i filtri"
                 : 'Questa categoria è vuota'}
             </p>
             ${isSearching ? `<button onclick="App.resetFilters()"
@@ -930,7 +930,7 @@
         _saveCart();
         _updateBadge();
         App.closeModal();
-        _showToast('✓ ' + item.nome + ' aggiunto all'ordine');
+        _showToast(`✓ ${item.nome} aggiunto all'ordine`);
       },
 
       // Change quantity by name group
