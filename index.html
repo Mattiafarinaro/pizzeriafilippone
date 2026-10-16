@@ -428,6 +428,44 @@
       #modal-detail .detail-ingredients { grid-column:1 / -1; }
     }
 
+    /* Cohesive product header: image and details form one balanced feature. */
+    #modal-detail .detail-primary {
+      display:grid; grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
+      align-items:stretch; gap:1.1rem; padding:1rem;
+      border:1px solid #eee9e5; border-radius:1.35rem;
+      background:#fcfaf8;
+    }
+    #modal-detail .detail-hero {
+      grid-column:1; grid-row:1; min-height:100%; height:100%;
+      border:0; border-radius:1rem; background:#f3eee9;
+    }
+    #modal-detail .detail-hero img {
+      width:min(100%, 15rem); height:auto; aspect-ratio:1;
+    }
+    #modal-detail .detail-info {
+      grid-column:2; grid-row:1; display:flex; flex-direction:column;
+      justify-content:center; gap:1.1rem; min-width:0;
+    }
+    #modal-detail .detail-heading {
+      align-items:center; gap:.75rem; margin:0; padding:0;
+    }
+    #modal-detail .detail-price { margin:0; }
+    #modal-detail .detail-ingredients {
+      margin:0; padding:.9rem; border-radius:1rem;
+      background:#fff; border-color:#f0e2d6;
+    }
+    #modal-detail .detail-ingredients-list { gap:.4rem; }
+    #modal-detail .detail-ingredients .ing-tag {
+      padding:.4rem .6rem; font-size:.88rem;
+    }
+    @media (max-width:759px) {
+      #modal-detail .detail-primary { grid-template-columns:minmax(0,1fr); gap:1rem; padding:.8rem; }
+      #modal-detail .detail-hero { grid-column:1; grid-row:1; min-height:12rem; height:auto; }
+      #modal-detail .detail-info { grid-column:1; grid-row:2; gap:1rem; }
+      #modal-detail .detail-heading { align-items:flex-start; }
+      #modal-detail .detail-ingredients { padding:.85rem; }
+    }
+
     /* ── Back to top button ── */
     #back-to-top {
       opacity: 0; pointer-events: none;
@@ -1336,18 +1374,20 @@
                    onerror="this.onerror=null;this.src=IMG_FALLBACK" />
               <figcaption>Immagine illustrativa</figcaption>
             </figure>
-            <div class="detail-heading">
-              <div class="detail-title">
-                <p class="detail-category">${_escHTML(item.categoria)}</p>
-                <h2 id="modal-title" class="font-display font-bold">${_escHTML(item.nome)}</h2>
+            <div class="detail-info">
+              <div class="detail-heading">
+                <div class="detail-title">
+                  <p class="detail-category">${_escHTML(item.categoria)}</p>
+                  <h2 id="modal-title" class="font-display font-bold">${_escHTML(item.nome)}</h2>
+                </div>
+                <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
               </div>
-              <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
+              ${item.ingredienti ? `
+              <section class="detail-section detail-ingredients" aria-labelledby="detail-ingredients-title">
+                <h3 id="detail-ingredients-title" class="detail-section-title">Gli ingredienti</h3>
+                <ul class="detail-ingredients-list">${ingTags}</ul>
+              </section>` : ''}
             </div>
-            ${item.ingredienti ? `
-            <section class="detail-section detail-ingredients" aria-labelledby="detail-ingredients-title">
-              <h3 id="detail-ingredients-title" class="detail-section-title">Gli ingredienti</h3>
-              <ul class="detail-ingredients-list">${ingTags}</ul>
-            </section>` : ''}
           </div>
 
           ${item.allergeni ? `
