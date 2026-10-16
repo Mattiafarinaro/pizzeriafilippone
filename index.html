@@ -403,6 +403,31 @@
       #modal-detail .detail-ingredients { margin-bottom:1.15rem; }
     }
 
+    /* Modal spacing: align each information block to the same full-width rhythm. */
+    #modal-detail #modal-content {
+      display:flex; flex-direction:column; gap:1.15rem;
+    }
+    #modal-detail .detail-primary {
+      display:flex; flex-direction:column; gap:1.15rem; margin:0;
+    }
+    #modal-detail .detail-hero { margin:0; }
+    #modal-detail .detail-heading { margin:0; }
+    #modal-detail .detail-ingredients {
+      width:100%; margin:0; padding:1rem 1.05rem;
+    }
+    #modal-detail .detail-allergens,
+    #modal-detail .detail-variants { width:100%; margin:0; }
+    #modal-detail .detail-cta { margin-top:1.15rem; }
+    @media (min-width:760px) {
+      #modal-detail .detail-primary {
+        display:grid; grid-template-columns:minmax(12rem,14rem) minmax(0,1fr);
+        align-items:start; column-gap:1.6rem; row-gap:1.15rem;
+      }
+      #modal-detail .detail-hero { grid-column:1; grid-row:1; }
+      #modal-detail .detail-heading { grid-column:2; grid-row:1; align-self:center; }
+      #modal-detail .detail-ingredients { grid-column:1 / -1; }
+    }
+
     /* ── Back to top button ── */
     #back-to-top {
       opacity: 0; pointer-events: none;
