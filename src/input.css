@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { font-family: "Plus Jakarta Sans", sans-serif; }
+}
+
+@layer components {
+  .menu-snapshot { color: #1A120B; }
+  .menu-snapshot h2 { margin: 1.75rem 0 .75rem; color: #8B2E07; font-family: "Playfair Display", serif; font-size: 1.5rem; font-weight: 700; }
+  .menu-snapshot ul { display: grid; gap: .75rem; padding: 0; list-style: none; }
+  .menu-snapshot article { padding: 1rem; border: 1px solid #f0e8e1; border-radius: 1rem; background: #fff; }
+  .menu-snapshot .snapshot-heading { display: flex; justify-content: space-between; gap: .75rem; align-items: baseline; }
+  .menu-snapshot h3 { margin: 0; font-size: 1rem; font-weight: 800; }
+  .menu-snapshot .snapshot-price { color: #C1440E; font-weight: 800; white-space: nowrap; }
+  .menu-snapshot .snapshot-detail { margin: .45rem 0 0; color: #6B5744; font-size: .8rem; line-height: 1.5; }
+  .menu-snapshot .snapshot-allergens { color: #92400e; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
