@@ -11,10 +11,10 @@
   <meta property="og:type"        content="restaurant.restaurant" />
   <meta property="og:title"       content="Pizzeria Filippone – Dal 1966 a Trento" />
   <meta property="og:description" content="Sfoglia il menu, filtra per vegetariano o piccante e ordina direttamente su WhatsApp!" />
-  <meta property="og:image"       content="https://picsum.photos/seed/filippone/1200/630" />
-  <meta property="og:url"         content="https://mattiafarinaro.github.io/" />
+  <meta property="og:image"       content="https://mattiafarinaro.github.io/pizzeriafilippone/logo.png" />
+  <meta property="og:url"         content="https://mattiafarinaro.github.io/pizzeriafilippone/" />
   <meta name="twitter:card"       content="summary_large_image" />
-  <link rel="canonical"           href="https://mattiafarinaro.github.io/" />
+  <link rel="canonical"           href="https://mattiafarinaro.github.io/pizzeriafilippone/" />
 
   <!-- ═══ Fonts ═══ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -169,6 +169,10 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .card-anim { animation: cardIn .3s ease forwards; }
+    :focus-visible { outline: 3px solid #C1440E; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
   </style>
 </head>
 
@@ -246,7 +250,7 @@
   <!-- ═══════════════════════════════════
        MAIN LISTING
   ═══════════════════════════════════ -->
-  <main id="content" class="flex-1 px-5 pt-6 pb-48 space-y-3 max-w-xl mx-auto w-full"></main>
+  <main id="content" aria-live="polite" aria-busy="true" class="flex-1 px-5 pt-6 pb-48 space-y-3 max-w-xl mx-auto w-full"></main>
 
   <!-- ═══════════════════════════════════
        STICKY ACTION BAR
@@ -395,10 +399,7 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
 
-    const _escAttr = (str) => String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+    const _escAttr = _escHTML;
 
     // ─────────────────────────────────────────────
     // TOAST
@@ -420,100 +421,63 @@
     // Column matching by keyword → resilient to renames
     // ─────────────────────────────────────────────
     const parseCSV = (raw) => {
-      // Strip BOM, normalize line endings
-      const lines = raw.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim());
-      if (lines.length < 2) return [];
-
-      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
-
-      // Column index finder — checks all provided keywords
-      const col = (keys) => headers.findIndex(h => keys.some(k => h.includes(k)));
-      const COLS = {
-        id:    col(['id']),
-        nome:  col(['nome']),
-        cat:   col(['categoria']),
-        ing:   col(['ingred']),
-        all:   col(['allerg']),
-        pre:   col(['prezzo', '€']),
-        img:   col(['immag', 'url']),
-        veg:   col(['isveg', 'is_veg', 'veg']),
-        spicy: col(['isspicy', 'is_spicy', 'spicy', 'piccante']),
-        froz:  col(['isfrozen', 'is_frozen', 'frozen', 'surgelato']),
-        vari:  col(['variant']),
-      };
-
-      // Regex-based CSV field split — handles quoted commas correctly
-      const splitLine = (line) => {
-        const result = [];
-        let cur = '', inQ = false;
-        for (let i = 0; i < line.length; i++) {
-          if (line[i] === '"') { inQ = !inQ; }
-          else if (line[i] === ',' && !inQ) { result.push(cur); cur = ''; }
-          else { cur += line[i]; }
-        }
-        result.push(cur);
-        return result;
-      };
-
-      const get = (fields, idx) => {
-        if (idx < 0 || idx >= fields.length) return '';
-        return fields[idx].replace(/^"|"$/g, '').trim();
-      };
-
-      return lines.slice(1).map((line, i) => {
-        const f = splitLine(line);
-        const rawPrice = get(f, COLS.pre).replace(/[€\s]/g, '').replace(',', '.');
-        return {
-          id:          get(f, COLS.id) || String(i + 1),
-          nome:        get(f, COLS.nome),
-          categoria:   get(f, COLS.cat) || 'Altro',
-          ingredienti: get(f, COLS.ing),
-          allergeni:   get(f, COLS.all),
-          varianti:    get(f, COLS.vari),
-          prezzo:      parseFloat(rawPrice) || 0,
-          immagine:    get(f, COLS.img),
-          isVeg:       get(f, COLS.veg).toUpperCase()   === 'SI',
-          isSpicy:     get(f, COLS.spicy).toUpperCase() === 'SI',
-          isFrozen:    get(f, COLS.froz).toUpperCase()  === 'SI',
-        };
-      }).filter(item => item.nome.length > 0);
+      // Quoted-field parser supports commas, escaped quotes, and embedded newlines.
+      const rows = []; let row = [], field = '', inQuotes = false;
+      const input = String(raw || '').replace(/^\uFEFF/, '');
+      for (let i = 0; i < input.length; i++) {
+        const ch = input[i];
+        if (ch === '"' && inQuotes && input[i + 1] === '"') { field += '"'; i++; }
+        else if (ch === '"') inQuotes = !inQuotes;
+        else if (ch === ',' && !inQuotes) { row.push(field); field = ''; }
+        else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+          if (ch === '\r' && input[i + 1] === '\n') i++;
+          row.push(field); field = '';
+          if (row.some(cell => cell.trim())) rows.push(row);
+          row = [];
+        } else field += ch;
+      }
+      row.push(field); if (row.some(cell => cell.trim())) rows.push(row);
+      if (rows.length < 2) return [];
+      const headers = rows[0].map(h => String(h).trim().toLowerCase());
+      const col = keys => headers.findIndex(h => keys.some(k => h.includes(k)));
+      const C = {id:col(['id']),nome:col(['nome']),cat:col(['categoria']),ing:col(['ingred']),
+        all:col(['allerg']),pre:col(['prezzo','€']),img:col(['immag','url']),
+        veg:col(['isveg','is_veg','veg']),spicy:col(['isspicy','is_spicy','spicy','piccante']),
+        froz:col(['isfrozen','is_frozen','frozen','surgelato']),vari:col(['variant'])};
+      const get = (f,i) => i<0||i>=f.length?'':String(f[i]||'').trim();
+      return rows.slice(1).map((f,i) => {
+        const price=Number.parseFloat(get(f,C.pre).replace(/[€\s]/g,'').replace(',','.'));
+        return {id:get(f,C.id)||String(i+1),nome:get(f,C.nome),categoria:get(f,C.cat)||'Altro',
+          ingredienti:get(f,C.ing),allergeni:get(f,C.all),varianti:get(f,C.vari),
+          prezzo:Number.isFinite(price)?price:0,immagine:get(f,C.img),
+          isVeg:get(f,C.veg).toUpperCase()==='SI',isSpicy:get(f,C.spicy).toUpperCase()==='SI',
+          isFrozen:get(f,C.froz).toUpperCase()==='SI'};
+      }).filter(item=>item.nome.length>0);
     };
 
     // ─────────────────────────────────────────────
-    // DATA FETCH — 4-proxy cascade with abort timeout
-    // Proxies tried in order; first success wins.
-    // Falls back to direct fetch as last resort.
+    // DATA FETCH — direct public sheet request with one CORS fallback
+    // The fallback is used only when the browser blocks the direct request.
     // ─────────────────────────────────────────────
     const fetchCSV = async (csvUrl) => {
-      const PROXIES = [
-        u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-        u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-        u => `https://thingproxy.freeboard.io/fetch/${u}`,
-        u => u, // direct (works if sheet is truly public + no strict CORS)
+      const attempts = [
+        {label:'Google Sheets',url:csvUrl},
+        {label:'servizio di supporto',url:`https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`}
       ];
-      const LABELS = ['corsproxy.io', 'allorigins.win', 'thingproxy', 'diretto'];
-
-      for (let i = 0; i < PROXIES.length; i++) {
-        const url = PROXIES[i](csvUrl);
-        _setStatus(`Caricamento... (tentativo ${i + 1}/${PROXIES.length} via ${LABELS[i]})`);
+      for (const attempt of attempts) {
+        _setStatus(`Caricamento menu… (${attempt.label})`);
+        const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),10000);
         try {
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 8000); // 8s timeout per proxy
-          const res = await fetch(url, { signal: controller.signal, cache: 'no-store' });
-          clearTimeout(timeout);
-          if (!res.ok) continue;
-          const text = await res.text();
-          if (!text || text.trim().length < 20) continue;
-          const parsed = parseCSV(text);
-          if (parsed.length === 0) continue;
-          _setStatus('');
-          return parsed; // success
-        } catch (e) {
-          // AbortError or network error — try next proxy
-          continue;
-        }
+          const res=await fetch(attempt.url,{signal:controller.signal,cache:'no-store',credentials:'omit'});
+          if(!res.ok) continue;
+          const text=await res.text();
+          if(!text||text.trim().length<20||text.trimStart().startsWith('<')) continue;
+          const parsed=parseCSV(text);
+          if(parsed.length){_setStatus('');return parsed;}
+        } catch (_) { /* Retry once through the configured public CSV fallback. */ }
+        finally { clearTimeout(timeout); }
       }
-      return null; // all proxies failed
+      return null;
     };
 
     // ─────────────────────────────────────────────
@@ -521,7 +485,12 @@
     // Priority: sheet URL → name/category heuristic → generic pizza
     // ─────────────────────────────────────────────
     const resolveImg = (item) => {
-      if (item.immagine && item.immagine.startsWith('http')) return item.immagine;
+      if (item.immagine) {
+        try {
+          const imageURL = new URL(item.immagine, window.location.href);
+          if (imageURL.protocol === 'https:' || imageURL.protocol === 'http:') return imageURL.href;
+        } catch (_) { /* use category image */ }
+      }
       const n = item.nome.toLowerCase();
       const c = item.categoria.toLowerCase();
       if (n.includes('acqua'))                                    return ASSETS.acqua;
@@ -552,7 +521,8 @@
         for (const [k, e] of Object.entries(TAB_EMOJI)) { if (low.includes(k)) { em = e; break; } }
         const active = cat === state.activeCat;
         return `<button
-          onclick="App.setCat('${cat}')"
+          data-category="${_escAttr(cat)}"
+          aria-pressed="${active}"
           class="shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl text-[13px] font-extrabold border transition-all ${active ? 'tab-active shadow-lg' : 'bg-white text-stone-400 border-stone-100'}">
           <span>${em}</span> ${cat}
         </button>`;
@@ -566,6 +536,7 @@
     const _renderCards = () => {
       const el = document.getElementById('content');
       if (!el) return;
+      el.setAttribute('aria-busy', 'false');
 
       let data = state.activeCat === 'Tutti'
         ? state.items
@@ -607,9 +578,9 @@
       el.innerHTML = data.map((item, idx) => `
         <div class="item-card card-anim bg-white rounded-[28px] p-4 border border-stone-100 shadow-sm cursor-pointer"
              style="animation-delay:${Math.min(idx * 35, 400)}ms"
-             onclick="App.openDetail('${item.id}')">
+             data-item-id="${_escAttr(item.id)}" role="button" tabindex="0">
           <div class="aspect-square rounded-[20px] overflow-hidden bg-stone-100 relative">
-            <img src="${resolveImg(item)}" alt="${item.nome}"
+            <img src="${_escAttr(resolveImg(item))}" alt="${_escAttr(item.nome)}"
                  class="w-full h-full object-cover" loading="lazy" decoding="async"
                  onerror="this.onerror=null;this.src=IMG_FALLBACK" />
             <div class="absolute top-2 right-2 flex flex-col gap-1">
@@ -620,11 +591,11 @@
           </div>
           <div class="flex flex-col justify-center min-w-0 pr-1">
             <div class="flex justify-between items-start gap-2 mb-1">
-              <h3 class="font-extrabold text-ink text-[16px] leading-tight">${item.nome}</h3>
+              <h3 class="font-extrabold text-ink text-[16px] leading-tight">${_escHTML(item.nome)}</h3>
               <span class="font-black text-brand shrink-0 text-base">€${item.prezzo.toFixed(2)}</span>
             </div>
-            <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${item.ingredienti}</p>
-            <p class="text-stone-300 text-[10px] font-bold uppercase tracking-wider mt-2">${item.categoria}</p>
+            <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${_escHTML(item.ingredienti)}</p>
+            <p class="text-stone-300 text-[10px] font-bold uppercase tracking-wider mt-2">${_escHTML(item.categoria)}</p>
           </div>
         </div>`).join('');
     };
@@ -665,8 +636,18 @@
     const _loadCart = () => {
       try {
         const saved = localStorage.getItem(CONFIG.STORAGE);
-        if (saved) state.cart = JSON.parse(saved);
+        if (saved) {
+          const parsed=JSON.parse(saved);
+          state.cart=Array.isArray(parsed)?parsed.filter(item=>item&&typeof item==='object'&&typeof item.id==='string'):[];
+        }
       } catch (_) { state.cart = []; }
+    };
+
+    const _reconcileCart = () => {
+      const current=new Map(state.items.map(item=>[String(item.id),item]));
+      state.cart=state.cart.filter(item=>item&&current.has(String(item.id)))
+        .map(item=>({...current.get(String(item.id)),cartId:item.cartId||Date.now()}));
+      _saveCart(); _updateBadge();
     };
 
     const _updateBadge = () => {
@@ -714,14 +695,14 @@
       itemsEl.innerHTML = groups.map(g => `
         <div class="flex items-center justify-between bg-stone-50 p-4 rounded-[24px] border border-stone-100">
           <div class="min-w-0 pr-3">
-            <p class="font-extrabold text-ink text-sm truncate">${g.nome}</p>
+            <p class="font-extrabold text-ink text-sm truncate">${_escHTML(g.nome)}</p>
             <p class="text-brand font-black text-xs mt-0.5">€${(g.prezzo * g.qty).toFixed(2)}</p>
           </div>
           <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl shadow-sm border border-stone-100 shrink-0">
-            <button onclick="App.changeQty('${g.nome}', -1)"
+            <button data-cart-name="${_escAttr(g.nome)}" data-quantity-change="-1"
                     class="text-brand font-black text-lg w-5 text-center leading-none active:scale-90 transition">−</button>
             <span class="font-black text-ink text-sm w-4 text-center">${g.qty}</span>
-            <button onclick="App.changeQty('${g.nome}', 1)"
+            <button data-cart-name="${_escAttr(g.nome)}" data-quantity-change="1"
                     class="text-brand font-black text-lg w-5 text-center leading-none active:scale-90 transition">+</button>
           </div>
         </div>`).join('');
@@ -731,9 +712,20 @@
           <span class="text-stone-400 font-bold text-sm">Totale stimato</span>
           <span class="font-display font-black text-2xl text-brand">€${total.toFixed(2)}</span>
         </div>
+        <div class="space-y-3 mb-4">
+          <label class="block text-xs font-bold text-ink" for="order-customer-name">Nome per il ritiro <span class="font-normal text-stone-400">(facoltativo)</span></label>
+          <input id="order-customer-name" type="text" maxlength="60" autocomplete="name" placeholder="Come ti chiami?"
+                 class="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand/20" />
+          <label class="block text-xs font-bold text-ink" for="pickup-time">Orario desiderato <span class="font-normal text-stone-400">(facoltativo)</span></label>
+          <input id="pickup-time" type="time" class="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand/20" />
+          <label class="block text-xs font-bold text-ink" for="order-notes">Note <span class="font-normal text-stone-400">(facoltative)</span></label>
+          <textarea id="order-notes" rows="2" maxlength="300" placeholder="Aggiungi una nota"
+                    class="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand/20"></textarea>
+          <p class="text-[11px] leading-relaxed text-stone-500">L’ordine sarà inviato solo dopo la conferma su WhatsApp. Ritiro e orario vanno concordati con la pizzeria.</p>
+        </div>
         <button onclick="App.sendWA()"
                 class="w-full bg-wa text-white py-5 rounded-[24px] font-black text-base shadow-xl active:scale-95 transition-all">
-          📲 Invia ordine su WhatsApp
+          📲 Continua su WhatsApp
         </button>`;
     };
 
@@ -742,7 +734,7 @@
     // ─────────────────────────────────────────────
     const _renderError = () => {
       const el = document.getElementById('content');
-      if (el) el.innerHTML = `
+      if (el) { el.setAttribute('aria-busy', 'false'); el.innerHTML = `
         <div class="text-center py-16 px-4">
           <p class="text-5xl mb-3">😕</p>
           <p class="font-bold text-ink/70">Impossibile caricare il menu.</p>
@@ -754,7 +746,7 @@
                   class="mt-6 px-6 py-3 bg-brand text-white rounded-2xl font-bold text-sm active:scale-95 transition">
             Riprova
           </button>
-        </div>`;
+        </div>`; }
     };
 
     // ─────────────────────────────────────────────
@@ -773,6 +765,7 @@
 
         state.items      = items;
         state.categories = ['Tutti', ...[...new Set(items.map(i => i.categoria))]];
+        _reconcileCart();
 
         _renderTabs();
         _renderCards();
@@ -874,7 +867,7 @@
 
         document.getElementById('modal-content').innerHTML = `
           <div class="aspect-video w-full rounded-[28px] overflow-hidden mb-5 bg-stone-100">
-            <img src="${resolveImg(item)}" alt="${_escAttr(item.nome)}"
+            <img src="${_escAttr(resolveImg(item))}" alt="${_escAttr(item.nome)}"
                  class="w-full h-full object-cover"
                  onerror="this.onerror=null;this.src=IMG_FALLBACK" />
           </div>
@@ -903,7 +896,7 @@
 
           ${variantsHTML}
 
-          <button onclick="App.addToCart('${_escAttr(item.id)}')"
+          <button data-add-item-id="${_escAttr(item.id)}"
                   class="w-full bg-brand text-white rounded-[22px] py-4 font-extrabold text-base
                          shadow-[0_4px_20px_rgba(193,68,14,.35)] active:scale-[.98] transition-all
                          flex items-center justify-center gap-2">
@@ -982,11 +975,17 @@
         if (state.cart.length === 0) return;
         const groups = _groupCart();
         const total  = state.cart.reduce((s, i) => s + i.prezzo, 0);
-        let msg = CONFIG.WA_INTRO;
-        groups.forEach(g => { msg += `• ${g.qty}x *${g.nome}* – €${(g.prezzo * g.qty).toFixed(2)}\n`; });
-        msg += `\n💰 *Totale: €${total.toFixed(2)}*`;
-        window.open(`https://wa.me/${CONFIG.WA}?text=${encodeURIComponent(msg)}`, '_blank');
-          _showToast('📲 Ordine inviato su WhatsApp!');
+        const customerName=document.getElementById('order-customer-name')?.value.trim()||'';
+        const pickupTime=document.getElementById('pickup-time')?.value||'';
+        const notes=document.getElementById('order-notes')?.value.trim()||'';
+        let msg=CONFIG.WA_INTRO;
+        if(customerName) msg+=`👤 Nome: ${customerName}\n`;
+        if(pickupTime) msg+=`🕒 Orario richiesto: ${pickupTime}\n`;
+        msg+='${bs}n';
+        groups.forEach(g=>{msg+=`• ${g.qty}x *${g.nome}* – €${(g.prezzo*g.qty).toFixed(2)}\n`;});
+        msg+=`\n💰 *Totale stimato: €${total.toFixed(2)}*`;
+        if(notes) msg+=`\n\n📝 Note: ${notes}`;
+        window.location.href=`https://wa.me/${CONFIG.WA}?text=${encodeURIComponent(msg)}`;
       },
     };
 
@@ -994,6 +993,26 @@
 
   // ─── Bootstrap ───
   document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('content')?.addEventListener('click', event => {
+      const card=event.target.closest('[data-item-id]');
+      if(card) App.openDetail(card.dataset.itemId);
+    });
+    document.getElementById('content')?.addEventListener('keydown', event => {
+      const card=event.target.closest('[data-item-id]');
+      if(card&&(event.key==='Enter'||event.key===' ')){event.preventDefault();App.openDetail(card.dataset.itemId);}
+    });
+    document.getElementById('tab-bar')?.addEventListener('click', event => {
+      const tab=event.target.closest('[data-category]');
+      if(tab) App.setCat(tab.dataset.category);
+    });
+    document.getElementById('cart-items')?.addEventListener('click', event => {
+      const button=event.target.closest('[data-quantity-change]');
+      if(button) App.changeQty(button.dataset.cartName,Number(button.dataset.quantityChange));
+    });
+    document.getElementById('modal-content')?.addEventListener('click', event => {
+      const button=event.target.closest('[data-add-item-id]');
+      if(button) App.addToCart(button.dataset.addItemId);
+    });
     App.init();
 
     // ESC closes any open modal
