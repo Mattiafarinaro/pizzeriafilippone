@@ -356,6 +356,53 @@
     }
     @media (max-width:380px) { #modal-detail .detail-heading { flex-direction:column; gap:.65rem; } #modal-detail .detail-price { align-self:flex-start; } }
 
+    /* Ingredients are the primary product information; options stay secondary. */
+    #modal-detail .detail-primary { gap:1.35rem; }
+    #modal-detail .detail-ingredients {
+      margin:1.15rem 0 0; padding:1rem 1.05rem 1.05rem;
+      border:1px solid #f0e2d6; border-radius:1.15rem;
+      background:linear-gradient(145deg,#fffaf5,#fff);
+    }
+    #modal-detail .detail-ingredients .detail-section-title {
+      margin-bottom:.75rem; color:#9f3510; font-size:.78rem; letter-spacing:.08em;
+    }
+    #modal-detail .detail-ingredients-list {
+      display:flex; flex-wrap:wrap; gap:.5rem; margin:0; padding:0; list-style:none;
+    }
+    #modal-detail .detail-ingredients .ing-tag {
+      margin:0; padding:.5rem .75rem; border:1px solid #ead6c8; border-radius:.75rem;
+      background:#fff; color:#29211c; font-size:clamp(.9rem,2vw,1rem);
+      font-weight:700; line-height:1.35; box-shadow:0 2px 5px rgba(69,39,20,.04);
+    }
+    #modal-detail .detail-variants {
+      overflow:hidden; border:1px solid #eee9e5; border-radius:1rem;
+      background:#faf9f8;
+    }
+    #modal-detail .detail-variants-summary {
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      min-height:3.8rem; padding:.8rem 1rem; cursor:pointer; list-style:none;
+      color:#514943;
+    }
+    #modal-detail .detail-variants-summary::-webkit-details-marker { display:none; }
+    #modal-detail .detail-variants-summary strong { display:block; font-size:.92rem; }
+    #modal-detail .detail-variants-summary small { display:block; margin-top:.15rem; color:#756a63; font-size:.76rem; }
+    #modal-detail .detail-variants-toggle {
+      display:grid; place-items:center; width:1.8rem; height:1.8rem;
+      border-radius:50%; background:#f0ece9; color:#514943; font-size:1.2rem;
+      transition:transform .18s ease;
+    }
+    #modal-detail .detail-variants[open] .detail-variants-toggle { transform:rotate(45deg); }
+    #modal-detail .detail-variants-content { padding:0 .75rem .8rem; }
+    #modal-detail .detail-variants-content .variant-list { background:#fff; }
+    #modal-detail .detail-variants:focus-within { outline:3px solid rgba(193,68,14,.18); outline-offset:2px; }
+    @media (min-width:760px) {
+      #modal-detail .detail-primary { grid-template-columns:minmax(12rem,14rem) minmax(0,1fr); }
+      #modal-detail .detail-ingredients { margin-top:1.25rem; }
+    }
+    @media (max-width:759px) {
+      #modal-detail .detail-ingredients { margin-bottom:1.15rem; }
+    }
+
     /* ── Back to top button ── */
     #back-to-top {
       opacity: 0; pointer-events: none;
@@ -1240,15 +1287,20 @@
           </div>` : '';
 
         const variantsHTML = (isPizzaCat || hasVarianti) ? `
-          <section class="detail-variants" aria-labelledby="detail-variants-title">
-            <h3 id="detail-variants-title" class="detail-section-title">Varianti e aggiunte</h3>
-            ${impastoHTML}
-            ${customHTML}
-          </section>` : '';
+          <details class="detail-variants">
+            <summary class="detail-variants-summary">
+              <span><strong>Personalizza la pizza</strong><small>Impasti e aggiunte disponibili</small></span>
+              <span class="detail-variants-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="detail-variants-content">
+              ${impastoHTML}
+              ${customHTML}
+            </div>
+          </details>` : '';
 
         const ingredients = item.ingredienti.split(',').map(t => t.trim()).filter(Boolean);
         const ingTags = ingredients
-          .map(t => `<span class="ing-tag">${_escHTML(t)}</span>`)
+          .map(t => `<li class="ing-tag">${_escHTML(t)}</li>`)
           .join('');
 
         document.getElementById('modal-content').innerHTML = `
@@ -1266,13 +1318,12 @@
               </div>
               <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
             </div>
+            ${item.ingredienti ? `
+            <section class="detail-section detail-ingredients" aria-labelledby="detail-ingredients-title">
+              <h3 id="detail-ingredients-title" class="detail-section-title">Gli ingredienti</h3>
+              <ul class="detail-ingredients-list">${ingTags}</ul>
+            </section>` : ''}
           </div>
-
-          ${item.ingredienti ? `
-          <section class="detail-section" aria-labelledby="detail-ingredients-title">
-            <h3 id="detail-ingredients-title" class="detail-section-title">Ingredienti</h3>
-            <p class="detail-ingredients-copy">${_escHTML(item.ingredienti)}</p>
-          </section>` : ''}
 
           ${item.allergeni ? `
           <section class="detail-allergens" aria-labelledby="detail-allergens-title">
