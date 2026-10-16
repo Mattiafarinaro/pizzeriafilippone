@@ -1005,9 +1005,9 @@
           .join('');
 
         document.getElementById('modal-content').innerHTML = `
-          <div class="aspect-video w-full rounded-[28px] overflow-hidden mb-5 bg-stone-100">
-            <img src="${_escAttr(resolveImg(item))}" alt="${_escAttr(item.nome)}"
-                 class="w-full h-full object-cover"
+          <div class="w-full flex justify-center rounded-[28px] overflow-hidden mb-5 bg-stone-100">
+            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa: ${_escAttr(item.nome)}" width="200" height="200"
+                 class="w-[200px] h-[200px] object-cover rounded-[20px]"
                  onerror="this.onerror=null;this.src=IMG_FALLBACK" />
           </div>
 
