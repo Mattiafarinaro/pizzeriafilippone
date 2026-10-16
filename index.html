@@ -241,6 +241,7 @@
       Per ordinazioni via app non sono previste variazioni di impasto.<br>
       Per richieste particolari usa il tasto <b>"Chiama"</b>.
     </div>
+    <p class="text-center text-[10px] text-stone-400 mb-3">Le immagini delle pizze sono generate a scopo illustrativo.</p>
     <!-- Tab bar — categories injected by JS -->
     <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar"></nav>
   </div>
@@ -537,6 +538,74 @@
     // IMAGE RESOLVER
     // Priority: sheet URL → name/category heuristic → generic pizza
     // ─────────────────────────────────────────────
+    const _normalizeImageKey = (value) => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const MENU_IMAGES = Object.freeze({
+  "pizza classica|marinara": "assets/menu/pizza-classica-marinara.jpg",
+  "pizza classica|calabrese": "assets/menu/pizza-classica-calabrese.jpg",
+  "pizza classica|napoli": "assets/menu/pizza-classica-napoli.jpg",
+  "pizza classica|funghi": "assets/menu/pizza-classica-funghi.jpg",
+  "pizza classica|ortolana": "assets/menu/pizza-classica-ortolana.jpg",
+  "pizza classica|rucola": "assets/menu/pizza-classica-rucola.jpg",
+  "pizza classica|zucchine": "assets/menu/pizza-classica-zucchine.jpg",
+  "pizza classica|pioggia": "assets/menu/pizza-classica-pioggia.jpg",
+  "pizza classica|radicchio": "assets/menu/pizza-classica-radicchio.jpg",
+  "pizza classica|carciofi": "assets/menu/pizza-classica-carciofi.jpg",
+  "pizza classica|prosciutto": "assets/menu/pizza-classica-prosciutto.jpg",
+  "pizza classica|gorgonzola": "assets/menu/pizza-classica-gorgonzola.jpg",
+  "pizza classica|tonno": "assets/menu/pizza-classica-tonno.jpg",
+  "pizza classica|ricotta": "assets/menu/pizza-classica-ricotta.jpg",
+  "pizza classica|wurstel": "assets/menu/pizza-classica-wurstel.jpg",
+  "pizza classica|romana": "assets/menu/pizza-classica-romana.jpg",
+  "pizza classica|diavola": "assets/menu/pizza-classica-diavola.jpg",
+  "pizza classica|prosciutto e funghi": "assets/menu/pizza-classica-prosciutto-e-funghi.jpg",
+  "pizza classica|tonno e cipolla": "assets/menu/pizza-classica-tonno-e-cipolla.jpg",
+  "pizza classica|speck": "assets/menu/pizza-classica-speck.jpg",
+  "pizza classica|crudo": "assets/menu/pizza-classica-crudo.jpg",
+  "pizza classica|capricciosa": "assets/menu/pizza-classica-capricciosa.jpg",
+  "pizza classica|quattro formaggi": "assets/menu/pizza-classica-quattro-formaggi.jpg",
+  "pizza classica|quattro stagioni": "assets/menu/pizza-classica-quattro-stagioni.jpg",
+  "pizza classica|calzone": "assets/menu/pizza-classica-calzone.jpg",
+  "pizza classica|imbufalita": "assets/menu/pizza-classica-imbufalita.jpg",
+  "pizza classica|chips": "assets/menu/pizza-classica-chips.jpg",
+  "pizza classica|slowfood": "assets/menu/pizza-classica-slowfood.jpg",
+  "pizza classica|sole che gira": "assets/menu/pizza-classica-sole-che-gira.jpg",
+  "pizza bianca|pomiciotta": "assets/menu/pizza-bianca-pomiciotta.jpg",
+  "pizza bianca|irene": "assets/menu/pizza-bianca-irene.jpg",
+  "pizza bianca|pataciofi": "assets/menu/pizza-bianca-pataciofi.jpg",
+  "pizza bianca|magnagrecia": "assets/menu/pizza-bianca-magnagrecia.jpg",
+  "pizza bianca|sago": "assets/menu/pizza-bianca-sago.jpg",
+  "pizza bianca|bud spencer": "assets/menu/pizza-bianca-bud-spencer.jpg",
+  "pizza bianca|pestifera": "assets/menu/pizza-bianca-pestifera.jpg",
+  "pizza bianca|trevigiana": "assets/menu/pizza-bianca-trevigiana.jpg",
+  "pizza bianca|carbonara": "assets/menu/pizza-bianca-carbonara.jpg",
+  "pizza bianca|er mejo": "assets/menu/pizza-bianca-er-mejo.jpg",
+  "pizza bianca|ennebi": "assets/menu/pizza-bianca-ennebi.jpg",
+  "pizza bianca|desmo4": "assets/menu/pizza-bianca-desmo4.jpg",
+  "pizza speciale|paesana": "assets/menu/pizza-speciale-paesana.jpg",
+  "pizza speciale|special": "assets/menu/pizza-speciale-special.jpg",
+  "pizza speciale|trentina": "assets/menu/pizza-speciale-trentina.jpg",
+  "pizza speciale|rughetta": "assets/menu/pizza-speciale-rughetta.jpg",
+  "pizza speciale|speck e zola": "assets/menu/pizza-speciale-speck-e-zola.jpg",
+  "pizza speciale|ciccio benza one": "assets/menu/pizza-speciale-ciccio-benza-one.jpg",
+  "pizza speciale|fra": "assets/menu/pizza-speciale-fra.jpg",
+  "pizza speciale|verdure": "assets/menu/pizza-speciale-verdure.jpg",
+  "pizza speciale|carletto": "assets/menu/pizza-speciale-carletto.jpg",
+  "pizza speciale|fede": "assets/menu/pizza-speciale-fede.jpg",
+  "pizza speciale|nembokid": "assets/menu/pizza-speciale-nembokid.jpg",
+  "pizza della casa|melanzane": "assets/menu/pizza-della-casa-melanzane.jpg",
+  "pizza della casa|marcantonio": "assets/menu/pizza-della-casa-marcantonio.jpg",
+  "pizza della casa|peperoni": "assets/menu/pizza-della-casa-peperoni.jpg",
+  "pizza della casa|calanzane": "assets/menu/pizza-della-casa-calanzane.jpg",
+  "pizza della casa|calaroni": "assets/menu/pizza-della-casa-calaroni.jpg",
+  "pizza della casa|siciliana": "assets/menu/pizza-della-casa-siciliana.jpg",
+  "pizza della casa|calzettino": "assets/menu/pizza-della-casa-calzettino.jpg",
+  "pizza speciale|emiliano": "assets/menu/pizza-speciale-emiliano.jpg",
+  "pizza speciale|gorghicchio": "assets/menu/pizza-speciale-gorghicchio.jpg",
+  "pizza speciale|semplice ma buona": "assets/menu/pizza-speciale-semplice-ma-buona.jpg",
+  "pizza speciale|francese": "assets/menu/pizza-speciale-francese.jpg",
+  "pizza classica|margherita": "assets/menu/pizza-classica-margherita.jpg"
+});
+
     const resolveImg = (item) => {
       if (item.immagine) {
         try {
@@ -544,6 +613,8 @@
           if (imageURL.protocol === 'https:' || imageURL.protocol === 'http:') return imageURL.href;
         } catch (_) { /* use category image */ }
       }
+      const generatedImage = MENU_IMAGES[`${_normalizeImageKey(item.categoria)}|${_normalizeImageKey(item.nome)}`];
+      if (generatedImage) return new URL(generatedImage, window.location.href).href;
       const n = item.nome.toLowerCase();
       const c = item.categoria.toLowerCase();
       if (n.includes('acqua'))                                    return ASSETS.acqua;
@@ -635,7 +706,7 @@
              style="animation-delay:${Math.min(idx * 35, 400)}ms"
              data-item-id="${_escAttr(item.id)}" role="button" tabindex="0">
           <div class="aspect-square rounded-[20px] overflow-hidden bg-stone-100 relative">
-            <img src="${_escAttr(resolveImg(item))}" alt="${_escAttr(item.nome)}"
+            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa: ${_escAttr(item.nome)}"
                  class="w-full h-full object-cover" loading="lazy" decoding="async"
                  onerror="this.onerror=null;this.src=IMG_FALLBACK" />
             <div class="absolute top-2 right-2 flex flex-col gap-1">
