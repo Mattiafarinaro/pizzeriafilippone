@@ -292,7 +292,7 @@
     <div class="modal-panel" onclick="event.stopPropagation()">
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-6"></div>
       <!-- Close button -->
-      <button onclick="App.closeModal()"
+      <button onclick="App.closeModal()" aria-label="Chiudi il dettaglio"
               class="absolute top-6 right-6 bg-white shadow-md p-2.5 rounded-full border border-stone-100 text-ink">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -308,10 +308,16 @@
       <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-6"></div>
       <div class="flex items-center justify-between mb-6">
         <h2 class="font-display text-3xl font-bold text-ink">Il tuo ordine</h2>
-        <button onclick="App.clearCart()"
-                class="text-[10px] font-black text-brand bg-brand/5 px-4 py-2 rounded-xl uppercase tracking-widest border border-brand/10">
-          Svuota
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="App.clearCart()"
+                  class="text-[10px] font-black text-brand bg-brand/5 px-4 py-2 rounded-xl uppercase tracking-widest border border-brand/10">
+            Svuota
+          </button>
+          <button onclick="App.closeCart()" aria-label="Chiudi ordine"
+                  class="p-2 rounded-xl border border-stone-200 text-ink" type="button">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
       </div>
       <div id="cart-items" class="space-y-3 mb-6"></div>
       <div id="cart-summary"></div>
@@ -379,6 +385,24 @@
     // ─────────────────────────────────────────────
     // STATE — single mutable object, never scattered
     // ─────────────────────────────────────────────
+    let _returnFocusTo = null;
+
+    const _showModal = (modal) => {
+      if (!document.querySelector('.modal-wrap.open')) _returnFocusTo = document.activeElement;
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      modal.querySelector('[aria-label^="Chiudi"], button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])')?.focus();
+    };
+
+    const _hideModal = (modal) => {
+      modal.classList.remove('open');
+      if (!document.querySelector('.modal-wrap.open')) {
+        document.body.classList.remove('modal-open');
+        _returnFocusTo?.focus();
+        _returnFocusTo = null;
+      }
+    };
+
     const state = {
       items:      [],       // all parsed menu items
       categories: [],       // ordered unique categories
@@ -875,7 +899,7 @@
           <div class="flex justify-between items-start mb-5 px-1">
             <div class="min-w-0 pr-4">
               <p class="text-brand font-black text-[10px] uppercase tracking-widest mb-1">${_escHTML(item.categoria)}</p>
-              <h2 class="font-display text-2xl font-bold text-ink leading-tight">${_escHTML(item.nome)}</h2>
+              <h2 id="modal-title" class="font-display text-2xl font-bold text-ink leading-tight">${_escHTML(item.nome)}</h2>
             </div>
             <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl shrink-0">
               €${item.prezzo.toFixed(2)}
@@ -906,13 +930,11 @@
             Aggiungi all'ordine
           </button>`;
 
-        document.getElementById('modal-detail').classList.add('open');
-        document.body.classList.add('modal-open');
+        _showModal(document.getElementById('modal-detail'));
       },
 
       closeModal: () => {
-        document.getElementById('modal-detail').classList.remove('open');
-        document.body.classList.remove('modal-open');
+        _hideModal(document.getElementById('modal-detail'));
       },
 
       // Add item to cart by ID — safe lookup, no JSON in HTML
@@ -961,13 +983,11 @@
 
       openCart: () => {
         _renderCartUI();
-        document.getElementById('modal-cart').classList.add('open');
-        document.body.classList.add('modal-open');
+        _showModal(document.getElementById('modal-cart'));
       },
 
       closeCart: () => {
-        document.getElementById('modal-cart').classList.remove('open');
-        document.body.classList.remove('modal-open');
+        _hideModal(document.getElementById('modal-cart'));
       },
 
       // Build WhatsApp message and open WA
@@ -1017,13 +1037,25 @@
 
     // ESC closes any open modal
     document.addEventListener('keydown', e => {
+      const activeModal = document.querySelector('.modal-wrap.open');
+      if (e.key === 'Tab' && activeModal) {
+        const focusable = [...activeModal.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )].filter(el => el.getClientRects().length);
+        if (focusable.length) {
+          const first = focusable[0], last = focusable[focusable.length - 1];
+          if (e.shiftKey && (document.activeElement === first || !activeModal.contains(document.activeElement))) {
+            e.preventDefault(); last.focus();
+          } else if (!e.shiftKey && (document.activeElement === last || !activeModal.contains(document.activeElement))) {
+            e.preventDefault(); first.focus();
+          }
+        }
+      }
       if (e.key !== 'Escape') return;
-      // Close modals
-      App.closeModal();
-      App.closeCart();
-      // Clear search if it has a value
+      if (activeModal?.id === 'modal-detail') App.closeModal();
+      else if (activeModal?.id === 'modal-cart') App.closeCart();
       const searchEl = document.getElementById('search-input');
-      if (searchEl && searchEl.value) {
+      if (!activeModal && searchEl && searchEl.value) {
         searchEl.value = '';
         App.handleSearch();
       }
