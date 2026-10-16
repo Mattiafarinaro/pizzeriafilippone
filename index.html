@@ -123,28 +123,130 @@
       margin: 2px;
     }
 
-    /* ── Modal: CSS-transition approach (no class-toggle flash) ── */
+    /* ── Product detail: responsive dialog / mobile sheet ── */
     .modal-wrap {
       position: fixed; inset: 0; z-index: 50;
-      background: rgba(26,18,11,.65);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(26,18,11,.68);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       display: flex; align-items: flex-end; justify-content: center;
       opacity: 0; visibility: hidden;
-      transition: opacity .3s ease, visibility .3s ease;
+      transition: opacity .24s ease, visibility .24s ease;
     }
     .modal-wrap.open { opacity: 1; visibility: visible; }
     .modal-panel {
-      background: white;
-      width: 100%; max-width: 36rem;
-      border-radius: 40px 40px 0 0;
-      padding: 2rem 2rem 3rem;
-      max-height: 92vh;
-      overflow-y: auto;
+      background: white; width: 100%; max-width: 36rem;
+      border-radius: 28px 28px 0 0; padding: 1.25rem 1.25rem 0;
+      max-height: 94vh; max-height: 94dvh;
+      overflow-y: auto; overscroll-behavior: contain;
       transform: translateY(100%);
-      transition: transform .4s cubic-bezier(.32,0,.15,1);
+      transition: transform .32s cubic-bezier(.22,.7,.25,1);
     }
     .modal-wrap.open .modal-panel { transform: translateY(0); }
+
+    #modal-detail { align-items: flex-end; }
+    #modal-detail .modal-panel {
+      position: relative; display: flex; flex-direction: column;
+      max-width: 48rem; padding: 1.25rem 1.25rem 0;
+      scrollbar-gutter: stable;
+    }
+    #modal-detail .detail-handle { flex: 0 0 auto; }
+    #modal-detail .detail-close {
+      position: absolute; z-index: 2; top: .75rem; right: .75rem;
+      display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0;
+      border-radius: 999px; background: rgba(255,255,255,.96);
+      box-shadow: 0 4px 18px rgba(26,18,11,.14);
+      border: 1px solid #eee9e5; color: #1A120B;
+    }
+    #modal-detail #modal-content { min-width: 0; }
+    #modal-detail .detail-hero {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; min-height: 12rem; max-height: 14rem;
+      margin: .25rem 0 1.5rem; overflow: hidden; border-radius: 1.5rem;
+      background: radial-gradient(ellipse at center, #fff 0%, #f6f1ed 100%);
+    }
+    #modal-detail .detail-hero img {
+      display: block; width: 200px; height: 200px; max-width: 100%;
+      object-fit: contain; border-radius: 1.25rem;
+    }
+    #modal-detail .detail-heading {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; margin: 0 0 1.5rem; padding: 0 .25rem;
+    }
+    #modal-detail .detail-title { min-width: 0; }
+    #modal-detail .detail-category {
+      margin: 0 0 .35rem; color: #A83A0D;
+      font-size: .72rem; font-weight: 800; letter-spacing: .1em; line-height: 1.4;
+      text-transform: uppercase;
+    }
+    #modal-detail .detail-title h2 {
+      margin: 0; color: #1A120B; font-size: clamp(1.55rem, 4vw, 2rem); line-height: 1.15;
+    }
+    #modal-detail .detail-price {
+      flex: 0 0 auto; padding: .55rem .8rem; border-radius: 1rem;
+      background: #fbf2ee; color: #A83A0D;
+      font-size: clamp(1.2rem, 4vw, 1.55rem); font-weight: 800; line-height: 1.2;
+      white-space: nowrap;
+    }
+    #modal-detail .detail-section { margin: 0 0 1.35rem; padding: 0 .25rem; }
+    #modal-detail .detail-section-title {
+      margin: 0 0 .65rem; color: #625953; font-size: .78rem;
+      font-weight: 800; letter-spacing: .11em; line-height: 1.4; text-transform: uppercase;
+    }
+    #modal-detail .ing-tag {
+      display: inline-flex; align-items: center; margin: 0 .35rem .4rem 0;
+      padding: .4rem .7rem; border: 1px solid #e2e4e8; border-radius: 999px;
+      background: #f5f6f7; color: #374151; font-size: .875rem; font-weight: 600; line-height: 1.25;
+    }
+    #modal-detail .detail-allergens {
+      margin: 0 .25rem 1.35rem; padding: 1rem 1.1rem;
+      border: 1px solid #f3d78a; border-radius: 1.15rem;
+      background: #fff9e9; color: #713b08;
+    }
+    #modal-detail .detail-allergens .detail-section-title {
+      margin-bottom: .35rem; color: #713b08; letter-spacing: .06em;
+    }
+    #modal-detail .detail-allergens p { margin: 0; font-size: .95rem; line-height: 1.5; }
+    #modal-detail .detail-variants { margin: 0 0 1.25rem; padding: 0 .25rem; }
+    #modal-detail .variant-list {
+      overflow: hidden; border: 1px solid #eee9e5;
+      border-radius: 1.1rem; background: #faf9f8;
+    }
+    #modal-detail .variant-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem; padding: .9rem 1rem; color: #29211c; font-size: .95rem; line-height: 1.4;
+    }
+    #modal-detail .variant-row + .variant-row { border-top: 1px solid #eee9e5; }
+    #modal-detail .variant-price { flex: 0 0 auto; color: #A83A0D; font-weight: 800; white-space: nowrap; }
+    #modal-detail .variant-note { margin: .65rem 0 0; color: #514943; font-size: .82rem; line-height: 1.5; }
+    #modal-detail .detail-cta {
+      position: sticky; bottom: 0; z-index: 1;
+      margin: 1.1rem -1.25rem 0; padding: .85rem 1.25rem;
+      padding-bottom: max(.85rem, env(safe-area-inset-bottom));
+      border-top: 1px solid #eee9e5; background: rgba(255,255,255,.97);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    #modal-detail .detail-cta button {
+      min-height: 3.25rem; width: 100%; padding: .85rem 1rem;
+      border: 0; border-radius: 1rem; background: #C1440E; color: #fff;
+      font-size: 1rem; font-weight: 800; box-shadow: 0 4px 16px rgba(193,68,14,.24);
+    }
+    @media (min-width: 700px) {
+      #modal-detail { align-items: center; padding: 1.5rem; }
+      #modal-detail .modal-panel {
+        width: min(100%, 48rem); max-height: min(90vh, 54rem); max-height: min(90dvh, 54rem);
+        border-radius: 1.75rem; padding: 1.5rem 2rem 0;
+        box-shadow: 0 24px 80px rgba(0,0,0,.28); transform: translateY(1rem) scale(.985);
+      }
+      #modal-detail.modal-wrap.open .modal-panel { transform: translateY(0) scale(1); }
+      #modal-detail .detail-handle { display: none; }
+      #modal-detail .detail-close { top: 1rem; right: 1rem; }
+      #modal-detail .detail-hero { margin-top: .25rem; }
+      #modal-detail .detail-cta { margin-left: -2rem; margin-right: -2rem; padding-left: 2rem; padding-right: 2rem; }
+    }
+    @media (max-width: 380px) {
+      #modal-detail .detail-heading { flex-direction: column; gap: .65rem; }
+      #modal-detail .detail-price { align-self: flex-start; }
+    }
 
     /* ── Back to top button ── */
     #back-to-top {
@@ -320,11 +422,9 @@
   ═══════════════════════════════════ -->
   <div id="modal-detail" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="App.closeModal()">
     <div class="modal-panel" onclick="event.stopPropagation()">
-      <div class="w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-6"></div>
-      <!-- Close button -->
-      <button onclick="App.closeModal()" aria-label="Chiudi il dettaglio"
-              class="absolute top-6 right-6 bg-white shadow-md p-2.5 rounded-full border border-stone-100 text-ink">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      <div class="detail-handle w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-4" aria-hidden="true"></div>
+      <button type="button" onclick="App.closeModal()" aria-label="Chiudi il dettaglio" class="detail-close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
       <div id="modal-content"></div>
     </div>
@@ -958,93 +1058,73 @@
         const isPizzaCat  = VARIANT_CATEGORIES.has(item.categoria);
         const hasVarianti = item.varianti && item.varianti.trim().length > 0;
 
-        // Impasto section: only for pizza/focaccia categories (restaurant-wide option)
+        // Variations are informational: they must not look selectable unless ordering supports them.
         const impastoHTML = isPizzaCat ? `
-          <div class="bg-stone-50 rounded-2xl px-4 divide-y divide-stone-100 mb-1">
-            <div class="flex justify-between py-3 text-sm text-ink">
-              <span>Impasto Kamut / Khorasan</span>
-              <span class="font-black text-brand">+€1.20</span>
-            </div>
-            <div class="flex justify-between py-3 text-sm text-ink">
-              <span>Impasto Farro</span>
-              <span class="font-black text-brand">+€1.20</span>
-            </div>
-            <div class="flex justify-between py-3 text-sm text-ink">
-              <span>Aggiunta mozzarella di bufala</span>
-              <span class="font-black text-brand">+€2.00</span>
-            </div>
-            <div class="flex justify-between py-3 text-sm text-ink">
-              <span>Aggiunta ingrediente</span>
-              <span class="font-black text-brand">+€1–5</span>
-            </div>
+          <div class="variant-list">
+            <div class="variant-row"><span>Impasto Kamut / Khorasan</span><span class="variant-price">+€1,20</span></div>
+            <div class="variant-row"><span>Impasto Farro</span><span class="variant-price">+€1,20</span></div>
+            <div class="variant-row"><span>Aggiunta mozzarella di bufala</span><span class="variant-price">+€2,00</span></div>
+            <div class="variant-row"><span>Aggiunta ingrediente</span><span class="variant-price">+€1–5</span></div>
           </div>
-          <p class="text-[10px] text-stone-400 mb-4 px-1">
-            ℹ️ Variazioni richiedibili telefonicamente al <a href="tel:+390461924565" class="text-brand font-bold underline">0461 924565</a>
-          </p>` : '';
+          <p class="variant-note">Le variazioni si richiedono telefonicamente al <a href="tel:+390461924565" class="text-brand font-bold underline">0461 924565</a>.</p>` : '';
 
         // Custom variants from sheet column "Varianti"
         const customHTML = hasVarianti ? `
-          <div class="bg-stone-50 rounded-2xl px-4 py-3 mb-4">
-            <p class="text-xs text-ink/70 leading-relaxed">${_escHTML(item.varianti)}</p>
+          <div class="variant-list custom-variants">
+            <p class="variant-row">${_escHTML(item.varianti)}</p>
           </div>` : '';
 
-        // Show section only if there is something to show
         const variantsHTML = (isPizzaCat || hasVarianti) ? `
-          <div class="mb-6">
-            <p class="text-[10px] font-black text-stone-400 uppercase tracking-[.2em] mb-3">Varianti & aggiunte</p>
+          <section class="detail-variants" aria-labelledby="detail-variants-title">
+            <h3 id="detail-variants-title" class="detail-section-title">Varianti e aggiunte</h3>
             ${impastoHTML}
             ${customHTML}
-          </div>` : '';
+          </section>` : '';
 
-        // Build ingredient tags — sanitized
-        const ingTags = item.ingredienti
-          .split(',')
-          .map(t => t.trim())
-          .filter(Boolean)
+        const ingredients = item.ingredienti.split(',').map(t => t.trim()).filter(Boolean);
+        const ingTags = ingredients
           .map(t => `<span class="ing-tag">${_escHTML(t)}</span>`)
           .join('');
 
         document.getElementById('modal-content').innerHTML = `
-          <div class="w-full flex justify-center rounded-[28px] overflow-hidden mb-5 bg-stone-100">
-            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa: ${_escAttr(item.nome)}" width="200" height="200"
-                 class="w-[200px] h-[200px] object-cover rounded-[20px]"
+          <div class="detail-hero">
+            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa della pizza ${_escAttr(item.nome)}"
+                 width="200" height="200" loading="eager" decoding="async"
                  onerror="this.onerror=null;this.src=IMG_FALLBACK" />
           </div>
 
-          <div class="flex justify-between items-start mb-5 px-1">
-            <div class="min-w-0 pr-4">
-              <p class="text-brand font-black text-[10px] uppercase tracking-widest mb-1">${_escHTML(item.categoria)}</p>
-              <h2 id="modal-title" class="font-display text-2xl font-bold text-ink leading-tight">${_escHTML(item.nome)}</h2>
+          <div class="detail-heading">
+            <div class="detail-title">
+              <p class="detail-category">${_escHTML(item.categoria)}</p>
+              <h2 id="modal-title" class="font-display font-bold">${_escHTML(item.nome)}</h2>
             </div>
-            <span class="text-2xl font-black text-brand bg-brand/5 px-4 py-2 rounded-2xl shrink-0">
-              €${item.prezzo.toFixed(2)}
-            </span>
+            <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
           </div>
 
           ${item.ingredienti ? `
-          <div class="mb-5 px-1">
-            <p class="text-[10px] font-black text-stone-400 uppercase mb-3 tracking-[.2em]">Ingredienti</p>
-            <div class="flex flex-wrap gap-0.5">${ingTags}</div>
-          </div>` : ''}
+          <section class="detail-section" aria-labelledby="detail-ingredients-title">
+            <h3 id="detail-ingredients-title" class="detail-section-title">Ingredienti</h3>
+            <div class="flex flex-wrap" aria-label="Ingredienti: ${_escAttr(ingredients.join(', '))}">${ingTags}</div>
+          </section>` : ''}
 
           ${item.allergeni ? `
-          <div class="mx-1 p-4 bg-amber-50 rounded-2xl border border-amber-100 mb-5">
-            <p class="text-[10px] text-amber-700 font-black uppercase mb-1 tracking-widest">⚠️ Allergeni</p>
-            <p class="text-xs text-amber-800 font-semibold leading-relaxed">${_escHTML(item.allergeni)}</p>
-          </div>` : ''}
+          <section class="detail-allergens" aria-labelledby="detail-allergens-title">
+            <h3 id="detail-allergens-title" class="detail-section-title">⚠ Allergeni presenti</h3>
+            <p>${_escHTML(item.allergeni)}</p>
+          </section>` : ''}
 
           ${variantsHTML}
 
-          <button data-add-item-id="${_escAttr(item.id)}"
-                  class="w-full bg-brand text-white rounded-[22px] py-4 font-extrabold text-base
-                         shadow-[0_4px_20px_rgba(193,68,14,.35)] active:scale-[.98] transition-all
-                         flex items-center justify-center gap-2">
-            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-            Aggiungi all'ordine
-          </button>`;
-
+          <div class="detail-cta">
+            <button type="button" data-add-item-id="${_escAttr(item.id)}"
+                    class="active:scale-[.98] transition-transform flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+              </svg>
+              <span>Aggiungi all’ordine</span>
+              <span aria-hidden="true">· €${item.prezzo.toFixed(2).replace('.', ',')}</span>
+            </button>
+          </div>`;
         _showModal(document.getElementById('modal-detail'));
       },
 
