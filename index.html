@@ -248,6 +248,114 @@
       #modal-detail .detail-price { align-self: flex-start; }
     }
 
+    /* ── New restaurant menu and product layout ── */
+    .site-header { background:#fff; border-bottom:1px solid #eee9e5; }
+    .site-header-inner { width:min(calc(100% - 2rem),72rem); margin:0 auto; padding:1.2rem 0; display:flex; align-items:center; justify-content:space-between; gap:1.25rem; }
+    .brand-lockup { display:flex; align-items:center; gap:.9rem; min-width:0; }
+    .brand-logo { width:3.6rem; height:3.6rem; object-fit:contain; flex:0 0 auto; }
+    .brand-copy .brand-kicker { margin:0 0 .1rem; color:#A83A0D; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .brand-copy h1 { margin:0; color:#1A120B; font-size:clamp(1.45rem,3vw,2rem); line-height:1.1; }
+    .brand-copy > p:last-child { margin:.3rem 0 0; color:#625953; font-size:.82rem; }
+    .header-contact { display:flex; align-items:center; justify-content:flex-end; gap:.65rem 1rem; flex-wrap:wrap; color:#514943; font-size:.82rem; font-style:normal; }
+    .header-contact a { color:#A83A0D; font-weight:800; text-decoration:underline; text-underline-offset:3px; }
+    .menu-toolbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,.97); border-bottom:1px solid #e9e3de; box-shadow:0 5px 18px rgba(26,18,11,.06); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+    .menu-toolbar-inner { width:min(calc(100% - 2rem),72rem); margin:0 auto; padding:.7rem 0 .55rem; }
+    .menu-search-row { position:relative; }
+    .menu-search-row input { display:block; width:100%; min-height:2.85rem; padding:.7rem 1rem .7rem 2.8rem; border:1px solid #e8e2dc; border-radius:1rem; background:#f8f6f4; color:#1A120B; font:inherit; font-size:.92rem; outline:none; }
+    .menu-search-row input:focus { border-color:#C1440E; box-shadow:0 0 0 3px rgba(193,68,14,.12); }
+    .menu-search-icon { position:absolute; left:.95rem; top:50%; width:1rem; height:1rem; transform:translateY(-50%); color:#756a63; pointer-events:none; }
+    .menu-section-nav { display:flex; gap:.45rem; overflow-x:auto; padding:.65rem 0 .35rem; }
+    .menu-section-nav button { flex:0 0 auto; min-height:2.55rem; padding:.55rem .9rem; border:1px solid #e7dfd9; border-radius:999px; background:#fff; color:#514943; font:inherit; font-size:.82rem; font-weight:750; white-space:nowrap; transition:background .16s ease,color .16s ease,border-color .16s ease; }
+    .menu-section-nav button[aria-pressed="true"] { background:#1A120B; border-color:#1A120B; color:#fff; }
+    .menu-filter-row { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+    .menu-filter-chips { display:flex; gap:.4rem; overflow-x:auto; }
+    .menu-filter-chips button { flex:0 0 auto; padding:.4rem .65rem; border:1px solid #e7dfd9; border-radius:999px; background:#fff; color:#514943; font:inherit; font-size:.7rem; font-weight:700; white-space:nowrap; }
+    .menu-filter-chips button.chip-active { background:#C1440E; border-color:#C1440E; color:#fff; }
+    #result-count { flex:0 0 auto; color:#625953; font-size:.72rem; font-weight:800; white-space:nowrap; }
+    .menu-notice { display:flex; justify-content:center; gap:.4rem 1rem; flex-wrap:wrap; padding:.55rem 1rem; color:#625953; font-size:.72rem; text-align:center; }
+    .menu-notice span + span::before { content:"·"; margin-right:1rem; color:#a49a92; }
+    .menu-content { width:min(calc(100% - 2rem),72rem); margin:0 auto; padding:1.2rem 0 11rem; }
+    .menu-section { scroll-margin-top:10rem; margin:0 0 2.6rem; }
+    .menu-section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin:0 0 1rem; padding:0 0 .8rem; border-bottom:1px solid #e6ded8; }
+    .menu-section-heading h2 { margin:0; color:#1A120B; font:700 clamp(1.55rem,3vw,2.15rem)/1.1 'Playfair Display',serif; }
+    .menu-section-heading p { margin:0 0 .35rem; color:#A83A0D; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .menu-section-count { color:#756a63; font-size:.78rem; font-weight:700; white-space:nowrap; }
+    .menu-subgroup { margin:0 0 1.35rem; }
+    .menu-subgroup-title { margin:0 0 .65rem; color:#514943; font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .menu-card-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:.65rem; }
+    .menu-card { display:grid; grid-template-columns:5.1rem minmax(0,1fr); align-items:center; gap:.85rem; min-width:0; padding:.65rem; border:1px solid #eee9e5; border-radius:1.1rem; background:#fff; box-shadow:0 2px 10px rgba(26,18,11,.035); cursor:pointer; transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease; }
+    .menu-card:hover { transform:translateY(-2px); border-color:#e4c4b5; box-shadow:0 8px 22px rgba(26,18,11,.08); }
+    .menu-card:active { transform:scale(.99); }
+    .menu-card-media { position:relative; width:5.1rem; height:5.1rem; overflow:hidden; border-radius:.8rem; background:#f3eee9; }
+    .menu-card-media img { display:block; width:100%; height:100%; object-fit:cover; }
+    .menu-card-badges { position:absolute; inset:auto .25rem .25rem; display:flex; justify-content:center; gap:.2rem; }
+    .menu-card-badges span { padding:.12rem .3rem; border-radius:999px; background:rgba(255,255,255,.94); font-size:.6rem; line-height:1.1; }
+    .menu-card-body { min-width:0; }
+    .menu-card-title-row { display:flex; justify-content:space-between; align-items:flex-start; gap:.6rem; }
+    .menu-card-title-row h4 { margin:0; color:#1A120B; font-size:.95rem; font-weight:800; line-height:1.25; }
+    .menu-card-price { color:#A83A0D; font-size:.95rem; font-weight:850; white-space:nowrap; }
+    .menu-card-ingredients { display:-webkit-box; margin:.3rem 0 0; overflow:hidden; color:#625953; font-size:.75rem; line-height:1.45; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+    .menu-card-link { display:inline-block; margin-top:.35rem; color:#A83A0D; font-size:.68rem; font-weight:800; }
+    .menu-empty { padding:3rem 1rem; color:#625953; text-align:center; }
+    .detail-topbar { position:relative; display:flex; align-items:center; justify-content:flex-end; height:2.5rem; margin-bottom:.65rem; }
+    .detail-handle { position:absolute; left:50%; top:50%; width:3rem; height:.35rem; border-radius:99px; background:#d8d1cb; transform:translate(-50%,-50%); }
+    #modal-detail .detail-close { position:static; width:2.75rem; height:2.75rem; box-shadow:none; }
+    #modal-detail #modal-content { display:block; }
+    #modal-detail .detail-primary { display:block; }
+    #modal-detail .detail-hero { position:relative; display:flex; align-items:center; justify-content:center; min-height:12.5rem; max-height:14rem; margin:.1rem 0 1.3rem; border:1px solid #eee9e5; border-radius:1.35rem; background:radial-gradient(ellipse at center,#fff 0%,#f4eee8 100%); }
+    #modal-detail .detail-hero img { width:200px; height:200px; max-width:100%; object-fit:contain; border-radius:1rem; }
+    #modal-detail .detail-hero figcaption { position:absolute; bottom:.35rem; right:.55rem; padding:.2rem .45rem; border-radius:999px; background:rgba(255,255,255,.88); color:#625953; font-size:.62rem; }
+    #modal-detail .detail-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin:0 0 1.2rem; padding:0 .1rem; }
+    #modal-detail .detail-category { margin:0 0 .3rem; color:#A83A0D; font-size:.7rem; font-weight:850; letter-spacing:.1em; text-transform:uppercase; }
+    #modal-detail .detail-title h2 { margin:0; color:#1A120B; font-size:clamp(1.55rem,3vw,2.1rem); line-height:1.12; }
+    #modal-detail .detail-price { flex:0 0 auto; padding:.55rem .8rem; border-radius:.9rem; background:#fbf2ee; color:#A83A0D; font-size:1.3rem; font-weight:850; white-space:nowrap; }
+    #modal-detail .detail-section-title { margin:0 0 .55rem; color:#514943; font-size:.75rem; font-weight:850; letter-spacing:.09em; text-transform:uppercase; }
+    #modal-detail .detail-section { margin:0 0 1.1rem; padding:0 .1rem; }
+    #modal-detail .detail-ingredients-copy { margin:0; color:#3f3934; font-size:.95rem; line-height:1.65; }
+    #modal-detail .detail-allergens { margin:0 0 1.1rem; padding:.85rem 1rem; border:1px solid #f0d78f; border-radius:1rem; background:#fff9e9; color:#713b08; }
+    #modal-detail .detail-allergens .detail-section-title { margin-bottom:.3rem; color:#713b08; }
+    #modal-detail .detail-allergens p { margin:0; font-size:.9rem; line-height:1.5; }
+    #modal-detail .detail-variants { margin:0 0 1rem; padding:0 .1rem; }
+    #modal-detail .variant-list { overflow:hidden; border:1px solid #eee9e5; border-radius:1rem; background:#faf9f8; }
+    #modal-detail .variant-row { display:flex; justify-content:space-between; gap:1rem; padding:.8rem 1rem; color:#29211c; font-size:.9rem; line-height:1.4; }
+    #modal-detail .variant-row + .variant-row { border-top:1px solid #eee9e5; }
+    #modal-detail .variant-price { color:#A83A0D; font-weight:850; white-space:nowrap; }
+    #modal-detail .variant-note { margin:.6rem 0 0; color:#514943; font-size:.8rem; line-height:1.5; }
+    #modal-detail .detail-cta { position:sticky; bottom:0; z-index:1; margin:1rem -1.25rem 0; padding:.8rem 1.25rem max(.8rem,env(safe-area-inset-bottom)); border-top:1px solid #eee9e5; background:rgba(255,255,255,.97); backdrop-filter:blur(12px); }
+    #modal-detail .detail-cta button { width:100%; min-height:3.25rem; padding:.8rem 1rem; border:0; border-radius:1rem; background:#C1440E; color:#fff; font-size:1rem; font-weight:850; }
+    .order-status { margin:.6rem 0; padding:.7rem .85rem; border-radius:.8rem; background:#fff8e8; color:#713b08; font-size:.8rem; line-height:1.45; }
+    .order-wa-fallback { display:block; margin:.45rem 0; color:#176b48; font-size:.82rem; font-weight:800; text-decoration:underline; }
+    .order-copy-button { width:100%; margin-top:.55rem; padding:.8rem; border:1px solid #d9d1ca; border-radius:1rem; background:#fff; color:#342b25; font-size:.88rem; font-weight:800; }
+    #order-message-copy:not([hidden]) { display:block; width:100%; min-height:8rem; margin-top:.65rem; padding:.75rem; border:1px solid #d9d1ca; border-radius:.8rem; color:#342b25; font-size:.8rem; }
+    @media (min-width:640px) { .menu-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (min-width:760px) {
+      .site-header-inner { padding:1.45rem 0; }
+      #modal-detail .detail-topbar { height:2.25rem; margin-bottom:.4rem; }
+      #modal-detail .detail-handle { display:none; }
+      #modal-detail .detail-primary { display:grid; grid-template-columns:minmax(12rem,14rem) minmax(0,1fr); align-items:center; gap:1.6rem; }
+      #modal-detail .detail-hero { min-height:14rem; max-height:14rem; margin:0; }
+      #modal-detail .detail-heading { display:block; padding:0; margin:0; }
+      #modal-detail .detail-price { display:inline-flex; margin-top:.8rem; }
+      #modal-detail .detail-cta { margin-left:-2rem; margin-right:-2rem; padding-left:2rem; padding-right:2rem; }
+    }
+    @media (max-width:600px) {
+      .site-header-inner { align-items:flex-start; flex-direction:column; gap:.75rem; }
+      .header-contact { justify-content:flex-start; gap:.5rem .85rem; font-size:.75rem; }
+      .header-contact span { flex-basis:100%; }
+      .menu-toolbar-inner { width:calc(100% - 1.25rem); padding:.55rem 0; }
+      .menu-section-nav { margin:0 -.15rem; }
+      .menu-section-nav button { padding:.5rem .75rem; font-size:.75rem; min-height:2.35rem; }
+      .menu-filter-chips button { padding:.35rem .55rem; font-size:.65rem; }
+      .menu-content { width:calc(100% - 1.25rem); padding-top:.9rem; }
+      .menu-section { scroll-margin-top:11rem; margin-bottom:2rem; }
+      .menu-card { grid-template-columns:4.6rem minmax(0,1fr); gap:.7rem; padding:.55rem; }
+      .menu-card-media { width:4.6rem; height:4.6rem; }
+      .menu-card-title-row h4 { font-size:.88rem; }
+      .menu-card-ingredients { font-size:.7rem; }
+      #modal-detail .modal-panel { max-height:96vh; max-height:96dvh; }
+    }
+    @media (max-width:380px) { #modal-detail .detail-heading { flex-direction:column; gap:.65rem; } #modal-detail .detail-price { align-self:flex-start; } }
+
     /* ── Back to top button ── */
     #back-to-top {
       opacity: 0; pointer-events: none;
@@ -293,82 +401,50 @@
   <!-- ═══════════════════════════════════
        HEADER
   ═══════════════════════════════════ -->
-  <header class="bg-white px-6 pt-10 pb-8 text-center border-b border-stone-100">
-    <div class="max-w-2xl mx-auto">
-      <!-- Logo: mostra logo.png se presente, fallback immagine pizza -->
-      <img src="logo.png" alt="Pizzeria Filippone"
-           class="h-20 w-auto mx-auto mb-4 object-contain"
-           onerror="this.style.display='none';this.onerror=null" />
-      <h1 class="font-display text-4xl font-bold text-ink mb-1 tracking-tight">Pizzeria Filippone</h1>
-      <p class="text-ink/50 text-sm italic mt-2 leading-snug">«La leggenda delle melanzane alla parmigiana, dal 1966»</p>
-      <div class="mt-5 inline-flex items-center gap-2 text-ink/40 text-[10px] font-black bg-stone-50 px-5 py-2.5 rounded-full border border-stone-100 uppercase tracking-widest">
-        <svg class="w-3.5 h-3.5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-          <path stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-        </svg>
-        Via Anna Frank n.7 · 38123 Trento
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div class="brand-lockup">
+        <img src="logo.png" alt="Pizzeria Filippone" class="brand-logo" onerror="this.style.display='none';this.onerror=null" />
+        <div class="brand-copy">
+          <p class="brand-kicker">Dal 1966 · Trento</p>
+          <h1 class="font-display">Pizzeria Filippone</h1>
+          <p>La leggenda delle melanzane alla parmigiana</p>
+        </div>
       </div>
-      <p class="mt-3 text-sm text-ink/60">
-        <a class="font-bold text-brand underline underline-offset-4" href="https://www.google.com/maps/search/?api=1&query=Via+Anna+Frank+7%2C+38123+Trento" target="_blank" rel="noopener noreferrer">Indicazioni stradali</a>
-        <span aria-hidden="true"> · </span>
-        <a class="font-bold text-brand underline underline-offset-4" href="tel:+390461924565">0461 924565</a>
-      </p>
+      <address class="header-contact">
+        <span>Via Anna Frank 7 · 38123 Trento</span>
+        <a href="https://www.google.com/maps/search/?api=1&query=Via+Anna+Frank+7%2C+38123+Trento" target="_blank" rel="noopener noreferrer">Indicazioni</a>
+        <a href="tel:+390461924565">Chiama · 0461 924565</a>
+      </address>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════
-       SEARCH BAR — sticky (always visible on scroll)
-       z-30 matches filter bar former z-index.
-       Height ~60px → main gets pt-[60px] to avoid content
-       hiding under it.
-  ═══════════════════════════════════ -->
-  <div id="search-bar" class="sticky top-0 z-30 bg-white border-b border-stone-100 shadow-sm">
-    <div class="relative max-w-xl mx-auto px-4 py-3">
-      <input type="search" id="search-input"
-             placeholder="Cerca pizza, ingrediente, vino..."
-             class="w-full pl-10 pr-4 py-3 rounded-2xl bg-stone-100/70 text-sm outline-none focus:ring-2 focus:ring-brand/20 transition-all"
-             oninput="App.handleSearch()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-      <svg class="w-4 h-4 absolute left-8 top-1/2 -translate-y-1/2 text-stone-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════
-       NOTICE + TAB BAR — scrolls with page
-  ═══════════════════════════════════ -->
-  <div class="bg-white px-5 pt-5 pb-4 max-w-xl mx-auto w-full">
-    <!-- Notice variazioni -->
-    <div class="mb-4 p-4 bg-brand/5 rounded-2xl border border-brand/10 text-center text-brand-dark font-bold text-[11px] leading-tight">
-      Per ordinazioni via app non sono previste variazioni di impasto.<br>
-      Per richieste particolari usa il tasto <b>"Chiama"</b>.
-    </div>
-    <p class="text-center text-[10px] text-stone-400 mb-3">Le immagini delle pizze sono generate a scopo illustrativo.</p>
-    <!-- Tab bar — categories injected by JS -->
-    <nav id="tab-bar" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar"></nav>
-  </div>
-
-  <!-- ═══════════════════════════════════
-       FILTER CHIPS — scrolls with page (not sticky)
-  ═══════════════════════════════════ -->
-  <div class="bg-white/90 border-y border-stone-100 px-5 py-3">
-    <div class="flex items-center justify-between max-w-xl mx-auto w-full gap-3">
-      <div class="flex gap-2 overflow-x-auto no-scrollbar">
-        <button id="chip-veg"    onclick="App.toggleFilter('veg')"
-                class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">🌿 Vegetariano</button>
-        <button id="chip-spicy"  onclick="App.toggleFilter('spicy')"
-                class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">🌶️ Piccante</button>
-        <button id="chip-frozen" onclick="App.toggleFilter('frozen')" aria-pressed="false"
-                class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">❄️ Surgelato</button>
+  <!-- Menu navigation: search, sections and filters -->
+  <div id="search-bar" class="menu-toolbar">
+    <div class="menu-toolbar-inner">
+      <div class="menu-search-row">
+        <svg class="menu-search-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="search" id="search-input" placeholder="Cerca pizza, ingrediente, vino…" aria-label="Cerca nel menu"
+               oninput="App.handleSearch()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
       </div>
-      <div id="result-count" aria-live="polite" aria-atomic="true" class="text-[10px] font-black uppercase text-stone-400 tracking-widest whitespace-nowrap shrink-0"></div>
+      <nav id="tab-bar" class="menu-section-nav no-scrollbar" aria-label="Sezioni del menu"></nav>
+      <div class="menu-filter-row">
+        <div class="menu-filter-chips">
+          <button id="chip-veg" onclick="App.toggleFilter('veg')" aria-pressed="false">🌿 Vegetariano</button>
+          <button id="chip-spicy" onclick="App.toggleFilter('spicy')" aria-pressed="false">🌶️ Piccante</button>
+          <button id="chip-frozen" onclick="App.toggleFilter('frozen')" aria-pressed="false">❄️ Surgelato</button>
+        </div>
+        <div id="result-count" aria-live="polite" aria-atomic="true"></div>
+      </div>
     </div>
   </div>
+  <div class="menu-notice"><span>Le immagini sono illustrative.</span><span>Le variazioni si concordano telefonicamente.</span></div>
 
   <!-- ═══════════════════════════════════
+       MAIN LISTING  <!-- ═══════════════════════════════════
        MAIN LISTING
   ═══════════════════════════════════ -->
-  <main id="content" aria-busy="true" class="flex-1 px-5 pt-6 pb-48 space-y-3 max-w-xl mx-auto w-full">
+  <main id="content" aria-busy="true" class="menu-content flex-1">
     <!-- MENU_SNAPSHOT_START -->
     <div data-menu-snapshot class="menu-snapshot" aria-label="Menu della Pizzeria Filippone"><section aria-label="Pizza Classica"><h2>Pizza Classica</h2><ul><li><article><div class="snapshot-heading"><h3>Marinara</h3><span class="snapshot-price">€7,00</span></div><p class="snapshot-detail">Polpa di pomodoro, aglio, origano, olio EVO</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Calabrese</h3><span class="snapshot-price">€7,00</span></div><p class="snapshot-detail">Mozzarella, peperoncino, aglio</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Margherita</h3><span class="snapshot-price">€7,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Napoli</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, filetti di acciuga</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Funghi</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, funghi champignon</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Ortolana</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, cipolla rossa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Rucola</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, rucola fresca dopo cottura</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Zucchine</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, zucchine rosolate al forno con olio e origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Pioggia</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, doppia mozzarella</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Radicchio</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, radicchio</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Carciofi</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, cuori di carciofi sott&#x27;olio</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Prosciutto</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, prosciutto cotto</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Gorgonzola</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, gorgonzola</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Tonno</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, trancetti di tonno</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Ricotta</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, ricotta</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Wurstel</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, wurstel</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Romana</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, filetti di acciuga, capperi</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Diavola</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, salamino piccante</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Prosciutto e funghi</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, prosciutto cotto, funghi champignon</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Tonno e cipolla</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, filetti di tonno, cipolla rossa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Speck</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, speck</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Crudo</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, crudo di Parma</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Capricciosa</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, prosciutto cotto, funghi champignon, cuori di carciofo sott&#x27;olio</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Quattro formaggi</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, asiago D.O.P, alpinella, emmental, gorgonzola</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Quattro stagioni</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, prosciutto cotto, filetti di acciuga, cuori di carciofo sott&#x27;olio, funghi</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Calzone</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, prosciutto cotto, ricotta, funghi</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Imbufalita</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella di bufala, pomodorini pachino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>CHiPs</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, patatine fritte</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>SlowFood</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, patatine fritte, speck</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Sole che gira</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Mozzarella, asparagi bianchi, uovo in camicia, grana dopo cottura</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Uova</p></article></li></ul></section><section aria-label="Pizza Bianca"><h2>Pizza Bianca</h2><ul><li><article><div class="snapshot-heading"><h3>Pomiciotta</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Mozzarella, scamorza affumicata, pomodori secchi</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Irene</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Mozzarella, zucchine rosolate al forno con olio e origano, pomodorini pachino, olive nere, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Pataciofi</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Mozzarella, patate lesse, pomodori secchi, cuori di carciofo sott&#x27;olio, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Magnagrecia</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Mozzarella, feta greca D.O.P, pesto di basilico, olive taggiasche, pomodorini pachino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Sago</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Mozzarella, gorgonzola, wurstel, salamino piccante, cipolla rossa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Bud Spencer</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Mozzarella, pancetta, fagioli rossi, cipolla rossa, peperoncino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Pestifera</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Mozzarella, pesto di basilico, lucanica fresca, pomodorini pachino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Trevigiana</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Mozzarella, pancetta, radicchio, dopo cottura grana padano a scaglie</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Carbonara</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Mozzarella, due uova, pancetta, grana padano, pepe</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Er mejo</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Mozzarella, scamorza affumicata, zucchine rosolate al forno, funghi porcini, speck in cottura</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Ennebi</h3><span class="snapshot-price">€13,00</span></div><p class="snapshot-detail">Mozzarella, peperoni arrosto, speck, radicchio, dopo cottura grana padano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Desmo4</h3><span class="snapshot-price">€13,00</span></div><p class="snapshot-detail">Mozzarella fior di latte, salamino piccante, speck, wurstel, porcini, pomodorini, rambol alle erbe</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li></ul></section><section aria-label="Pizza Speciale"><h2>Pizza Speciale</h2><ul><li><article><div class="snapshot-heading"><h3>Paesana</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, lucanica fresca</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Special</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, salamino piccante, olive nere, cipolla rossa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Trentina</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, lucanica fresca, funghi porcini</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Emiliano</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, salamino piccante, gorgonzola</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Gorghicchio</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, gorgonzola, radicchio, dopo cottura grana a scaglie</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Semplice ma buona</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, filetti di tonno, pomodorini pachino, capperi, aglio, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Francese</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, salamino piccante, rambol alle erbe, funghi champignon</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Rughetta</h3><span class="snapshot-price">€13,00</span></div><p class="snapshot-detail">Polpa di pomodoro, pomodorini, rucola, mozzarella di bufala, crudo dopo cottura</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Speck e Zola</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, speck, gorgonzola</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Ciccio Benza One</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, lucanica, patate lesse, rambol alle erbe, cipolla rossa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Fra</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, zucchine rosolate al forno, philadelphia, crudo di Parma dopo cottura</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Verdure</h3><span class="snapshot-price">€14,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, melanzane alla parmigiana, peperoni, zucchine rosolate al forno con olio e origano, radicchio</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Carletto</h3><span class="snapshot-price">€14,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, melanzane alla parmigiana, funghi porcini, rambol alle erbe, lucanica</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Fede</h3><span class="snapshot-price">€15,00</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, melanzane alla parmigiana, gorgonzola, funghi porcini, dopo cottura prosciutto crudo di Parma</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Nembokid</h3><span class="snapshot-price">€N.D.</span></div><p class="snapshot-detail">Polpa di pomodoro, mozzarella, melanzane alla parmigiana, peperoni arrosto, radicchio, zucchine, salamino piccante, wurstel, cipolla</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li></ul></section><section aria-label="Pizza della Casa"><h2>Pizza della Casa</h2><ul><li><article><div class="snapshot-heading"><h3>Melanzane</h3><span class="snapshot-price">€11,50</span></div><p class="snapshot-detail">Pomodoro, mozzarella, melanzane alla parmigiana</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Marcantonio</h3><span class="snapshot-price">€13,00</span></div><p class="snapshot-detail">Caponata di melanzane e peperoni, pomodoro, mozzarella, olive, capperi, salamino piccante</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Peperoni</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Pomodoro, mozzarella, peperoni arrosto</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Calanzane</h3><span class="snapshot-price">€11,50</span></div><p class="snapshot-detail">Melanzane alla parmigiana, aglio, peperoncino, mozzarella</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Calaroni</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Mozzarella, aglio, peperoni arrosto, peperoncino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Siciliana</h3><span class="snapshot-price">€12,00</span></div><p class="snapshot-detail">Pomodoro, mozzarella, melanzane alla parmigiana, peperoni</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Calzettino</h3><span class="snapshot-price">€11,00</span></div><p class="snapshot-detail">Mozzarella, melanzane alla parmigiana, gorgonzola, dopo cottura olio EVO</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li></ul></section><section aria-label="Antipasto"><h2>Antipasto</h2><ul><li><article><div class="snapshot-heading"><h3>Patatine fritte</h3><span class="snapshot-price">€4,00</span></div><p class="snapshot-detail">Patatine fritte</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Caprese</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Mozzarella di bufala campana D.O.P con pomodorino pachino e basilico</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Melanzane alla parmigiana</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Melanzane fritte, salsa di pomodoro, grana padano D.O.P e basilico</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Peperoni arrosto</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Peperoni, olio di oliva e sale</p></article></li><li><article><div class="snapshot-heading"><h3>Hamburger o Wurstel con patatine</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Hamburger o wurstel con patatine fritte</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Pagnotella</h3><span class="snapshot-price">€13,00</span></div><p class="snapshot-detail">Pagnotta fatta in casa, hamburger, emmental, pomodorini, foglia di lattuga, accompagnati da patatine fritte</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Tagliere Filippone</h3><span class="snapshot-price">€25,00</span></div><p class="snapshot-detail">Melanzane alla parmigiana, peperoni arrosto, crudo di parma, speck I.G.P, salamino piccante, asiago D.O.P, grana padano D.O.P, pomodori secchi, olive, accompagnati da una focaccia classica</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li></ul></section><section aria-label="Insalata"><h2>Insalata</h2><ul><li><article><div class="snapshot-heading"><h3>Minicoppa</h3><span class="snapshot-price">€6,00</span></div><p class="snapshot-detail">Insalata verde, radicchio, pomodorini</p></article></li><li><article><div class="snapshot-heading"><h3>Gennifer</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Insalata verde, pomodorini, mais, tonno e asiago</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Pesce, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Greca</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Insalata verde, zucchine trifolate, cipolle, olive nere, feta</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Madai</h3><span class="snapshot-price">€9,50</span></div><p class="snapshot-detail">Insalata verde, pomodori, capperi, mais, mozzarella, tonno</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Pesce, Latte</p></article></li></ul></section><section aria-label="Focaccia"><h2>Focaccia</h2><ul><li><article><div class="snapshot-heading"><h3>Focaccia Classica</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Origano, olio EVO, sale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Stai fresca</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Pomodorini pachino, rucola, mozzarella fior di latte, tonno, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Pesce</p></article></li><li><article><div class="snapshot-heading"><h3>Focaccia Peperoni</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Peperoni arrosto, olio EVO, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Focaccia Melanzane</h3><span class="snapshot-price">€10,00</span></div><p class="snapshot-detail">Melanzane alla parmigiana, grana, olio EVO, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Contadina</h3><span class="snapshot-price">€8,00</span></div><p class="snapshot-detail">Pomodoro fresco, aglio, olio EVO</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Icaro</h3><span class="snapshot-price">€9,00</span></div><p class="snapshot-detail">Caciotta affumicata, pomodorini secchi, origano, olio EVO</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Valtellina</h3><span class="snapshot-price">€8,50</span></div><p class="snapshot-detail">Rucola, bresaola, grana padano, olio EVO, origano</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte</p></article></li></ul></section><section aria-label="Bibita"><h2>Bibita</h2><ul><li><article><div class="snapshot-heading"><h3>Coca Cola piccola</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Coca Cola alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Coca Cola media</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Coca Cola alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Lemon piccola</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Lemon alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Lemon media</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Lemon alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Diesel piccolo</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Diesel alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Diesel medio</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Diesel alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Spezi piccolo</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Spezi alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Spezi medio</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Spezi alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Radler piccolo</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Radler alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Radler medio</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Radler alla spina</p></article></li><li><article><div class="snapshot-heading"><h3>Acqua naturale/gasata 1/2 L</h3><span class="snapshot-price">€1,80</span></div><p class="snapshot-detail">Acqua naturale o gasata</p></article></li><li><article><div class="snapshot-heading"><h3>Acqua naturale/gasata 1 L</h3><span class="snapshot-price">€3,20</span></div><p class="snapshot-detail">Acqua naturale o gasata</p></article></li><li><article><div class="snapshot-heading"><h3>Coca Cola lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Coca Cola in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>Coca Cola Zero lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Coca Cola Zero in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>Fanta lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Fanta in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>Lemonsoda lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Lemonsoda in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>Chinotto lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Chinotto in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>Sprite lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Sprite in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>The al limone lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">The al limone in lattina</p></article></li><li><article><div class="snapshot-heading"><h3>The alla pesca lattina</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">The alla pesca in lattina</p></article></li></ul></section><section aria-label="Birra"><h2>Birra</h2><ul><li><article><div class="snapshot-heading"><h3>Forst Pils piccola 0,2</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Forst Pils alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Forst Pils media 0,4</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Forst Pils alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Felsenkeller piccola 0,3</h3><span class="snapshot-price">€3,50</span></div><p class="snapshot-detail">Felsenkeller alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Felsenkeller media 0,5</h3><span class="snapshot-price">€5,50</span></div><p class="snapshot-detail">Felsenkeller alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Forst Sixtus 0,2</h3><span class="snapshot-price">€3,50</span></div><p class="snapshot-detail">Forst Sixtus alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Forst Sixtus 0,4</h3><span class="snapshot-price">€6,50</span></div><p class="snapshot-detail">Forst Sixtus alla spina</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Ichnusa non filtrata</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Birra in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Messina cristalli di sale</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Birra in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Hoegaarden</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Birra in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Birra analcolica</h3><span class="snapshot-price">€3,50</span></div><p class="snapshot-detail">Birra analcolica in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Forst 1857</h3><span class="snapshot-price">€3,50</span></div><p class="snapshot-detail">Birra in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Weihenstephaner</h3><span class="snapshot-price">€5,50</span></div><p class="snapshot-detail">Birra in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>IPA</h3><span class="snapshot-price">€5,50</span></div><p class="snapshot-detail">Birra IPA in bottiglia</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine</p></article></li></ul></section><section aria-label="Vino"><h2>Vino</h2><ul><li><article><div class="snapshot-heading"><h3>Marzemino (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino rosso Marzemino</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Teroldego (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino rosso Teroldego</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Pinot nero (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino rosso Pinot nero</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Vino rosso 1/4 della casa</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Vino rosso della casa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Vino rosso 1/2 della casa</h3><span class="snapshot-price">€7,00</span></div><p class="snapshot-detail">Vino rosso della casa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Muller (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino bianco Muller</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Chardonnay (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino bianco Chardonnay</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Gewürztraminer (calice)</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Vino bianco Gewürztraminer</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Vino bianco 1/4 della casa</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Vino bianco della casa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Vino bianco 1/2 della casa</h3><span class="snapshot-price">€7,00</span></div><p class="snapshot-detail">Vino bianco della casa</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li></ul></section><section aria-label="Aperitivo"><h2>Aperitivo</h2><ul><li><article><div class="snapshot-heading"><h3>Spritz Aperol/Campari</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Prosecco, Aperol o Campari, seltz</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Gin Lemon/Tonic</h3><span class="snapshot-price">€7,00</span></div><p class="snapshot-detail">Gin, lemon o tonic</p></article></li><li><article><div class="snapshot-heading"><h3>Hugo</h3><span class="snapshot-price">€4,50</span></div><p class="snapshot-detail">Prosecco, sciroppo di sambuco, seltz, menta</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Solfiti</p></article></li><li><article><div class="snapshot-heading"><h3>Crodino</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Crodino analcolico</p></article></li></ul></section><section aria-label="Amaro/Liquore"><h2>Amaro/Liquore</h2><ul><li><article><div class="snapshot-heading"><h3>Amari/Liquori/Grappe</h3><span class="snapshot-price">€3,00</span></div><p class="snapshot-detail">Varie selezioni: Anima nera Marzadro, Averna, Branca menta, Braulio, Cynar, Crema alpina Marzadro, Dissaronno, Fernet, Sambuca Molinari, Ramazzotti, Stravecchio Branca, Unicum, Vecchia Romagna, Jägermeister, Limoncello, Montenegro, Lucano, Gran riserva Poli, Mirtillo Marzadro, Grappa di Asperula, Grappa di Moscato, Grappa di Teroldego, Grappa di Cirmolo, Grappa di Fieno, Grappa di Camilla, Grappa di Genziana, Grappa di Mugo</p></article></li></ul></section><section aria-label="Caffetteria"><h2>Caffetteria</h2><ul><li><article><div class="snapshot-heading"><h3>Caffè</h3><span class="snapshot-price">€1,30</span></div><p class="snapshot-detail">Caffè espresso</p></article></li><li><article><div class="snapshot-heading"><h3>Caffè decaffeinato</h3><span class="snapshot-price">€1,50</span></div><p class="snapshot-detail">Caffè decaffeinato</p></article></li><li><article><div class="snapshot-heading"><h3>Cappuccino</h3><span class="snapshot-price">€2,00</span></div><p class="snapshot-detail">Caffè espresso, latte montato</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Caffè corretto</h3><span class="snapshot-price">€2,50</span></div><p class="snapshot-detail">Caffè espresso con grappa o altro liquore</p></article></li><li><article><div class="snapshot-heading"><h3>Orzo piccolo</h3><span class="snapshot-price">€1,30</span></div><p class="snapshot-detail">Orzo solubile</p></article></li><li><article><div class="snapshot-heading"><h3>Orzo grande</h3><span class="snapshot-price">€1,50</span></div><p class="snapshot-detail">Orzo solubile</p></article></li></ul></section><section aria-label="Dolce"><h2>Dolce</h2><ul><li><article><div class="snapshot-heading"><h3>Meringata</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Meringa, panna, frutta - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Uova, Latte</p></article></li><li><article><div class="snapshot-heading"><h3>Tartufo nero</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Tartufo al cioccolato (affogato +1€) - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Tartufo bianco</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Tartufo bianco (affogato +1€) - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo pistacchio</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo al pistacchio - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova, Frutta a guscio</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo bacetto</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo bacetto - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo marron glacè</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo marron glacè - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo caramello salato</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo al caramello salato - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo frutti di bosco</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo ai frutti di bosco - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Semifreddo caffè</h3><span class="snapshot-price">€5,00</span></div><p class="snapshot-detail">Semifreddo al caffè - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova</p></article></li><li><article><div class="snapshot-heading"><h3>Tiramisù</h3><span class="snapshot-price">€6,00</span></div><p class="snapshot-detail">Mascarpone, uova, savoiardi, caffè, cacao - Don Diego artigianale</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Latte, Uova, Glutine</p></article></li><li><article><div class="snapshot-heading"><h3>Cioco Pizza</h3><span class="snapshot-price">€6,00</span></div><p class="snapshot-detail">Due fagottini di pasta della pizza con nutella - di nostra produzione</p><p class="snapshot-detail snapshot-allergens"><strong>Allergeni:</strong> Glutine, Latte, Frutta a guscio</p></article></li></ul></section></div>
     <!-- MENU_SNAPSHOT_END -->
@@ -422,10 +498,12 @@
   ═══════════════════════════════════ -->
   <div id="modal-detail" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="App.closeModal()">
     <div class="modal-panel" onclick="event.stopPropagation()">
-      <div class="detail-handle w-12 h-1.5 bg-stone-200 rounded-full mx-auto mb-4" aria-hidden="true"></div>
-      <button type="button" onclick="App.closeModal()" aria-label="Chiudi il dettaglio" class="detail-close">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+      <div class="detail-topbar">
+        <span class="detail-handle" aria-hidden="true"></span>
+        <button type="button" onclick="App.closeModal()" aria-label="Chiudi il dettaglio" class="detail-close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
       <div id="modal-content"></div>
     </div>
   </div>
@@ -507,6 +585,17 @@
       aperitivo: '🍹', amaro: '🥃', caff: '☕', dolc: '🍮',
     };
 
+    // Group Sheet categories into a small set of customer-facing menu sections.
+    const MENU_GROUPS = [
+      {id:'pizze',label:'Pizze',emoji:'🍕',match:c=>c.includes('pizza')},
+      {id:'focacce',label:'Focacce',emoji:'🥖',match:c=>c.includes('focaccia')},
+      {id:'insalate',label:'Insalate',emoji:'🥗',match:c=>c.includes('insalat')},
+      {id:'bevande',label:'Bibite e bevande',emoji:'🥤',match:c=>/(bibita|birra|vino|aperitiv|amaro|liquor|caff|bevanda|acqua)/.test(c)},
+      {id:'antipasti',label:'Antipasti',emoji:'🫒',match:c=>c.includes('antipast')},
+      {id:'dolci',label:'Dolci',emoji:'🍮',match:c=>c.includes('dolc')},
+      {id:'altro',label:'Altro',emoji:'🍽️',match:()=>true},
+    ];
+
     // Categories that show pizza variants in modal
     const VARIANT_CATEGORIES = new Set([
       'Pizza Classica', 'Pizza Bianca', 'Pizza Speciale', 'Pizza della Casa', 'Focaccia',
@@ -537,6 +626,7 @@
       items:      [],       // all parsed menu items
       categories: [],       // ordered unique categories
       activeCat:  'Tutti',
+      visibleItems:null,
       search:     '',
       filters:    { veg: false, spicy: false, frozen: false },
       cart:       [],       // [{...item, cartId: timestamp}]
@@ -734,37 +824,72 @@
     };
 
     // ─────────────────────────────────────────────
-    // TAB BAR RENDER
+    // GROUPED MENU RENDER
     // ─────────────────────────────────────────────
-    const _renderTabs = () => {
+    const _groupMenuItems = (items) => {
+      const sections = new Map();
+      for (const item of items) {
+        const category = _normalizeImageKey(item.categoria || 'Altro');
+        const definition = MENU_GROUPS.find(group => group.id !== 'altro' && group.match(category))
+          || MENU_GROUPS.find(group => group.id === 'altro');
+        if (!sections.has(definition.id)) sections.set(definition.id, {...definition, items:[]});
+        sections.get(definition.id).items.push(item);
+      }
+      return MENU_GROUPS.filter(group => sections.has(group.id)).map(group => {
+        const section = sections.get(group.id);
+        const categories = [...new Set(section.items.map(item => item.categoria))];
+        return {...section, categories:categories.map(category => ({
+          name:category, items:section.items.filter(item => item.categoria === category)
+        }))};
+      });
+    };
+
+    const _renderTabs = (items = state.items) => {
       const bar = document.getElementById('tab-bar');
       if (!bar) return;
-      bar.innerHTML = state.categories.map(cat => {
-        const low = cat.toLowerCase();
-        let em = '🍽️';
-        for (const [k, e] of Object.entries(TAB_EMOJI)) { if (low.includes(k)) { em = e; break; } }
-        const active = cat === state.activeCat;
-        return `<button
-          data-category="${_escAttr(cat)}"
-          aria-pressed="${active}"
-          class="shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl text-[13px] font-extrabold border transition-all ${active ? 'tab-active shadow-lg' : 'bg-white text-stone-400 border-stone-100'}">
-          <span>${em}</span> ${cat}
+      const sections = _groupMenuItems(items);
+      const available = new Set(sections.map(section => section.id));
+      if (state.activeCat !== 'Tutti' && !available.has(state.activeCat)) state.activeCat = 'Tutti';
+      const links = [{id:'Tutti',label:'Tutto',emoji:'☰'}, ...sections];
+      bar.innerHTML = links.map(section => {
+        const active = section.id === state.activeCat;
+        return `<button type="button" data-category="${_escAttr(section.id)}"
+          aria-pressed="${active}" aria-label="Vai alla sezione ${_escAttr(section.label)}">
+          <span aria-hidden="true">${section.emoji}</span> ${_escHTML(section.label)}
         </button>`;
       }).join('');
     };
 
-    // ─────────────────────────────────────────────
-    // CARD LIST RENDER
-    // Filters applied in order: category → search → chips
-    // ─────────────────────────────────────────────
+    const _renderItemCard = (item, idx) => `
+      <article class="menu-card card-anim" style="animation-delay:${Math.min(idx * 25, 300)}ms"
+              data-item-id="${_escAttr(item.id)}" role="button" tabindex="0"
+              aria-label="${_escAttr(item.nome)}, ${item.prezzo.toFixed(2)} euro. Apri i dettagli">
+        <div class="menu-card-media">
+          <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa: ${_escAttr(item.nome)}"
+               width="200" height="200" loading="lazy" decoding="async"
+               onerror="this.onerror=null;this.src=IMG_FALLBACK" />
+          <div class="menu-card-badges" aria-label="Caratteristiche">
+            ${item.isVeg ? '<span title="Vegetariana" aria-label="Vegetariana">🌿</span>' : ''}
+            ${item.isSpicy ? '<span title="Piccante" aria-label="Piccante">🌶️</span>' : ''}
+            ${item.isFrozen ? '<span title="Surgelato" aria-label="Surgelato">❄️</span>' : ''}
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title-row">
+            <h4>${_escHTML(item.nome)}</h4>
+            <span class="menu-card-price">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
+          </div>
+          <p class="menu-card-ingredients">${_escHTML(item.ingredienti)}</p>
+          <span class="menu-card-link">Ingredienti e dettagli <span aria-hidden="true">→</span></span>
+        </div>
+      </article>`;
+
+    // Build the visible sections from the menu data, preserving every item and its source category.
     const _renderCards = () => {
       const el = document.getElementById('content');
       if (!el) return;
       el.setAttribute('aria-busy', 'false');
-
-      let data = state.activeCat === 'Tutti'
-        ? state.items
-        : state.items.filter(i => i.categoria === state.activeCat);
+      let data = state.items;
 
       if (state.search) {
         const q = state.search;
@@ -775,55 +900,42 @@
           i.allergeni.toLowerCase().includes(q)
         );
       }
-      if (state.filters.veg)    data = data.filter(i => i.isVeg);
-      if (state.filters.spicy)  data = data.filter(i => i.isSpicy);
+      if (state.filters.veg) data = data.filter(i => i.isVeg);
+      if (state.filters.spicy) data = data.filter(i => i.isSpicy);
       if (state.filters.frozen) data = data.filter(i => i.isFrozen);
 
       const countEl = document.getElementById('result-count');
-      if (countEl) countEl.textContent = `${data.length} prodotti`;
+      if (countEl) countEl.textContent = `${data.length} ${data.length === 1 ? 'prodotto' : 'prodotti'}`;
+      const sections = _groupMenuItems(data);
+      state.visibleItems = data;
+      _renderTabs(data);
 
       if (data.length === 0) {
-        const isSearching = state.search.length > 0 || state.filters.veg || state.filters.spicy || state.filters.frozen;
+        const isFiltering = state.search.length > 0 || state.filters.veg || state.filters.spicy || state.filters.frozen;
         el.innerHTML = `
-          <div class="text-center py-20 text-stone-400">
-            <p class="text-5xl mb-3">${isSearching ? '🔍' : '🍽️'}</p>
-            <p class="font-bold text-stone-500">${isSearching ? 'Nessun risultato' : 'Nessun articolo'}</p>
-            <p class="text-sm mt-1 text-stone-300">
-              ${isSearching
-                ? "Prova un'altra parola chiave o rimuovi i filtri"
-                : 'Questa categoria è vuota'}
-            </p>
-            ${isSearching ? `<button onclick="App.resetFilters()"
-              class="mt-4 px-5 py-2.5 bg-brand/10 text-brand rounded-2xl text-sm font-bold active:scale-95 transition">
-              Rimuovi filtri
-            </button>` : ''}
+          <div class="menu-empty">
+            <p class="text-5xl mb-3">${isFiltering ? '🔍' : '🍽️'}</p>
+            <p class="font-bold">${isFiltering ? 'Nessun risultato' : 'Nessun articolo'}</p>
+            <p class="text-sm mt-1">${isFiltering ? "Prova un'altra ricerca o rimuovi i filtri" : 'Questa sezione è vuota'}</p>
+            ${isFiltering ? '<button type="button" onclick="App.resetFilters()" class="mt-4 px-5 py-2.5 bg-brand/10 text-brand rounded-full text-sm font-bold">Rimuovi filtri</button>' : ''}
           </div>`;
         return;
       }
 
-      el.innerHTML = data.map((item, idx) => `
-        <div class="item-card card-anim bg-white rounded-[28px] p-4 border border-stone-100 shadow-sm cursor-pointer"
-             style="animation-delay:${Math.min(idx * 35, 400)}ms"
-             data-item-id="${_escAttr(item.id)}" role="button" tabindex="0">
-          <div class="aspect-square rounded-[20px] overflow-hidden bg-stone-100 relative">
-            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa: ${_escAttr(item.nome)}"
-                 class="w-full h-full object-cover" loading="lazy" decoding="async"
-                 onerror="this.onerror=null;this.src=IMG_FALLBACK" />
-            <div class="absolute top-2 right-2 flex flex-col gap-1">
-              ${item.isVeg    ? '<span class="bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-lg text-[10px] shadow-sm">🌿</span>' : ''}
-              ${item.isSpicy  ? '<span class="bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-lg text-[10px] shadow-sm">🌶️</span>' : ''}
-              ${item.isFrozen ? '<span class="bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-lg text-[10px] shadow-sm">❄️</span>' : ''}
-            </div>
-          </div>
-          <div class="flex flex-col justify-center min-w-0 pr-1">
-            <div class="flex justify-between items-start gap-2 mb-1">
-              <h3 class="font-extrabold text-ink text-[16px] leading-tight">${_escHTML(item.nome)}</h3>
-              <span class="font-black text-brand shrink-0 text-base">€${item.prezzo.toFixed(2)}</span>
-            </div>
-            <p class="text-stone-400 text-xs leading-relaxed line-clamp-2">${_escHTML(item.ingredienti)}</p>
-            <p class="text-stone-300 text-[10px] font-bold uppercase tracking-wider mt-2">${_escHTML(item.categoria)}</p>
-          </div>
-        </div>`).join('');
+      let cardIndex = 0;
+      el.innerHTML = sections.map(section => `
+        <section class="menu-section" id="menu-section-${section.id}" data-menu-group="${section.id}"
+                 aria-labelledby="menu-title-${section.id}">
+          <header class="menu-section-heading">
+            <div><p>Dal menu</p><h2 id="menu-title-${section.id}"><span aria-hidden="true">${section.emoji}</span> ${_escHTML(section.label)}</h2></div>
+            <span class="menu-section-count">${section.items.length} ${section.items.length === 1 ? 'proposta' : 'proposte'}</span>
+          </header>
+          ${section.categories.map(category => `
+            <div class="menu-subgroup">
+              <h3 class="menu-subgroup-title">${_escHTML(category.name)}</h3>
+              <div class="menu-card-grid">${category.items.map(item => _renderItemCard(item, cardIndex++)).join('')}</div>
+            </div>`).join('')}
+        </section>`).join('');
     };
 
     // ─────────────────────────────────────────────
@@ -949,10 +1061,65 @@
                     class="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand/20"></textarea>
           <p class="text-[11px] leading-relaxed text-stone-500">L’ordine sarà inviato solo dopo la conferma su WhatsApp. Ritiro e orario vanno concordati con la pizzeria.</p>
         </div>
-        <button onclick="App.sendWA()"
+        <p id="order-status" class="order-status" role="status" aria-live="polite" hidden></p>
+        <a id="order-wa-fallback" class="order-wa-fallback" href="#" target="_blank" rel="noopener noreferrer" hidden>
+          Apri il collegamento WhatsApp
+        </a>
+        <button type="button" onclick="App.sendWA()"
                 class="w-full bg-wa text-white py-5 rounded-[24px] font-black text-base shadow-xl active:scale-95 transition-all">
           📲 Continua su WhatsApp
-        </button>`;
+        </button>
+        <button type="button" onclick="App.copyOrder()" class="order-copy-button">
+          Copia il testo dell’ordine
+        </button>
+        <textarea id="order-message-copy" aria-label="Testo dell’ordine da copiare" readonly hidden></textarea>`;
+    };
+
+    const _setOrderStatus = (message) => {
+      const status = document.getElementById('order-status');
+      if (!status) return;
+      status.textContent = message;
+      status.hidden = !message;
+    };
+
+    const _buildOrderMessage = () => {
+      const groups = _groupCart();
+      const total = state.cart.reduce((sum, item) => sum + item.prezzo, 0);
+      const customerName = document.getElementById('order-customer-name')?.value.trim() || '';
+      const pickupTime = document.getElementById('pickup-time')?.value || '';
+      const notes = document.getElementById('order-notes')?.value.trim() || '';
+      const lines = [CONFIG.WA_INTRO.trim()];
+      if (customerName) lines.push(`👤 Nome: ${customerName}`);
+      if (pickupTime) lines.push(`🕒 Orario richiesto: ${pickupTime}`);
+      if (customerName || pickupTime) lines.push('');
+      lines.push(...groups.map(item => `• ${item.qty}x *${item.nome}* – €${(item.prezzo * item.qty).toFixed(2).replace('.', ',')}`));
+      lines.push('', `💰 *Totale stimato: €${total.toFixed(2).replace('.', ',')}*`);
+      if (notes) lines.push('', `📝 Note: ${notes}`);
+      return lines.join('\n');
+    };
+
+    const _copyOrderText = async (message) => {
+      const field = document.getElementById('order-message-copy');
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(message);
+          return true;
+        }
+        if (!field) return false;
+        field.hidden = false;
+        field.value = message;
+        field.focus();
+        field.select();
+        return document.execCommand('copy');
+      } catch (_) {
+        if (field) {
+          field.hidden = false;
+          field.value = message;
+          field.focus();
+          field.select();
+        }
+        return false;
+      }
     };
 
     // ─────────────────────────────────────────────
@@ -1007,19 +1174,17 @@
         _renderCards();
       },
 
-      // Set active category — only re-renders, never re-fetches
+      // Navigate the grouped catalogue; sections remain visible in one continuous menu.
       setCat: (cat) => {
         state.activeCat = cat;
-        _renderTabs();
-        _renderCards();
-        // Scroll to listing area, offset by sticky search bar height
-        const searchBar = document.getElementById('search-bar');
-        const offset = searchBar ? searchBar.offsetHeight : 60;
-        const content = document.getElementById('content');
-        if (content) {
-          const top = content.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
+        _renderTabs(state.visibleItems || state.items);
+        const target = cat === 'Tutti'
+          ? document.querySelector('#content .menu-section')
+          : document.getElementById(`menu-section-${cat}`);
+        if (!target) return;
+        const offset = document.getElementById('search-bar')?.offsetHeight || 120;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset - 12;
+        window.scrollTo({top, behavior:'smooth'});
       },
 
       // Toggle filter chip
@@ -1087,24 +1252,26 @@
           .join('');
 
         document.getElementById('modal-content').innerHTML = `
-          <div class="detail-hero">
-            <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa della pizza ${_escAttr(item.nome)}"
-                 width="200" height="200" loading="eager" decoding="async"
-                 onerror="this.onerror=null;this.src=IMG_FALLBACK" />
-          </div>
-
-          <div class="detail-heading">
-            <div class="detail-title">
-              <p class="detail-category">${_escHTML(item.categoria)}</p>
-              <h2 id="modal-title" class="font-display font-bold">${_escHTML(item.nome)}</h2>
+          <div class="detail-primary">
+            <figure class="detail-hero">
+              <img src="${_escAttr(resolveImg(item))}" alt="Immagine illustrativa della pizza ${_escAttr(item.nome)}"
+                   width="200" height="200" loading="eager" decoding="async"
+                   onerror="this.onerror=null;this.src=IMG_FALLBACK" />
+              <figcaption>Immagine illustrativa</figcaption>
+            </figure>
+            <div class="detail-heading">
+              <div class="detail-title">
+                <p class="detail-category">${_escHTML(item.categoria)}</p>
+                <h2 id="modal-title" class="font-display font-bold">${_escHTML(item.nome)}</h2>
+              </div>
+              <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
             </div>
-            <span class="detail-price" aria-label="Prezzo ${item.prezzo.toFixed(2)} euro">€${item.prezzo.toFixed(2).replace('.', ',')}</span>
           </div>
 
           ${item.ingredienti ? `
           <section class="detail-section" aria-labelledby="detail-ingredients-title">
             <h3 id="detail-ingredients-title" class="detail-section-title">Ingredienti</h3>
-            <div class="flex flex-wrap" aria-label="Ingredienti: ${_escAttr(ingredients.join(', '))}">${ingTags}</div>
+            <p class="detail-ingredients-copy">${_escHTML(item.ingredienti)}</p>
           </section>` : ''}
 
           ${item.allergeni ? `
@@ -1185,22 +1352,37 @@
         _hideModal(document.getElementById('modal-cart'));
       },
 
-      // Build WhatsApp message and open WA
+      // Open WhatsApp with a correctly encoded order; keep the cart page available as fallback.
       sendWA: () => {
-        if (state.cart.length === 0) return;
-        const groups = _groupCart();
-        const total  = state.cart.reduce((s, i) => s + i.prezzo, 0);
-        const customerName=document.getElementById('order-customer-name')?.value.trim()||'';
-        const pickupTime=document.getElementById('pickup-time')?.value||'';
-        const notes=document.getElementById('order-notes')?.value.trim()||'';
-        let msg=CONFIG.WA_INTRO;
-        if(customerName) msg+=`👤 Nome: ${customerName}\n`;
-        if(pickupTime) msg+=`🕒 Orario richiesto: ${pickupTime}\n`;
-        msg+='${bs}n';
-        groups.forEach(g=>{msg+=`• ${g.qty}x *${g.nome}* – €${(g.prezzo*g.qty).toFixed(2)}\n`;});
-        msg+=`\n💰 *Totale stimato: €${total.toFixed(2)}*`;
-        if(notes) msg+=`\n\n📝 Note: ${notes}`;
-        window.location.href=`https://wa.me/${CONFIG.WA}?text=${encodeURIComponent(msg)}`;
+        if (!state.cart.length) {
+          _setOrderStatus('Aggiungi almeno un prodotto prima di inviare l’ordine.');
+          return;
+        }
+        const phone = String(CONFIG.WA).replace(/\D/g, '');
+        if (!/^\d{10,15}$/.test(phone)) {
+          _setOrderStatus('Il numero WhatsApp configurato non è valido. Puoi chiamare la pizzeria al 0461 924565.');
+          return;
+        }
+        const url = new URL(`https://wa.me/${phone}`);
+        url.searchParams.set('text', _buildOrderMessage());
+        const fallback = document.getElementById('order-wa-fallback');
+        if (fallback) { fallback.href = url.toString(); fallback.hidden = false; }
+        _setOrderStatus('WhatsApp dovrebbe aprirsi in una nuova scheda. Se non parte, usa “Apri il collegamento WhatsApp” oppure copia il testo dell’ordine.');
+        try {
+          window.open(url.toString(), '_blank', 'noopener,noreferrer');
+        } catch (_) {
+          _setOrderStatus('Il browser non ha aperto WhatsApp. Usa il collegamento visibile qui sopra oppure copia il testo dell’ordine.');
+        }
+      },
+      copyOrder: async () => {
+        if (!state.cart.length) {
+          _setOrderStatus('Aggiungi almeno un prodotto prima di copiare l’ordine.');
+          return;
+        }
+        const copied = await _copyOrderText(_buildOrderMessage());
+        _setOrderStatus(copied
+          ? 'Testo dell’ordine copiato. Puoi incollarlo in WhatsApp.'
+          : 'Seleziona e copia il testo dell’ordine mostrato qui sotto.');
       },
     };
 
