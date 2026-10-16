@@ -3,25 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Pizzeria Filippone – Menu Digitale | Trento</title>
+  <title>Pizzeria Filippone a Trento | Menu digitale</title>
 
   <!-- ═══ SEO & OpenGraph ═══ -->
-  <meta name="description" content="Sfoglia il menu della Pizzeria Filippone a Trento. Dal 1966. Pizze classiche, speciali, antipasti, bevande e dolci artigianali." />
+  <meta name="description" content="Scopri il menu digitale della Pizzeria Filippone a Trento: pizze, antipasti, bevande e dolci. Consulta ingredienti e prezzi aggiornati dal menu della pizzeria." />
   <meta name="theme-color" content="#C1440E" />
-  <meta property="og:type"        content="restaurant.restaurant" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:locale"      content="it_IT" />
+  <meta property="og:site_name"   content="Pizzeria Filippone" />
   <meta property="og:title"       content="Pizzeria Filippone – Dal 1966 a Trento" />
   <meta property="og:description" content="Sfoglia il menu, filtra per vegetariano o piccante e ordina direttamente su WhatsApp!" />
   <meta property="og:image"       content="https://mattiafarinaro.github.io/pizzeriafilippone/logo.png" />
+  <meta property="og:image:alt"   content="Logo della Pizzeria Filippone a Trento" />
+  <meta name="twitter:image"      content="https://mattiafarinaro.github.io/pizzeriafilippone/logo.png" />
   <meta property="og:url"         content="https://mattiafarinaro.github.io/pizzeriafilippone/" />
   <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:title"      content="Pizzeria Filippone a Trento | Menu digitale" />
+  <meta name="twitter:description" content="Consulta il menu della Pizzeria Filippone a Trento, con ingredienti e prezzi." />
   <link rel="canonical"           href="https://mattiafarinaro.github.io/pizzeriafilippone/" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="stylesheet" href="assets/site.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": "https://mattiafarinaro.github.io/pizzeriafilippone/#restaurant",
+    "name": "Pizzeria Filippone",
+    "url": "https://mattiafarinaro.github.io/pizzeriafilippone/",
+    "image": "https://mattiafarinaro.github.io/pizzeriafilippone/logo.png",
+    "logo": "https://mattiafarinaro.github.io/pizzeriafilippone/logo.png",
+    "telephone": "+39 0461 924565",
+    "servesCuisine": "Pizza",
+    "menu": "https://mattiafarinaro.github.io/pizzeriafilippone/",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Anna Frank 7",
+      "postalCode": "38123",
+      "addressLocality": "Trento",
+      "addressRegion": "TN",
+      "addressCountry": "IT"
+    }
+  }
+  </script>
 
   <!-- ═══ Fonts ═══ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- ═══ Tailwind CSS v3 CDN ═══ -->
+  <!-- Tailwind CSS v3 CDN: rimosso dal workflow di pubblicazione dopo la compilazione CSS. -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -41,7 +71,6 @@
       },
     };
   </script>
-
   <style>
     /* ── Reset & base ── */
     *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -196,6 +225,11 @@
         </svg>
         Via Anna Frank n.7 · 38123 Trento
       </div>
+      <p class="mt-3 text-sm text-ink/60">
+        <a class="font-bold text-brand underline underline-offset-4" href="https://www.google.com/maps/search/?api=1&query=Via+Anna+Frank+7%2C+38123+Trento" target="_blank" rel="noopener noreferrer">Indicazioni stradali</a>
+        <span aria-hidden="true"> · </span>
+        <a class="font-bold text-brand underline underline-offset-4" href="tel:+390461924565">0461 924565</a>
+      </p>
     </div>
   </header>
 
@@ -240,7 +274,7 @@
                 class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">🌿 Vegetariano</button>
         <button id="chip-spicy"  onclick="App.toggleFilter('spicy')"
                 class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">🌶️ Piccante</button>
-        <button id="chip-frozen" onclick="App.toggleFilter('frozen')"
+        <button id="chip-frozen" onclick="App.toggleFilter('frozen')" aria-pressed="false"
                 class="shrink-0 text-[11px] font-bold px-4 py-2 rounded-xl border border-stone-200 bg-white text-ink transition-all">❄️ Surgelato</button>
       </div>
       <div id="result-count" aria-live="polite" aria-atomic="true" class="text-[10px] font-black uppercase text-stone-400 tracking-widest whitespace-nowrap shrink-0"></div>
@@ -250,7 +284,23 @@
   <!-- ═══════════════════════════════════
        MAIN LISTING
   ═══════════════════════════════════ -->
-  <main id="content" aria-live="polite" aria-busy="true" class="flex-1 px-5 pt-6 pb-48 space-y-3 max-w-xl mx-auto w-full"></main>
+  <main id="content" aria-busy="true" class="flex-1 px-5 pt-6 pb-48 space-y-3 max-w-xl mx-auto w-full">
+    <!-- MENU_SNAPSHOT_START -->
+    <div data-menu-snapshot class="menu-snapshot" aria-label="Menu della Pizzeria Filippone">
+      <p>Il menu aggiornato è in caricamento.</p>
+    </div>
+    <!-- MENU_SNAPSHOT_END -->
+  </main>
+
+  <footer class="bg-ink text-cream px-6 py-8 text-center text-sm">
+    <p class="font-bold">Pizzeria Filippone</p>
+    <address class="not-italic mt-2 leading-relaxed">
+      Via Anna Frank 7, 38123 Trento (TN)<br>
+      <a class="underline underline-offset-4" href="tel:+390461924565">+39 0461 924565</a>
+      <span aria-hidden="true"> · </span>
+      <a class="underline underline-offset-4" href="https://www.google.com/maps/search/?api=1&query=Via+Anna+Frank+7%2C+38123+Trento" target="_blank" rel="noopener noreferrer">Apri in Google Maps</a>
+    </address>
+  </footer>
 
   <!-- ═══════════════════════════════════
        STICKY ACTION BAR
@@ -570,7 +620,9 @@
         const q = state.search;
         data = data.filter(i =>
           i.nome.toLowerCase().includes(q) ||
-          i.ingredienti.toLowerCase().includes(q)
+          i.categoria.toLowerCase().includes(q) ||
+          i.ingredienti.toLowerCase().includes(q) ||
+          i.allergeni.toLowerCase().includes(q)
         );
       }
       if (state.filters.veg)    data = data.filter(i => i.isVeg);
@@ -629,7 +681,7 @@
     // ─────────────────────────────────────────────
     const _renderSkeletons = () => {
       const el = document.getElementById('content');
-      if (el) el.innerHTML = Array(5).fill('<div class="skeleton mb-3"></div>').join('');
+      if (el && !el.querySelector('[data-menu-snapshot]')) el.innerHTML = Array(5).fill('<div class="skeleton mb-3"></div>').join('');
     };
 
     // ─────────────────────────────────────────────
@@ -758,7 +810,17 @@
     // ─────────────────────────────────────────────
     const _renderError = () => {
       const el = document.getElementById('content');
-      if (el) { el.setAttribute('aria-busy', 'false'); el.innerHTML = `
+      if (el) {
+        el.setAttribute('aria-busy', 'false');
+        const snapshot = el.querySelector('[data-menu-snapshot]');
+        if (snapshot) {
+          const notice = document.createElement('div');
+          notice.className = 'text-center py-6 px-4';
+          notice.innerHTML = '<p class="font-bold text-ink/70">Menu mostrato in versione salvata. Per confermare prezzi e disponibilità chiama la pizzeria.</p><button onclick="App.init()" class="mt-4 px-6 py-3 bg-brand text-white rounded-2xl font-bold text-sm">Riprova aggiornamento</button>';
+          el.appendChild(notice);
+          return;
+        }
+        el.innerHTML = `
         <div class="text-center py-16 px-4">
           <p class="text-5xl mb-3">😕</p>
           <p class="font-bold text-ink/70">Impossibile caricare il menu.</p>
@@ -813,7 +875,9 @@
       // Toggle filter chip
       toggleFilter: (f) => {
         state.filters[f] = !state.filters[f];
-        document.getElementById(`chip-${f}`)?.classList.toggle('chip-active', state.filters[f]);
+        const chip = document.getElementById(`chip-${f}`);
+        chip?.classList.toggle('chip-active', state.filters[f]);
+        chip?.setAttribute('aria-pressed', String(state.filters[f]));
         _renderCards();
       },
 
@@ -826,6 +890,7 @@
         if (si) si.value = '';
         ['chip-veg','chip-spicy','chip-frozen'].forEach(id => {
           document.getElementById(id)?.classList.remove('chip-active');
+          document.getElementById(id)?.setAttribute('aria-pressed', 'false');
         });
         _renderCards();
       },
